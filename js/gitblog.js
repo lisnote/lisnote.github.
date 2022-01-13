@@ -18,18 +18,12 @@
 		githubAPI.articles = githubAPI.articles.replaceAll("{username}", githubAPI.username);
 		githubAPI.article = githubAPI.article.replaceAll("{username}", githubAPI.username);
 		githubAPI.background = githubAPI.article.replaceAll("{username}", githubAPI.username)
-		// 设置token
-		if (githubAPI.token == "") {
-			console.log("token未设置,建议设置token以提高可访问次数及开启留言");
-		} else {
-			githubAPI.token = "Basic " + btoa(githubAPI.token);
-		}
 		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
 		$.ajax({
 			url: githubAPI.articles,
 			async: false,
 			headers: {
-				authorization: githubAPI.token,
+				authorization: "Basic " + btoa(githubAPI.clientID+":"+githubAPI.clientSecret),
 			},
 			success: function(result) {
 				for (let i = 0; i < result.length; i++) {
