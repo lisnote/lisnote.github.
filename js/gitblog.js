@@ -33,7 +33,7 @@
 			},
 			success: function(result) {
 				for (let i = 0; i < result.length; i++) {
-					if (result[i].name == "assets") continue;
+					if (result[i].name == "assets"||result[i].name=="index.html") continue;
 					gitblog.articles[gitblog.articles.length] = result[i].name;
 				}
 			}
