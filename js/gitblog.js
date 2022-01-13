@@ -27,6 +27,7 @@
 		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
 		$.ajax({
 			url: githubAPI.articles,
+			async: false,
 			headers: {
 				authorization: githubAPI.token,
 			},
