@@ -15,9 +15,9 @@
 			githubAPI.username = /.*\/(.*)\.github\.io.*/.exec(location.href)[1]
 			console.log("username未设置,从链接中获取到username为", githubAPI.username);
 		};
-		githubAPI.articles = githubAPI.articles.replaceAll("{username}", githubAPI.username);
-		githubAPI.article = githubAPI.article.replaceAll("{username}", githubAPI.username);
-		githubAPI.background = githubAPI.article.replaceAll("{username}", githubAPI.username)
+		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
+		githubAPI.article = githubAPI.article.replace(/{username}/g, githubAPI.username);
+		githubAPI.background = githubAPI.article.replace(/{username}/g, githubAPI.username)
 		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
 		$.ajax({
 			url: githubAPI.articles,
@@ -37,7 +37,7 @@
 			let str;
 			$.ajax({
 				async: false,
-				url: githubAPI.article.replaceAll("{article}", article),
+				url: githubAPI.article.replace(/{article}/g, article),
 				success: function(result) {
 					str = result;
 				}
@@ -46,7 +46,7 @@
 		}
 		// 获取背景 返回背景的链接
 		gitblog.getBackground = function(article) {
-			return githubAPI.background.replaceAll("{article}", article);
+			return githubAPI.background.replace(/{article}/g, article);
 		}
 	}
 }())
