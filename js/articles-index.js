@@ -1,6 +1,6 @@
 (function() {
 	// 插入文章到#article
-	let article = /.*\/articles\/\?p=(.*\.md)/.exec(location.href)[1];
+	let article = /.*?article=(.*\.md)/.exec(location.href)[1];
 	$("#article").html(marked.parse(gitblog.getArticle(article)));
 	$("title").html(article)
 	// 生成目录到#chapters
