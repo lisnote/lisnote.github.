@@ -1,0 +1,6 @@
+# 测试用
+test*.html
+test*.css
+test*.js
+.gitkeep
+autoCommit.sh

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="h-100">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>GitBlog</title>
+
+		<!-- CSS -->
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/lisDesign.css" rel="stylesheet" />
+
+		<!-- JavaScript依赖库 -->
+		<script src="js/jquery.min.js"></script>
+		<script src="config.js"></script>
+		<script src="js/gitblog.js"></script>
+	</head>
+	<body class="h-100 d-flex flex-column">
+		<!-- 顶部航栏 -->
+		<div class="w-100 border-bottom">
+			<div class="col-lg-12 col-xxl-8 m-auto navbar">
+				<div class="m-auto">
+					<form method="get" class="input-group">
+						<a class="btn btn-outline-secondary" href="index.html">主页</a>
+						<input type="submit" value="搜索" class="btn btn-outline-secondary" />
+						<input type="text" placeholder="此按钮目前只是装饰作用" name="s" class="form-control" />
+					</form>
+				</div>
+				<div class="p-3 col-3 m-auto flex-fill fs-5 text-over text-center">
+					Lisnote 我的笔记仓库
+				</div>
+			</div>
+		</div>
+
+		<!-- 内容区域 -->
+		<div class="d-flex flex-fill border-bottom">
+			<!-- 用户信息与文章目录 -->
+			<div class="d-none d-md-block col-md-3 col-xl-3 col-xxl-2">
+				<div class="position-fixed col-md-3 col-xl-3 col-xxl-2">
+					<div class="my-5 m-auto col-4 rounded-circle overflow-hidden">
+						<img src="assets/icon/lisnote.jpg" width="100%">
+					</div>
+					<div class="fw-bold fs-2 text-center my-2">
+						<a>不知名名菜</a>
+					</div>
+					<div class="m-ms-4 m-auto">
+						<a href="https://github.com/lisnote/" class="text-decoration-none navbar">
+							<div class="text-black flex-fill text-center">Github</div>
+						</a>
+						<a href="mailto:1292580280@qq.com" class="text-decoration-none navbar">
+							<div class="text-black flex-fill text-center">Mail</div>
+						</a>
+						<a href="https://twitter.com/didongxiaoli" class="text-decoration-none navbar">
+							<div class="text-black flex-fill text-center">Twitter</div>
+						</a>
+						<a href="https://space.bilibili.com/29167320" class="text-decoration-none navbar">
+							<div class="text-black flex-fill text-center">Bilibili</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<!-- 文章索引与文章主体 -->
+			<div class="col-12 col-md-9 col-xl-9 col-xxl-8 border-start p-4">
+				<div id="articles">
+					<!-- 文章索引模板 -->
+<!-- 					<div class="col-12 mb-4 ratio ratio-16x9 bg-secondary overflow-hidden"
+						style="background-image: url(articles/assets/index01.md/background.jpg);background-size: cover;">
+						<a href={href} class="text-black text-decoration-none">
+							<div class="bg-white bg-opacity-75">
+								<h1 class="p-3 pt-3 text-over">
+									{title}
+								</h1>
+							</div>
+							<div class="p-3">
+								{content}
+							</div>
+						</a>
+					</div> -->
+					
+				</div>
+				<div class="col-12 text-center">
+					<div class="btn pre-page mx-sm-5">
+						上一页
+					</div>
+					<div class="btn next-page mx-sm-5">
+						下一页
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 返回顶部 -->
+		<button class="back-to-top rounded-3 bg-opacity-75"></button>
+
+		<!-- 页脚 -->
+		<footer class="p-2 text-center">
+			<div>
+				Copyright 2021 lisnote
+			</div>
+			<div>
+				<a href="https://github.com/lisnote/git-blog/" class="text-decoration-none text-info">GitBlog</a>
+				powered by
+				<a href="https://github.com/lisnote" class="text-decoration-none text-info">lisnote</a>
+			</div>
+		</footer>
+
+		<!-- JavaScript行为库 -->
+		<script src="js/bootstrap.bundle.min.js"></script>
+		<script src="js/lisDesign.js"></script>
+		<script src="js/index.js"></script>
+	</body>
+</html>
