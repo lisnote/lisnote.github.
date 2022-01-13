@@ -21,4 +21,18 @@
 		$("#chapters").append("<a href='#" + i.innerText + "' class='text-decoration-none text-black'>" +
 			str + i.innerText + "<a><br>")
 	}
+
+	// Gitlk 模块
+	if (gitblog.github.clientID != "") {
+		var gitalk = new Gitalk({
+			clientID: gitblog.github.clientID,
+			clientSecret: gitblog.github.clientSecret,
+			repo: 'lisnote.github.io',
+			owner: 'lisnote',
+			admin: ['lisnote'],
+			id: location.pathname, // Ensure uniqueness and length less than 50
+			distractionFreeMode: false // Facebook-like distraction free mode
+		})
+		gitalk.render('gitalk-container')
+	}
 }())
