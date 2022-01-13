@@ -1,4 +1,4 @@
-[原始文件](https://lisnote.github.io/article/Markdown基本语法.md)
+[原始文件](https://lisnote.github.io/articles/Markdown基本语法.md)
 
 # 标题1
 
