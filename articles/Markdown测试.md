@@ -33,7 +33,7 @@ LongWordTestLongWordTestLongWordTestLongWordTestLongWordTestLongWordTestLongWord
 
 <u>下划线</u>
 
-~~删除线
+~~删除线~~
 
 [超链接](https://lisnote.com)
 
