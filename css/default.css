@@ -15,6 +15,10 @@
 	background-size: calc(70%);
 }
 
+.back-to-top:hover {
+	background-position-y: calc(-185%);
+	transition: all 0.3s linear;
+}
 
 .z-1050 {
 	z-index: 1050;
@@ -30,11 +34,6 @@
 	}
 }
 
-.back-to-top:hover {
-	background-position-y: calc(-185%);
-	transition: all 0.3s linear;
-}
-
 .footer {
 	z-index: 1020
 }
@@ -48,7 +47,6 @@
 	max-width: 300px;
 }
 
-/* 文字不换行,超出自动省略 */
 .text-over {
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -73,6 +71,13 @@
 	background-size: cover;
 	background-attachment: fixed;
 }
+
+/* sticky兼容问题解决方案-等大div嵌套fixed */
+.sticky{
+	
+}
+
+/* flex兼容问题解决方案-暂留 */
 
 /* Testing */
 .colorF {
