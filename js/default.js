@@ -28,4 +28,19 @@
 			})
 		}
 	}
+
+	// 更好的sticky
+	function sticky() {
+		let element = $(".sticky");
+		for (let i of element) {
+			let childStyle = getComputedStyle(i.firstElementChild);
+			i.style.minHeight = i.style.maxHeight = parseInt(childStyle.height) + parseInt(childStyle.marginTop) +
+				parseInt(childStyle.marginBottom) + "px";
+
+			i.style.minWidth = i.style.maxWidth = parseInt(childStyle.width) + parseInt(childStyle.marginLeft) +
+				parseInt(childStyle.marginRight) + "px";
+		};
+	}
+	sticky();
+	window.addEventListener("resize", () => sticky());
 }())
