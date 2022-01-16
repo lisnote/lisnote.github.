@@ -1,4 +1,3 @@
-"use strict";
 (function() {
 	switch (gitblog.api) {
 		case "github":

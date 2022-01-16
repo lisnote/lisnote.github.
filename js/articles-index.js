@@ -6,6 +6,7 @@
 	// 生成目录到#chapters
 	for (let i of $("h1,h2,h3,h4,h5,h6")) {
 		str = "";
+		
 		switch (i.tagName) {
 			case "H6":
 				str += "&emsp;";

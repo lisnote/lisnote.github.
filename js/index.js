@@ -1,7 +1,7 @@
 (function() {
 	for (let i of gitblog.articles) {
 		let str =
-			'<a href="articles/{href}"><div class="ratio ratio-16x9 rounded-3 mb-4" style="background-image: url(articles/assets/{background}/background.jpg);"><div><h1 class="col-12 bg-white bg-opacity-75 p-2 text-over">{title}</h1></div></div></a>'
+			'<a href="articles/{href}"><div class="ratio ratio-16x9 rounded-3 mb-4 img-fluid bg-size-cover" style="background-image: url(articles/assets/{background}/background.jpg);"><div><h1 class="col-12 bg-white bg-opacity-75 p-2 text-truncate">{title}</h1></div></div></a>'
 			.replace("{background}", i)
 			.replace("{title}", i);
 		if (/\.md$/.test(i)) {
@@ -9,8 +9,7 @@
 		} else {
 			str = str.replace("{href}", i)
 		}
-		console.log()
-		$("#articles").append(str)
+		$("#articles").append(str);
 	};
 
 
