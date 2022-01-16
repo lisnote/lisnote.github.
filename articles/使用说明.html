@@ -21,97 +21,64 @@
 	<body class="vh-100 d-flex flex-column">
 
 		<!-- Navigation -->
-		<nav class="sticky top-100">
-			<div class="col-12 col-xl-8 border-bottom bg-white d-flex m-auto navbar">
-				<div class="mx-auto my-1 mx-sm-1">
-					<form class="input-group">
-						<input name="search" placeholder="Search anything" class="form-control" />
-					</form>
-				</div>
-				<div class="mx-auto my-1 mx-sm-1 d-flex align-items-center">
-					<a href="../index.html" class="me-1 fs-3 text-decoration-none text-secondary">
-						GitBlog
-					</a>
-					<button class="btn btn-outline-secondary d-block d-lg-none me-1 navbar-light show-toggle"
-						data-show-toggle="#sidebar">
-						<span class="navbar-toggler-icon"></span>
-					</button>
+		<nav class="sticky z-1050">
+			<div class="bg-white w-100">
+				<div class="col-12 col-xl-8 d-flex border-bottom m-auto navbar">
+					<div class="mx-auto my-1 mx-sm-1">
+						<form class="input-group">
+							<input name="search" placeholder="Search anything" class="form-control" />
+						</form>
+					</div>
+					<div class="mx-auto my-1 mx-sm-1 d-flex align-items-center">
+						<a href="../index.html" class="me-1 fs-3 text-decoration-none text-secondary">
+							GitBlog
+						</a>
+						<button class="btn btn-outline-secondary d-block d-lg-none me-1 navbar-light show-toggle"
+							data-show-toggle="#sidebar">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</nav>
 
 		<!-- Main -->
-		<div class="d-flex flex-fill justify-content-center">
-			<div class="d-flex col-12 col-xl-8" data-toggle="#nav-toggle">
-				<div class="mw-100 flex-fill p-4">
-					<div id="article">
+		<div class="flex-fill">
+			<div class="d-flex justify-content-center">
+				<div class="d-flex col-12 col-xl-8" data-toggle="#nav-toggle">
+					<div class="mw-100 flex-fill p-4">
+						<div id="article">
+
+							<!-- Article -->
+
+						</div>
 						
-						<!-- Article -->
-						<script>
-							(function() {
-								// 插入文章到#article
-								let article = decodeURI(/.*?article=(.*\.md)/.exec(location.href)[1]);
-								$("#article").html(marked.parse(gitblog.getArticle(article)));
-								$("title").html(article)
-								// 生成目录到#chapters
-								for (let i of $("h1,h2,h3,h4,h5,h6")) {
-									str = "";
-									
-									switch (i.tagName) {
-										case "H6":
-											str += "&emsp;";
-										case "H5":
-											str += "&emsp;";
-										case "H4":
-											str += "&emsp;";
-										case "H3":
-											str += "&emsp;";
-										case "H2":
-											str += "&emsp;";
-									}
-									$("#chapters").append("<a href='#" + i.innerText + "' class='text-decoration-none text-black'>" +
-										str + i.innerText + "<a><br>")
-								}
-							
-								// Gitlk 模块
-								if (gitblog.github.clientID != "") {
-									var gitalk = new Gitalk({
-										clientID: gitblog.github.clientID,
-										clientSecret: gitblog.github.clientSecret,
-										repo: 'lisnote.github.io',
-										owner: 'lisnote',
-										admin: ['lisnote'],
-										id: location.pathname, // Ensure uniqueness and length less than 50
-										distractionFreeMode: false // Facebook-like distraction free mode
-									})
-									gitalk.render('gitalk-container')
-								}
-							}())
-							
-						</script>
-
+						<!-- Gitalk -->
+						<div id="gitalk-container"></div>
 					</div>
-					<!-- Gitalk -->
-					<div id="gitalk-container"></div>
-				</div>
-				<div id="sidebar" class=" width-300 position-absolute end-0 top-0 position-lg-static d-none d-lg-block">
-					<div id="chapters"
-						class="h-100 width-300 position-fixed show-toggle bg-white border-start z-1050 z-lg p-4"
-						data-show-toggle="#sidebar">
+					<div id="sidebar"
+						class=" width-300 position-absolute end-0 top-0 position-lg-static d-none d-lg-block">
+						<div id="chapters"
+							class="h-100 width-300 position-fixed show-toggle bg-white border-start z-1050 z-lg p-4"
+							data-show-toggle="#sidebar">
 
-						<!-- Chapter -->
+							<!-- Chapter -->
 
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
+
 		<!-- Back To Top -->
 		<button class="back-to-top rounded-3 bg-opacity-75 z-1050"></button>
 
 		<!-- Footer -->
-		<footer class="footer p-2 border-top text-center bg-white">
-			<div>Copyright 2021</div>
+		<footer class="footer col-12 col-xl-8 m-auto p-2 border-top text-center bg-white">
+			<div>
+				Copyright 2021
+			</div>
 			<div>
 				<a href="https://github.com/lisnote/git-blog/" class="text-decoration-none">GitBlog</a>
 				<a>powered by</a>
@@ -123,5 +90,48 @@
 	<!-- JavaScript Action -->
 	<script src="../js/bootstrap.bundle.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../js/default.js" type="text/javascript" charset="utf-8"></script>
+	<script>
+		(function() {
+			// 插入文章到#article
+			let article = $.ajax({
+				async: false,
+				url: "https://lisnote.github.io/readme.md"
+			}).responseText
+			$("#article").html(marked.parse(article));
+			$("title").html(article)
+			// 生成目录到#chapters
+			for (let i of $("h1,h2,h3,h4,h5,h6")) {
+				str = "";
+				switch (i.tagName) {
+					case "H6":
+						str += "&emsp;";
+					case "H5":
+						str += "&emsp;";
+					case "H4":
+						str += "&emsp;";
+					case "H3":
+						str += "&emsp;";
+					case "H2":
+						str += "&emsp;";
+				}
+				$("#chapters").append("<a href='#" + i.innerText + "' class='text-decoration-none text-black'>" +
+					str + i.innerText + "<a><br>")
+			}
+		
+			// Gitlk 模块
+			if (gitblog.github.clientID != "") {
+				var gitalk = new Gitalk({
+					clientID: gitblog.github.clientID,
+					clientSecret: gitblog.github.clientSecret,
+					repo: 'lisnote.github.io',
+					owner: 'lisnote',
+					admin: ['lisnote'],
+					id: location.pathname, // Ensure uniqueness and length less than 50
+					distractionFreeMode: false // Facebook-like distraction free mode
+				})
+				gitalk.render('gitalk-container')
+			}
+		}())
+	</script>
 	<script src="../js/highlight.min.js" type="text/javascript" charset="utf-8"></script>
 </html>

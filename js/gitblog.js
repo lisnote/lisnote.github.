@@ -18,30 +18,29 @@
 		githubAPI.article = githubAPI.article.replace(/{username}/g, githubAPI.username);
 		githubAPI.background = githubAPI.article.replace(/{username}/g, githubAPI.username)
 		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
-		$.ajax({
-			url: githubAPI.articles,
-			async: false,
-			headers: {
-				authorization: "Basic " + btoa(githubAPI.clientID+":"+githubAPI.clientSecret),
-			},
-			success: function(result) {
-				for (let i = 0; i < result.length; i++) {
-					if (result[i].name == "assets"||result[i].name=="index.html") continue;
-					gitblog.articles[gitblog.articles.length] = result[i].name;
-				}
-			}
-		})
-		// 返回String类型的文章内容
-		gitblog.getArticle = function(article) {
-			let str;
+		gitblog.getArticles = function() {
+			let articles = [];
 			$.ajax({
+				url: githubAPI.articles,
 				async: false,
-				url: githubAPI.article.replace(/{article}/g, article),
+				headers: {
+					authorization: "Basic " + btoa(githubAPI.clientID + ":" + githubAPI.clientSecret),
+				},
 				success: function(result) {
-					str = result;
+					for (let i = 0; i < result.length; i++) {
+						if (result[i].name == "assets" || result[i].name == "index.html") continue;
+						articles[articles.length] = result[i].name;
+					}
 				}
 			})
-			return str;
+			return articles;
+		}
+		// 返回String类型的文章内容
+		gitblog.getArticle = function(article) {
+			return $.ajax({
+				async: false,
+				url: githubAPI.article.replace(/{article}/g, article)
+			}).responseText
 		}
 		// 获取背景 返回背景的链接
 		gitblog.getBackground = function(article) {
