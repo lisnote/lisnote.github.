@@ -47,7 +47,7 @@
 			<div class="d-flex justify-content-center">
 				<div class="d-flex col-12 col-xl-8" data-toggle="#nav-toggle">
 					<div class="mw-100 flex-fill p-4">
-						<div id="article">
+						<div id="article" class="border-bottom">
 
 							<!-- Article -->
 
@@ -92,13 +92,14 @@
 	<script src="../js/default.js" type="text/javascript" charset="utf-8"></script>
 	<script>
 		(function() {
+			$("title").html("使用说明.html")
 			// 插入文章到#article
 			let article = $.ajax({
 				async: false,
 				url: "https://lisnote.github.io/readme.md"
 			}).responseText
 			$("#article").html(marked.parse(article));
-			$("title").html(article)
+			$("title").html("使用说明.html")
 			// 生成目录到#chapters
 			for (let i of $("h1,h2,h3,h4,h5,h6")) {
 				str = "";
