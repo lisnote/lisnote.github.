@@ -21,15 +21,6 @@
 	transition: all 0.3s linear;
 }
 
-/* 更好的sticky */
-.sticky {
-	/* 占位 */
-}
-
-.sticky>*:first-child {
-	position: fixed;
-}
-
 .z-1050 {
 	z-index: 1050;
 }
