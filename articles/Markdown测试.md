@@ -31,7 +31,7 @@
 
 [超链接](https://lisnote.com)
 
-![图片](assets/Markdown基本语法.md/background.jpg)
+![图片](assets/Markdown测试.md/background.jpg)
 
 | 表格标题 | 表格列名 |
 | -------- | -------- |
