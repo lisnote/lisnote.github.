@@ -13,7 +13,7 @@
 			}
 		})
 	}
-
+	
 	// show-toggle事件
 	if ($(".show-toggle").length > 0) {
 		let element = $(".show-toggle");
@@ -36,9 +36,6 @@
 			let childStyle = getComputedStyle(i.firstElementChild);
 			i.style.minHeight = i.style.maxHeight = parseInt(childStyle.height) + parseInt(childStyle.marginTop) +
 				parseInt(childStyle.marginBottom) + "px";
-
-			i.style.minWidth = i.style.maxWidth = parseInt(childStyle.width) + parseInt(childStyle.marginLeft) +
-				parseInt(childStyle.marginRight) + "px";
 		};
 	}
 	sticky();

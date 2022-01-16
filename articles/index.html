@@ -21,55 +21,64 @@
 	<body class="vh-100 d-flex flex-column">
 
 		<!-- Navigation -->
-		<nav class="sticky top-100">
-			<div class="col-12 col-xl-8 border-bottom bg-white d-flex m-auto navbar">
-				<div class="mx-auto my-1 mx-sm-1">
-					<form class="input-group">
-						<input name="search" placeholder="Search anything" class="form-control" />
-					</form>
-				</div>
-				<div class="mx-auto my-1 mx-sm-1 d-flex align-items-center">
-					<a href="../index.html" class="me-1 fs-3 text-decoration-none text-secondary">
-						GitBlog
-					</a>
-					<button class="btn btn-outline-secondary d-block d-lg-none me-1 navbar-light show-toggle"
-						data-show-toggle="#sidebar">
-						<span class="navbar-toggler-icon"></span>
-					</button>
+		<nav class="sticky z-1050">
+			<div class="bg-white w-100">
+				<div class="col-12 col-xl-8 d-flex border-bottom m-auto navbar">
+					<div class="mx-auto my-1 mx-sm-1">
+						<form class="input-group">
+							<input name="search" placeholder="Search anything" class="form-control" />
+						</form>
+					</div>
+					<div class="mx-auto my-1 mx-sm-1 d-flex align-items-center">
+						<a href="../index.html" class="me-1 fs-3 text-decoration-none text-secondary">
+							GitBlog
+						</a>
+						<button class="btn btn-outline-secondary d-block d-lg-none me-1 navbar-light show-toggle"
+							data-show-toggle="#sidebar">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</nav>
 
 		<!-- Main -->
-		<div class="d-flex flex-fill justify-content-center">
-			<div class="d-flex col-12 col-xl-8" data-toggle="#nav-toggle">
-				<div class="mw-100 flex-fill p-4">
-					<div id="article">
+		<div class="flex-fill">
+			<div class="d-flex justify-content-center">
+				<div class="d-flex col-12 col-xl-8" data-toggle="#nav-toggle">
+					<div class="mw-100 flex-fill p-4">
+						<div id="article">
 
-						<!-- Article -->
+							<!-- Article -->
 
+						</div>
+						
+						<!-- Gitalk -->
+						<div id="gitalk-container"></div>
 					</div>
-					<!-- Gitalk -->
-					<div id="gitalk-container"></div>
-				</div>
-				<div id="sidebar" class=" width-300 position-absolute end-0 top-0 position-lg-static d-none d-lg-block">
-					<div id="chapters"
-						class="h-100 width-300 position-fixed show-toggle bg-white border-start z-1050 z-lg p-4"
-						data-show-toggle="#sidebar">
+					<div id="sidebar"
+						class=" width-300 position-absolute end-0 top-0 position-lg-static d-none d-lg-block">
+						<div id="chapters"
+							class="h-100 width-300 position-fixed show-toggle bg-white border-start z-1050 z-lg p-4"
+							data-show-toggle="#sidebar">
 
-						<!-- Chapter -->
+							<!-- Chapter -->
 
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
+
 		<!-- Back To Top -->
 		<button class="back-to-top rounded-3 bg-opacity-75 z-1050"></button>
 
 		<!-- Footer -->
-		<footer class="footer p-2 border-top text-center bg-white">
-			<div>Copyright 2021</div>
+		<footer class="footer col-12 col-xl-8 m-auto p-2 border-top text-center bg-white">
+			<div>
+				Copyright 2021
+			</div>
 			<div>
 				<a href="https://github.com/lisnote/git-blog/" class="text-decoration-none">GitBlog</a>
 				<a>powered by</a>

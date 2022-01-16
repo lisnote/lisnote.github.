@@ -4,90 +4,99 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Gitblog</title>
-		
+
 		<!-- CSS -->
 		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" type="text/css" href="css/default.css" />
-		
+
 		<!-- JavaScript Library -->
 		<script src="js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="config.js" type="text/javascript" charset="utf-8"></script>
 		<script src="js/gitblog.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 	<body class="vh-100 d-flex flex-column">
-		
+
 		<!-- Navigation -->
 		<nav class="sticky z-1050">
-			<div class="col-12 col-xl-8 d-flex border-bottom bg-white m-auto navbar">
-				<div class="mx-auto my-1 mx-sm-1">
-					<form class="input-group">
-						<input name="search" placeholder="Search anything" class="form-control" />
-					</form>
-				</div>
-				<div class="mx-auto my-1 mx-sm-1 d-flex align-items-center">
-					<a href="index.html" class="me-1 fs-3 text-decoration-none text-secondary">
-						GitBlog
-					</a>
-					<button class="btn btn-outline-secondary d-block d-lg-none me-1 navbar-light show-toggle"
-						data-show-toggle="#sidebar">
-						<span class="navbar-toggler-icon"></span>
-					</button>
+			<div class="bg-white w-100">
+				<div class="col-12 col-xl-8 d-flex border-bottom m-auto navbar">
+					<div class="mx-auto my-1 mx-sm-1">
+						<form class="input-group">
+							<input name="search" placeholder="Search anything" class="form-control" />
+						</form>
+					</div>
+					<div class="mx-auto my-1 mx-sm-1 d-flex align-items-center">
+						<a href="index.html" class="me-1 fs-3 text-decoration-none text-secondary">
+							GitBlog
+						</a>
+						<button class="btn btn-outline-secondary d-block d-lg-none me-1 navbar-light show-toggle"
+							data-show-toggle="#sidebar">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+					</div>
 				</div>
 			</div>
 		</nav>
-		
+
 		<!-- Main -->
-		<div class="d-flex flex-fill justify-content-center">
-			<div class="d-flex col-12 col-xl-8" data-toggle="#nav-toggle">
-				<div id="articles" class="flex-fill p-4">
-					
-					<!-- Articles -->
-					
-				</div>
-				<div id="sidebar" class=" width-300 position-absolute end-0 top-0 position-lg-static d-none d-lg-block">
-					<div class="h-100 width-300 position-fixed show-toggle bg-white border-start z-1050 z-lg"
-						data-show-toggle="#sidebar">
-						
-						<!-- Information -->
-						<div class="text-center">
-							<div class="col-4 mt-5 m-auto rounded-circle overflow-hidden">
-								<img src="assets/icon/lisnote.jpg" width="100%">
-							</div>
-							<div class="fw-bold fs-2 text-center my-2">
-								<a>Gitblog</a>
-							</div>
-							<div class="m-2">
-								<a href="https://github.com/lisnote/" class="text-black text-decoration-none">
-									Github
-								</a>
-							</div>
-							<div class="m-2">
-							<a href="mailto:1292580280@qq.com" class="text-black text-decoration-none">
-								<div>Mail</div>
-							</a>
-							</div>
-							<div class="m-2">
-							<a href="https://twitter.com/didongxiaoli" class="text-black text-decoration-none">
-								<div>Twitter</div>
-							</a>
-							</div>
-							<div class="m-2">
-							<a href="https://space.bilibili.com/29167320" class="text-black text-decoration-none">
-								<div>Bilibili</div>
-							</a>
+		<div class="flex-fill">
+			<div class="d-flex justify-content-center">
+				<div class="d-flex col-12 col-xl-8" data-toggle="#nav-toggle">
+					<div id="articles" class="flex-fill p-4">
+
+						<!-- Articles -->
+
+					</div>
+					<div id="sidebar"
+						class=" width-300 position-absolute end-0 top-0 position-lg-static d-none d-lg-block">
+						<div class="h-100 width-300 position-fixed show-toggle bg-white border-start z-1050 z-lg"
+							data-show-toggle="#sidebar">
+
+							<!-- Information -->
+							<div class="text-center">
+								<div class="col-4 mt-5 m-auto rounded-circle overflow-hidden">
+									<img src="assets/icon/lisnote.jpg" width="100%">
+								</div>
+								<div class="fw-bold fs-2 text-center my-2">
+									<a>Gitblog</a>
+								</div>
+								<div class="m-2">
+									<a href="https://github.com/lisnote/" class="text-black text-decoration-none">
+										Github
+									</a>
+								</div>
+								<div class="m-2">
+									<a href="mailto:1292580280@qq.com" class="text-black text-decoration-none">
+										<div>Mail</div>
+									</a>
+								</div>
+								<div class="m-2">
+									<a href="https://twitter.com/didongxiaoli" class="text-black text-decoration-none">
+										<div>Twitter</div>
+									</a>
+								</div>
+								<div class="m-2">
+									<a href="https://space.bilibili.com/29167320"
+										class="text-black text-decoration-none">
+										<div>Bilibili</div>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
+
 		<!-- Back To Top -->
 		<button class="back-to-top rounded-3 bg-opacity-75 z-1050"></button>
-		
+
 		<!-- Footer -->
-		<footer class="footer p-2 border-top text-center bg-white">
-			<div>Copyright 2021</div>
+		<footer class="footer col-12 col-xl-8 m-auto p-2 border-top text-center bg-white">
+			<div>
+				Copyright 2021
+			</div>
 			<div>
 				<a href="https://github.com/lisnote/git-blog/" class="text-decoration-none">GitBlog</a>
 				<a>powered by</a>
@@ -95,7 +104,7 @@
 			</div>
 		</footer>
 	</body>
-	
+
 	<!-- JavaScript Action -->
 	<script src="js/bootstrap.bundle.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="js/default.js" type="text/javascript" charset="utf-8"></script>
