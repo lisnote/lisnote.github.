@@ -1,5 +1,6 @@
 (function() {
 	let page = parseInt(getSearchParameter("page"));
+	let maxPage = Math.ceil(gitblog.getArticles().length / 10.0);
 	let articles;
 	if (page > 0) {
 		articles = gitblog.getArticles().slice((page - 1) * 10, (page - 1) * 10 + 10);
@@ -21,21 +22,26 @@
 		$("#articles").append(str);
 	};
 
-	// 翻页事件
+	// 翻页
+	if (isNaN(page)) {
+		$(".pre-page").hide()
+	}
+	if (maxPage==page||maxPage<2) {
+		$(".next-page").hide()
+	}
 	$(".pre-page").bind("click", function() {
 		if (page > 2) {
 			location = location.href.replace(/page=\d*/, "page=" + (page - 1));
 		} else if (/page=\d+&/.test(location.href)) {
 			location = location.href.replace(/page=\d+&/, "");
-		} else {
+		} else if (/[\?|&]page=\d+/.test(location.href)) {
 			location = location.href.replace(/[\?|&]page=\d+/, "");
 		}
 	})
 	$(".next-page").bind("click", function() {
-		let maxPage = Math.ceil(gitblog.getArticles().length / 10.0);
 		if (page > 1 && page < maxPage) {
 			location = location.href.replace(/page=\d*/, "page=" + (page + 1));
-		} else if(isNaN(page)){
+		} else if (isNaN(page) && maxPage > 1) {
 			if (location.search == "") {
 				location = location.href + "?page=2";
 			} else {
