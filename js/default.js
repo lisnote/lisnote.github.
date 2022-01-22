@@ -1,3 +1,12 @@
+// 获取查询参数
+function getSearchParameter(str) {
+	let search = location.search.substr(1).split("&");
+	for (let i of search) {
+		i = i.split("=");
+		if (i[0] == str) return i[1]
+	}
+}
+
 (function() {
 	// 返回顶部
 	if ($(".back-to-top").length > 0) {
@@ -13,7 +22,7 @@
 			}
 		})
 	}
-	
+
 	// show-toggle事件
 	if ($(".show-toggle").length > 0) {
 		let element = $(".show-toggle");

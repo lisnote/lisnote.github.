@@ -37,10 +37,11 @@
 		}
 		// 返回String类型的文章内容
 		gitblog.getArticle = function(article) {
+			let articleUrl = githubAPI.article.replace(/{article}/g, article);
 			return $.ajax({
 				async: false,
-				url: githubAPI.article.replace(/{article}/g, article)
-			}).responseText
+				url: articleUrl
+			}).responseText;
 		}
 		// 获取背景 返回背景的链接
 		gitblog.getBackground = function(article) {
