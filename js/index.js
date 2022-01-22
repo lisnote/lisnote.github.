@@ -2,11 +2,11 @@
 	let page = parseInt(getSearchParameter("page"));
 	let articles;
 	if (page > 0) {
-		articles = gitblog.getArticles().slice(page * 10, page * 10 + 10);
+		articles = gitblog.getArticles().slice((page - 1) * 10, (page - 1) * 10 + 10);
 	} else {
 		articles = gitblog.getArticles().slice(0, 10);
 	}
-	
+
 	// 插入
 	for (let i of articles) {
 		let str =
@@ -35,7 +35,7 @@
 		let maxPage = Math.ceil(gitblog.getArticles().length / 10.0);
 		if (page > 1 && page < maxPage) {
 			location = location.href.replace(/page=\d*/, "page=" + (page + 1));
-		} else if (maxPage > 1) {
+		} else if(isNaN(page)){
 			if (location.search == "") {
 				location = location.href + "?page=2";
 			} else {
