@@ -3,8 +3,9 @@ function getSearchParameter(str) {
 	let search = location.search.substr(1).split("&");
 	for (let i of search) {
 		i = i.split("=");
-		if (i[0] == str) return i[1]
+		if (i[0] == str) return decodeURI(i[1]);
 	}
+	return "";
 }
 
 (function() {

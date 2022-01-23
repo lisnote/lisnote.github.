@@ -1,12 +1,24 @@
 (function() {
 	let page = parseInt(getSearchParameter("page"));
+	let search = getSearchParameter("search")
 	let maxPage = Math.ceil(gitblog.getArticles().length / 10.0);
 	let articles;
-	if (page > 0) {
-		articles = gitblog.getArticles().slice((page - 1) * 10, (page - 1) * 10 + 10);
+	if (search == "") {
+		if (page > 0) {
+			articles = gitblog.getArticles().slice((page - 1) * 10, (page - 1) * 10 + 10);
+		} else {
+			articles = gitblog.getArticles().slice(0, 10);
+		}
 	} else {
-		articles = gitblog.getArticles().slice(0, 10);
-	}
+		articles = [];
+		for (let i of gitblog.getArticles()) {
+			let index = gitblog.getArticle(i).indexOf(search);
+			if (index > -1) {
+				articles.push(i);
+			}
+			console.log(articles);
+		}
+	};
 
 	// 插入
 	for (let i of articles) {
@@ -26,7 +38,7 @@
 	if (isNaN(page)) {
 		$(".pre-page").hide()
 	}
-	if (maxPage==page||maxPage<2) {
+	if (maxPage == page || maxPage < 2) {
 		$(".next-page").hide()
 	}
 	$(".pre-page").bind("click", function() {
