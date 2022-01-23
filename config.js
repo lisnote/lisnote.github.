@@ -5,7 +5,7 @@ gitblog = {
 		// 自定义域名必须填写username
 		"username": "lisnote",
 		// 一般不需要修改,用于自定义笔记位置
-		"articles": "https://api.github.com/repos/{username}/{username}.github.io/contents/articles",
+		"articles": "https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=dev",
 		// 一般不需要修改,用于自定义笔记位置
 		"article": "https://{username}.github.io/articles/{article}",
 		// 一般不需要修改,用于自定义背景位置,例如jsdelivr加速,第三方随机图片api等
