@@ -16,7 +16,6 @@
 			if (index > -1) {
 				articles.push(i);
 			}
-			console.log(articles);
 		}
 	};
 
