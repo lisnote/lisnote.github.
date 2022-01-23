@@ -14,7 +14,8 @@ gitblog = {
 		"clientID": "de3105a8fb15edf7ca19",
 		"clientSecret": "715c4a9cfe522069f914ff3f839119e6c4ae73a8"
 	},
-	// 返回一个字符串数组,包含除assets目录外,所有的articles子文件名和子文件夹名
+	// 自定义时请实现以下三个方法
+	// 返回一个字符串数组,包含除assets和index.html外,所有的articles子文件名和子文件夹名
 	"getArticles": null,
 	// 返回string类型的markdown内容
 	"getArticle": null,

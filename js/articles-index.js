@@ -6,7 +6,6 @@
 	// 生成目录到#chapters
 	for (let i of $("h1,h2,h3,h4,h5,h6")) {
 		str = "";
-		
 		switch (i.tagName) {
 			case "H6":
 				str += "&emsp;";
@@ -28,9 +27,9 @@
 		var gitalk = new Gitalk({
 			clientID: gitblog.github.clientID,
 			clientSecret: gitblog.github.clientSecret,
-			repo: 'lisnote.github.io',
-			owner: 'lisnote',
-			admin: ['lisnote'],
+			repo: gitblog.github.username + '.github.io',
+			owner: gitblog.github.username,
+			admin: [gitblog.github.username],
 			id: location.pathname, // Ensure uniqueness and length less than 50
 			distractionFreeMode: false // Facebook-like distraction free mode
 		})
