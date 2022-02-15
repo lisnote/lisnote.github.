@@ -12,8 +12,7 @@
 	} else {
 		articles = [];
 		for (let i of gitblog.getArticles()) {
-			let index = gitblog.getArticle(i).indexOf(search);
-			if (index > -1) {
+			if (i.indexOf(search) > -1 || gitblog.getArticle(i).indexOf(search) > -1) {
 				articles.push(i);
 			}
 		}
