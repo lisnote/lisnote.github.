@@ -21,7 +21,7 @@
 
 ## 布局Layout
 
-![image-20210616202303616](assets/Java/image-20210616202303616.png)
+![image-20210616202303616](assets/Java.md/image-20210616202303616.png)
 
 ```
 import java.awt.*;
@@ -65,7 +65,7 @@ class ColourfulPanel extends Panel {
 }
 ```
 
-![image-20210617004831920](assets/Java/image-20210617004831920.png)
+![image-20210617004831920](assets/Java.md/image-20210617004831920.png)
 
 ```
 import java.awt.*;
@@ -221,7 +221,7 @@ public class TimerTest extends Frame implements ActionListener {
 
 ## 画板
 
-![image-20210617102036386](assets/Java/image-20210617102036386.png)
+![image-20210617102036386](assets/Java.md/image-20210617102036386.png)
 
 ```
 public class PaintTest {
@@ -298,7 +298,7 @@ class PaintFrame extends BaseFrame {
 
 * 图像
 
-  ![image-20210617165335124](assets/Java/image-20210617165335124.png)
+  ![image-20210617165335124](assets/Java.md/image-20210617165335124.png)
 
   ```
   import com.lisnote.BaseJFrame;
@@ -323,7 +323,7 @@ class PaintFrame extends BaseFrame {
 
 * JScroll面板
 
-  ![image-20210617165217714](assets/Java/image-20210617165217714.png)
+  ![image-20210617165217714](assets/Java.md/image-20210617165217714.png)
 
   ```
   import com.lisnote.BaseJFrame;
@@ -344,7 +344,7 @@ class PaintFrame extends BaseFrame {
 
 * 单选框
 
-  ![image-20210617173303124](assets/Java/image-20210617173303124.png)
+  ![image-20210617173303124](assets/Java.md/image-20210617173303124.png)
 
   ```
   import com.lisnote.BaseJFrame;
@@ -376,7 +376,7 @@ class PaintFrame extends BaseFrame {
 
 * 多选框
 
-  ![image-20210617181113307](assets/Java/image-20210617181113307.png)
+  ![image-20210617181113307](assets/Java.md/image-20210617181113307.png)
 
   ```
   import com.lisnote.BaseJFrame;
@@ -400,7 +400,7 @@ class PaintFrame extends BaseFrame {
 
 * 列表
 
-  ![image-20210617201852909](assets/Java/image-20210617201852909.png)
+  ![image-20210617201852909](assets/Java.md/image-20210617201852909.png)
 
   ```
   import com.lisnote.BaseJFrame;
