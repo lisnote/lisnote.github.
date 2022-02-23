@@ -16,7 +16,7 @@
 		};
 		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
 		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
-		githubAPI.background = githubAPI.article.replace(/{username}/g, githubAPI.username)
+		githubAPI.background = githubAPI.background.replace(/{username}/g, githubAPI.username)
 		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
 		gitblog.getArticles = function () {
 			let articles = [];

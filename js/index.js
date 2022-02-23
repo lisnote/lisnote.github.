@@ -21,9 +21,13 @@
 	// 插入
 	for (let i of articles) {
 		let str =
-			'<a href="articles/{href}"><div class="ratio ratio-16x9 rounded-3 mb-4 img-fluid bg-size-cover" style="background-image: url(articles/assets/{background}/background.jpg);background-color: #DDD;"><div><h1 class="col-12 bg-white bg-opacity-75 p-2 text-truncate">{title}</h1></div></div></a>'
-			.replace("{background}", i)
-			.replace("{title}", i);
+		`<a href="articles/{href}">
+			<div class="ratio ratio-16x9 rounded-3 mb-4 img-fluid bg-size-cover" style="background-image: url(${gitblog.getBackground(i)});background-color: #DDD;">
+				<div>
+					<h1 class="col-12 bg-white bg-opacity-75 p-2 text-truncate">${i}</h1>
+				</div>
+			</div>
+		</a>`
 		if (/\.md$/.test(i)) {
 			str = str.replace("{href}", "?article=" + i)
 		} else {
