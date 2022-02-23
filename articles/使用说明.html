@@ -97,7 +97,7 @@
 			// 插入文章到#article
 			let article = $.ajax({
 				async: false,
-				url: "https://lisnote.github.io/readme.md"
+				url: "https://lisnote.org/readme.md"
 			}).responseText
 			$("#article").html(marked.parse(article));
 			$("title").html("使用说明.html")
