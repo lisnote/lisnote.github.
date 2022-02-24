@@ -1,3 +1,5 @@
+[演示](https://lisnote.github.io)
+
 # 部署
 
 1. fork本仓库
