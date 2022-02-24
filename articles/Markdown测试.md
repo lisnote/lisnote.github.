@@ -44,19 +44,7 @@ LongWordTestLongWordTestLongWordTestLongWordTestLongWordTestLongWordTestLongWord
 | 行头ID   | 行属性   |
 
 ```java
-public class Test {
-    public static void main(String[] args) {
-        int count = 0;
-        for (int num = 0; num < Math.pow(3, 4); num++) {
-            Set<Integer> set = new HashSet<>();
-            for (int base = (int)Math.pow(3,3);base>=1;base/=3){
-                set.add(num/base%3);
-            }
-            if (set.size() == 3) count++;
-        }
-        System.out.println(count+" "+Math.pow(3,4));
-    }
-}
+public class Test {public static void main(String[] args) {int count = 0;for (int num = 0; num < Math.pow(3, 4); num++) {Set<Integer> set = new HashSet<>();for (int base = (int)Math.pow(3,3);base>=1;base/=3){set.add(num/base%3);}if (set.size() == 3) count++;}System.out.println(count+" "+Math.pow(3,4));}}
 ```
 
 > 引用
