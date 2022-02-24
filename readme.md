@@ -1,7 +1,3 @@
-# Warning
-
-* 这是一个有待解决问题的blog
-
 # 部署
 
 1. fork本仓库
@@ -40,12 +36,10 @@
 * 写好的markdown放到articles文件夹下就可以自动发布
 * 在articles/assets/下的目录名如果存在对应的文章,该目录下的background.jpg文件将会成为该文章的标题图片
 * 在config.js配置token可提高github api使用次数(每小时5000),还可以开启gitalk留言
-* 如果你只用来写markdown,你的笔记库和你的github page可以分开存放
-* articles的非markdown文件或文件夹会被直链导航,这意味着你可以轻易的做到
-	* 配置多个静态网站
-	* 通过自定义的html做不少其他你可能想要做的事情
+* 如果你只用来写markdown,你的笔记库和你的github page可以分开存放,github api允许跨域访问
+* articles的非markdown文件及文件夹会被直链导航
 
 # 注意事项
 
-* 如果主分支和github page分支不同的话需要自行配置
 * 请不要删掉一些空白文件,他们也许很重要
+

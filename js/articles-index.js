@@ -18,7 +18,7 @@
 			case "H2":
 				str += "&emsp;";
 		}
-		$("#chapters").append("<a href='#" + i.innerText + "' class='text-decoration-none text-black'>" +
+		$("#chapters").append("<a href='#" + i.innerText.toLowerCase() + "' class='text-decoration-none text-black'>" +
 			str + i.innerText + "<a><br>")
 	}
 
