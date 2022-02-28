@@ -283,6 +283,44 @@ npm uninstall moment
 npm install -g moment
 ```
 
+### npx
+
+* npx主要解决的问题是避免全局安装cli工具
+
+  减少了环境变量的污染并且根据项目不同可以使用不同的cli工具
+
+* 一般的cli工具使用流程(以nrm为例)
+
+  1. 全局安装cli工具
+
+     ```bash
+     npm i -g nrm
+     ```
+
+  2. 测试可用
+
+     ```
+     nrm -v
+     ```
+
+     输出版本号
+
+  使用npx工具在项目安装cli工具(测试前请先卸载之前全局安装的nrm)
+
+  1. 项目安装nrm
+
+     ```bash
+     npm i nrm
+     ```
+
+  2. 测试可用
+
+     ```
+     npx nrm -v
+     ```
+
+     输出版本号
+
 ### npm源管理
 
 ```bash
@@ -595,6 +633,8 @@ app.use((err, req, res, next) => {
 app.listen(80);
 ```
 
+
+
 ### Express内置中间件
 
 * express.static()
@@ -744,10 +784,6 @@ get请求http://127.0.0.1/test.txtf返回
    app.listen(80);
    ```
 
-# cross-env
-
-
-
 # Webpack
 
 **打包工具**
@@ -758,16 +794,15 @@ get请求http://127.0.0.1/test.txtf返回
   npm init -y
   ```
 
-* 全局安装webpack-cli
-
-  ```bash
-  npm i -g webpack webpack-cli webpack-dev-server
-  ```
-
 * 项目安装webpack, webpack-cli, webpack-dev-server
 
+  "webpack": "^5.69.1",
+  "webpack-cli": "^4.9.2"
+  
+  
+  
   ```bash
-  npm i webpack webpack-cli webpack-dev-server
+  npm i -g webpack webpack-cli webpack-dev-server
   ```
 
 ## webpack核心概念
@@ -876,15 +911,108 @@ get请求http://127.0.0.1/test.txtf返回
 
 ## loaders
 
+### css-loader
+
+1. 安装style-loader,css-loader
+
+   ```bash
+   npm i -D style-loader css-loader
+   ```
+
+2. index.js导入样式文件
+
+   ```javascript
+   import "./css/index.css";
+   ```
+
+3. webpack.config.js添加loader
+
+   ```javascript
+   module.exports = {
+       module:{
+           rules : [
+               {test:/\.css$/,use:["style-loader","css-loader"]},
+               {test:/\.scss$/,use:["style-loader","css-loader","sass-loader"]}
+           ]
+       }
+   }
+   ```
+
+### scss-loader
+
 ## plugins
 
 ### clean-webpack-plugin
 
 打包前清除上次生成的打包文件
 
-```
+```bash
 npm install -D clean-webpack-plugin
 ```
+
+基本配置
+
+```javascript
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+
+module.exports = {
+    plugins: [
+        new CleanWebpackPlugin()
+    ]
+}
+```
+
+### html-webpack-plugin
+
+自动解析生成html文件
+
+```bash
+npm install -D html-webpack-plugin
+```
+
+基本配置
+
+```
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+    plugins:[
+        new HtmlWebpackPlugin({
+            template:resolve("../src/index.html")
+        })
+    ]
+}
+```
+
+## webpack-dev-server
+
+测试用自动构建,热重载工具
+
+```bash
+npm i -D webpack-dev-server
+```
+
+基本配置
+
+```javascript
+const resolve = dir => require("path").resolve(__dirname, dir);
+module.exports = {
+    devServer:{
+        static: resolve("../dist"),
+        port:80
+    }
+}
+```
+
+```bash
+webpack-dev-server
+// 或
+webpack server
+```
+
+
+
+
 
 
 
