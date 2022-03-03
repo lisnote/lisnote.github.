@@ -1,8 +1,6 @@
 [演示](https://lisnote.github.io)
 
-**简单来说,这是个专注于写笔记的blog**
-
-这个blog最大的优点同时也是最大的缺点是 : 只管文章就好,不用生成,不用剪切到哪里再发布,不用配置action就能享受更简单的过程.
+一个简单的笔记blog
 
 # 部署
 
@@ -10,37 +8,7 @@
 
 2. 命名仓库名为 你的用户名.github.io
 
-3. 发布文章
-
-   将markdown文件放到articles文件夹下
-
-# 目录结构
-
-> articles/ : 文章资源的放置目录,其中的md和html将会被索引
->
-> > assets/ : 文章资源的放置目录,其中的文件夹名称若对应了某篇文章,该文夹下的background.jpg将会成为文章的封面以及首页图
-> >
-> > index.html : md文件的模板
-> >
-> > *.html : 被索引的网页文章
-> >
-> > *.md : 被索引并解析的文章
->
-> assets/ : 一般资源的放置目录,比如背景,头像等
->
-> css/ : 样式文件的放置目录
->
-> js/ : js 文件的放置目录
->
-> .gitignore : 不建议改动
->
-> .nojekyll : 不建议改动
->
-> 404.html : 网页请求错误的页面
->
-> index.html : 网站的主页
->
-> LICENSE : 不建议改动
+3. 部署完成,网站地址为 你的用户名.github.io
 
 # 基本用法
 
@@ -49,6 +17,28 @@
 * 在config.js配置token可提高github api使用次数(每小时5000),还可以开启gitalk留言
 * 如果你只用来写markdown,你的笔记库和你的github page可以分开存放,github api允许跨域访问
 * articles的非markdown文件及文件夹会被直链导航
+
+# 目录结构
+
+* 不包含的文件不建议改动
+
+> articles/ : 文章资源的放置目录,其中的md和html将会被索引
+>
+> > assets/ : 文章资源的放置目录,其中的文件夹名称若对应了某篇文章,该文夹下的background.jpg将会成为文章的封面以及首页图
+> >
+> > index.html : markdown的载体
+> >
+> > *.md : 被解析的文章
+>
+> assets/ : 一般资源的放置目录,比如背景,头像等
+>
+> css/ : 样式文件的放置目录
+>
+> js/ : js 文件的放置目录
+>
+> 404.html : 网页请求错误的页面
+>
+> index.html : 网站的主页
 
 # 注意事项
 
