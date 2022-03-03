@@ -2,7 +2,7 @@
 
 **本教程对TypeScript的记录基本都是描述编译前与编译时,而不对编译后的javascript知识进行再描述**
 
-# 1. 初识TypeScript
+# 初识TypeScript
 
 ## 快速开始
 
@@ -393,20 +393,32 @@ javascript中的内置对象已经在TypeScript中定义好了类型
 1. ECMAScript内置对象
 
    Boolean
+
    Number
+
    String
+
    Date
+
    RegExp
+
    Error
 
 2. BOM和DOM内置对象
 
    Window
+   
    Document
+   
    HTMLElement
+   
    DocumentFragment
+   
    Event
+   
    NodeList
+
+
 
 
 
