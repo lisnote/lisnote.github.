@@ -8,7 +8,7 @@ gitblog = {
 		"clientID": "de3105a8fb15edf7ca19",
 		"clientSecret": "715c4a9cfe522069f914ff3f839119e6c4ae73a8",
 		// 一般不需要修改,用于自定义笔记位置
-		"articles": "https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=demo",
+		"articles": "https://api.github.com/repos/{username}/{username}.github.io/contents/articles",
 		// 一般不需要修改,用于自定义笔记位置
 		"article": "{protocol}//{host}/articles/{article}",
 		// 一般不需要修改,用于自定义背景位置,例如jsdelivr加速,第三方随机图片api等

@@ -1,4 +1,4 @@
-<a charset="utf-8" href="https://raw.githubusercontent.com/lisnote/lisnote.github.io/dev/articles/markdown基础语法.md">原始文件</a>
+<a charset="utf-8" href="https://raw.githubusercontent.com/lisnote/lisnote.github.io/dev/articles/markdown基础语法与测试.md">原始文件</a>
 
 # 标题1
 
@@ -33,9 +33,9 @@
 
 ![图片](assets/Markdown测试.md/background.jpg)
 
-| 表格标题 | 表格列名 |
-| -------- | -------- |
-| 行头ID   | 行属性   |
+| 表格标题 | 表格列名 | 表格列名 | 表格列名 | 表格列名 | 表格列名 | 表格列名 | 表格列名 | 表格列名 | 表格列名 |
+| -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- | -------- |
+| 行头ID   | 行属性   | 行属性   | 行属性   | 行属性   | 行属性   | 行属性   | 行属性   | 行属性   | 行属性   |
 
 ```java
 public class Test {public static void main(String[] args) {int count = 0;for (int num = 0; num < Math.pow(3, 4); num++) {Set<Integer> set = new HashSet<>();for (int base = (int)Math.pow(3,3);base>=1;base/=3){set.add(num/base%3);}if (set.size() == 3) count++;}System.out.println(count+" "+Math.pow(3,4));}}
