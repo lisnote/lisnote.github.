@@ -3,7 +3,7 @@ gitblog = {
 	"api": "github",
 	"github": {
 		// 自定义域名必须填写username
-		"username": "",
+		"username": "lisnote",
 		// OAuth Apps,用于开启评论区及提高可访问性,申请地址 https://github.com/settings/developers 填写格式 clientID:clientSecret
 		"clientID": "",
 		"clientSecret": "",
