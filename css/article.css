@@ -18,6 +18,10 @@
 	padding: 3px;
 }
 
+#article table{
+	word-break: break-word;
+}
+
 #chapters{
 	top:65px;
 	bottom:0;
