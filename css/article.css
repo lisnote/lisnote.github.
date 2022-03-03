@@ -17,3 +17,9 @@
 	border: 3px solid #DDD;
 	padding: 3px;
 }
+
+#chapters{
+	overflow-y: auto;
+	top: 65px;
+	bottom:0;
+}

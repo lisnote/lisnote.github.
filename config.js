@@ -3,12 +3,12 @@ gitblog = {
 	"api": "github",
 	"github": {
 		// 自定义域名必须填写username
-		"username": "",
+		"username": "lisnote",
 		// OAuth Apps,用于开启评论区及提高可访问性,申请地址 https://github.com/settings/developers 填写格式 clientID:clientSecret
-		"clientID": "",
-		"clientSecret": "",
+		"clientID": "de3105a8fb15edf7ca19",
+		"clientSecret": "715c4a9cfe522069f914ff3f839119e6c4ae73a8",
 		// 一般不需要修改,用于自定义笔记位置
-		"articles": "https://api.github.com/repos/{username}/{username}.github.io/contents/articles",
+		"articles": "https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=demo",
 		// 一般不需要修改,用于自定义笔记位置
 		"article": "{protocol}//{host}/articles/{article}",
 		// 一般不需要修改,用于自定义背景位置,例如jsdelivr加速,第三方随机图片api等
