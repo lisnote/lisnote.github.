@@ -30,7 +30,7 @@
 			repo: gitblog.github.username + '.github.io',
 			owner: gitblog.github.username,
 			admin: [gitblog.github.username],
-			id: location.pathname, // Ensure uniqueness and length less than 50
+			id: article.substring(0,49), // Ensure uniqueness and length less than 50
 			distractionFreeMode: false // Facebook-like distraction free mode
 		})
 		gitalk.render('gitalk-container')
