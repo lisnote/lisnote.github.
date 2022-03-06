@@ -1,66 +1,79 @@
-(function() {
-	let page = parseInt(getSearchParameter("page"));
-	let search = getSearchParameter("search")
+(function () {
+	let page = parseInt(getSearchParameter("page")) || 1;
+	let search = getSearchParameter("search");
 	let maxPage = Math.ceil(gitblog.articles.length / 10.0);
-	let articles;
 	if (search == "") {
-		if (page > 0) {
+		// 根据articles进行插入
+		let articles;
+		if (page != 1) {
 			articles = gitblog.articles.slice((page - 1) * 10, (page - 1) * 10 + 10);
 		} else {
 			articles = gitblog.articles.slice(0, 10);
 		}
+		for (let article of articles) {
+			insertArticle(article)
+		}
 	} else {
-		articles = [];
-		for (let i of gitblog.articles) {
-			if (i.indexOf(search) > -1 || gitblog.getArticle(i).indexOf(search) > -1) {
-				articles.push(i);
-			}
+		// 根据查找数据进行插入(查找较慢所以不会增加翻页逻辑)
+		for (let article of gitblog.articles) {
+			fetch(gitblog.getArticle(article))
+				.then(resp => resp.text())
+				.then(text => {
+					if (article.indexOf(search) > -1 || text.indexOf(search) > -1) {
+						insertArticle(article);
+					}
+				});
 		}
 	};
 
-	// 插入
-	for (let i of articles) {
-		let str =
-		`<a href="articles/{href}">
-			<div class="ratio ratio-16x9 rounded-3 mb-4 img-fluid bg-size-cover" style="background-image: url(${gitblog.getBackground(i)});background-color: #DDD;">
-				<div>
-					<h1 class="col-12 bg-white bg-opacity-75 p-2 text-truncate">${i}</h1>
-				</div>
-			</div>
-		</a>`
-		if (/\.md$/.test(i)) {
-			str = str.replace("{href}", "?article=" + i)
+
+	// 插入导航
+	function insertArticle(article) {
+		let href, background;
+		if (/\.md$/.test(article)) {
+			href = "?article=" + article;
 		} else {
-			str = str.replace("{href}", i)
+			href = article;
 		}
-		$("#articles").append(str);
+		background = gitblog.getBackground(article)
+		let vm =
+			`<a href="articles/${href}">
+				<div class="ratio ratio-16x9 rounded-3 mb-4 img-fluid bg-size-cover" style="background-image: url(${background});background-color: #DDD;">
+					<div>
+						<h1 class="col-12 bg-white bg-opacity-75 p-2 text-truncate">${article}</h1>
+					</div>
+				</div>
+			</a>`
+		$("#articles").append(vm);
 	};
 
-	// 翻页
-	if (isNaN(page)) {
+	// 翻页逻辑
+	if (page < 2) {
 		$(".pre-page").hide()
+	} else {
+		$(".pre-page").bind("click", function () {
+			if (page > 2) {
+				location = location.href.replace(/page=\d*/, "page=" + (page - 1));
+			} else if (/page=\d+&/.test(location.href)) {
+				location = location.href.replace(/page=\d+&/, "");
+			} else if (/[\?|&]page=\d+/.test(location.href)) {
+				location = location.href.replace(/[\?|&]page=\d+/, "");
+			}
+		})
 	}
 	if (maxPage == page || maxPage < 2) {
 		$(".next-page").hide()
-	}
-	$(".pre-page").bind("click", function() {
-		if (page > 2) {
-			location = location.href.replace(/page=\d*/, "page=" + (page - 1));
-		} else if (/page=\d+&/.test(location.href)) {
-			location = location.href.replace(/page=\d+&/, "");
-		} else if (/[\?|&]page=\d+/.test(location.href)) {
-			location = location.href.replace(/[\?|&]page=\d+/, "");
-		}
-	})
-	$(".next-page").bind("click", function() {
-		if (page > 1 && page < maxPage) {
-			location = location.href.replace(/page=\d*/, "page=" + (page + 1));
-		} else if (isNaN(page) && maxPage > 1) {
-			if (location.search == "") {
-				location = location.href + "?page=2";
-			} else {
-				location = location.href + "&page=2";
+	} else {
+		$(".next-page").bind("click", function () {
+			if (page > 1 && page < maxPage) {
+				location = location.href.replace(/page=\d*/, "page=" + (page + 1));
+			} else if (isNaN(page) && maxPage > 1) {
+				if (location.search == "") {
+					location = location.href + "?page=2";
+				} else {
+					location = location.href + "&page=2";
+				}
 			}
-		}
-	})
+		})
+	}
 }())

@@ -21,7 +21,7 @@
 		};
 		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
 		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
-		githubAPI.background = githubAPI.background.replace(/{username}/g, githubAPI.username)
+		githubAPI.background = githubAPI.background.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
 		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
 		if (location.pathname == "/") {
 			articles = gitblog.articles;
@@ -41,11 +41,7 @@
 		}
 		// 返回String类型的文章内容
 		gitblog.getArticle = function (article) {
-			let articleUrl = githubAPI.article.replace(/{article}/g, article);
-			return $.ajax({
-				async: false,
-				url: articleUrl
-			}).responseText;
+			return githubAPI.article.replace(/{article}/g, article);
 		}
 		// 获取背景 返回背景的链接
 		gitblog.getBackground = function (article) {

@@ -12,7 +12,7 @@ gitblog = {
 		// 一般不需要修改,用于自定义笔记位置
 		article: "{protocol}//{host}/articles/{article}",
 		// 一般不需要修改,用于自定义背景位置,例如jsdelivr加速,第三方随机图片api等
-		background: "https://{username}.github.io/articles/assets/{article}/background.jpg",
+		background: "{protocol}//{host}/articles/assets/{article}/background.jpg",
 		// 一般不需要修改,用于本地开发测试的username
 		devUsername:"lisnote",
 	},
