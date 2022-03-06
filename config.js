@@ -12,7 +12,9 @@ gitblog = {
 		// 一般不需要修改,用于自定义笔记位置
 		article: "{protocol}//{host}/articles/{article}",
 		// 一般不需要修改,用于自定义背景位置,例如jsdelivr加速,第三方随机图片api等
-		background: "https://{username}.github.io/articles/assets/{article}/background.jpg"
+		background: "https://{username}.github.io/articles/assets/{article}/background.jpg",
+		// 一般不需要修改,用于本地开发测试的username
+		devUsername:"lisnote",
 	},
 	// 自定义时请实现以下三个方法
 	// 返回一个字符串数组,包含除assets和index.html外,所有的articles子文件名和子文件夹名

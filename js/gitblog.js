@@ -11,8 +11,8 @@
 		let githubAPI = gitblog.github;
 		// 设置username
 		if (githubAPI.username == "") {
-			githubAPI.username = /.*\/(.*)\.github\.io.*/.exec(location.href)[1]
-			console.log("username未设置,从链接中获取到username为", githubAPI.username);
+			githubAPI.username = (/.*\/(.*)\.github\.io.*/.exec(location.href) || [githubAPI.devUsername])[0]
+			console.log("username未设置,分析后设定username为" + githubAPI.username);
 		};
 		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
 		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
