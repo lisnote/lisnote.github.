@@ -1,17 +1,17 @@
 (function() {
 	let page = parseInt(getSearchParameter("page"));
 	let search = getSearchParameter("search")
-	let maxPage = Math.ceil(gitblog.getArticles().length / 10.0);
+	let maxPage = Math.ceil(gitblog.articles.length / 10.0);
 	let articles;
 	if (search == "") {
 		if (page > 0) {
-			articles = gitblog.getArticles().slice((page - 1) * 10, (page - 1) * 10 + 10);
+			articles = gitblog.articles.slice((page - 1) * 10, (page - 1) * 10 + 10);
 		} else {
-			articles = gitblog.getArticles().slice(0, 10);
+			articles = gitblog.articles.slice(0, 10);
 		}
 	} else {
 		articles = [];
-		for (let i of gitblog.getArticles()) {
+		for (let i of gitblog.articles) {
 			if (i.indexOf(search) > -1 || gitblog.getArticle(i).indexOf(search) > -1) {
 				articles.push(i);
 			}

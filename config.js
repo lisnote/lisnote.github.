@@ -18,7 +18,7 @@ gitblog = {
 	},
 	// 自定义时请实现以下三个方法
 	// 返回一个字符串数组,包含除assets和index.html外,所有的articles子文件名和子文件夹名
-	getArticles: null,
+	articles: [],
 	// 返回string类型的markdown内容
 	getArticle: null,
 	// 返回background的路径

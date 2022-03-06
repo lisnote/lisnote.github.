@@ -23,8 +23,8 @@
 		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
 		githubAPI.background = githubAPI.background.replace(/{username}/g, githubAPI.username)
 		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
-		gitblog.getArticles = function () {
-			let articles = [];
+		if (location.pathname == "/") {
+			articles = gitblog.articles;
 			$.ajax({
 				url: githubAPI.articles,
 				async: false,
@@ -38,7 +38,6 @@
 					}
 				}
 			})
-			return articles;
 		}
 		// 返回String类型的文章内容
 		gitblog.getArticle = function (article) {
