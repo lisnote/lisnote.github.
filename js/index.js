@@ -26,7 +26,6 @@
 		}
 	};
 
-
 	// 插入导航
 	function insertArticle(article) {
 		let href, background;
@@ -54,25 +53,19 @@
 		$(".pre-page").bind("click", function () {
 			if (page > 2) {
 				location = location.href.replace(/page=\d*/, "page=" + (page - 1));
-			} else if (/page=\d+&/.test(location.href)) {
-				location = location.href.replace(/page=\d+&/, "");
-			} else if (/[\?|&]page=\d+/.test(location.href)) {
-				location = location.href.replace(/[\?|&]page=\d+/, "");
+			} else {
+				location = location.href.replace(/\?page=\d+/, "");
 			}
 		})
 	}
-	if (maxPage == page || maxPage < 2) {
+	if (maxPage == page || maxPage < 2 || getSearchParameter("search") != "") {
 		$(".next-page").hide()
 	} else {
 		$(".next-page").bind("click", function () {
-			if (page > 1 && page < maxPage) {
+			if (page > 1) {
 				location = location.href.replace(/page=\d*/, "page=" + (page + 1));
-			} else if (isNaN(page) && maxPage > 1) {
-				if (location.search == "") {
-					location = location.href + "?page=2";
-				} else {
-					location = location.href + "&page=2";
-				}
+			} else {
+				location = location.href + "?page=2";
 			}
 		})
 	}

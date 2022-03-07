@@ -31,13 +31,13 @@
 	}
 
 	// Gitlk 模块
-	if (gitblog.github.clientID != "") {
+	if (gitblog.api == "github" && gitblog.config.clientID != "") {
 		var gitalk = new Gitalk({
-			clientID: gitblog.github.clientID,
-			clientSecret: gitblog.github.clientSecret,
-			repo: gitblog.github.username + '.github.io',
-			owner: gitblog.github.username,
-			admin: [gitblog.github.username],
+			clientID: gitblog.config.clientID,
+			clientSecret: gitblog.config.clientSecret,
+			repo: gitblog.config.username + '.github.io',
+			owner: gitblog.config.username,
+			admin: [gitblog.config.username],
 			id: article.substring(0, 49), // Ensure uniqueness and length less than 50
 			distractionFreeMode: false // Facebook-like distraction free mode
 		})

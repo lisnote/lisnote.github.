@@ -8,15 +8,19 @@
 	}
 
 	function github() {
-		let githubAPI = gitblog.github;
-		// 设置username
+		let githubAPI = gitblog.config;
+		// 获取username,若获取失败则打开开发模式
 		if (githubAPI.username == "") {
 			try {
 				githubAPI.username = (/.*\/(.*)\.github\.io.*/.exec(location.href)[1])
 			} catch (error) {
-				console.error("Failed to obtain username,have you set the gitblog.github.username in config.js?");
-				console.error(error)
+				console.error("Failed to obtain username,have you set the github.username in config.js?");
 				githubAPI.username = githubAPI.devUsername;
+				githubAPI.clientID = githubAPI.devClientID;
+				githubAPI.clientSecret = githubAPI.devClientSecret;
+				githubAPI.articles = githubAPI.devArticles;
+				githubAPI.article = githubAPI.devArticle;
+				githubAPI.background = githubAPI.devBackground;
 			}
 		};
 		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
@@ -39,11 +43,11 @@
 				}
 			})
 		}
-		// 返回String类型的文章内容
+		// 根据传入参数获取markdown直链
 		gitblog.getArticle = function (article) {
 			return githubAPI.article.replace(/{article}/g, article);
 		}
-		// 获取背景 返回背景的链接
+		// 根据传入参数获取背景图直链
 		gitblog.getBackground = function (article) {
 			return githubAPI.background.replace(/{article}/g, article);
 		}
