@@ -8,7 +8,10 @@
 	</head>
 	<body>
 		<h1>
-			404
+			404,3s后返回主页
 		</h1>
+		<script>
+			setTimeout('location = location.href.replace(/(.*?\\/\\/.*?\\/).*/,"$1")',3000);
+		</script>
 	</body>
 </html>

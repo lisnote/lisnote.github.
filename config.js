@@ -17,7 +17,6 @@ let github = {
 	devArticles:"https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=articles",
 	devArticle:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/{article}",
 	devBackground:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/assets/{article}/background.jpg",
-	
 }
 
 // 一般不需要修改,用于自定义服务器
