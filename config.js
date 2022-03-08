@@ -14,9 +14,9 @@ let github = {
 	devUsername: "lisnote",
 	devClientID:"de3105a8fb15edf7ca19",
 	devClientSecret:"715c4a9cfe522069f914ff3f839119e6c4ae73a8",
-	devArticles:"https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=markdown",
-	devArticle:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/markdown/articles/{article}",
-	devBackground:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/markdown/articles/assets/{article}/background.jpg",
+	devArticles:"https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=articles",
+	devArticle:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/{article}",
+	devBackground:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/assets/{article}/background.jpg",
 	
 }
 
