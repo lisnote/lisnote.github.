@@ -1,3 +1,6 @@
+---
+date: 2022-03-01 00:00:00
+---
 **所有javascript代码都是有效TypeScript代码,将js文件后缀改为ts后缀不会对javascript造成负面影响**
 
 **本教程对TypeScript的记录基本都是描述编译前与编译时,而不对编译后的javascript知识进行再描述**
@@ -239,7 +242,7 @@ console.log(fullName("不知名"));
 
 * 关于方法重载
 
-**TypeScript截止2022.3.2个人认为并没有方法重载**
+**TypeScript的方法重载非常拉跨,与javascript后天逻辑实现方法重载的操作无异**
 
 TypeScript利用编译器的类型检查可以比javascript更轻易的做到一个方法根据传入参数进行不同的行为,但是并算不上方法重载,特别是编译为javascript库使用时问题更多
 
@@ -257,21 +260,29 @@ TypeScript方法重载的缺点
 
 举一个TypeScript的通过编译且符合方法重载逻辑的失败用例
 
-```TypeScript
-class Human { }
-class Person { }
-function classTest(t: Human | Person): void {
-    if (typeof Human) {
-        console.log("human");
-    } else if (typeof Person) {
-        console.log("person");
+较推荐的方法重载逻辑实现
+
+```
+function typeOf(o: any): string {
+    if (o === null) {
+        return "null";
+    } else if (o == undefined) {
+        return "undefined";
+    } else {
+        return o.constructor.name;
     }
 }
-classTest(new Human())
-classTest(new Person())
-// 输出
-// human
-// human
+console.log(
+    typeOf(null),
+    typeOf(undefined),
+    typeOf(true),
+    typeOf(""),
+    typeOf([]),
+    typeOf({}),
+    typeOf(new class Human { })
+)
+// Output :
+// null undefined Boolean String Array Object Human
 ```
 
 ## 类
