@@ -24,11 +24,12 @@
 		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
 		githubAPI.background = githubAPI.background.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
 		// 解析articles文件目录为数组并返回,忽略assets/和index.html
-		let = articles = decorateArticlesAPI();
+		let articles = articlesDecorator();
 		// 实现gitblog要求的三个方法
 		gitblog.articles = articles;
 		gitblog.getArticle = getArticle;
 		gitblog.getBackground = getBackground;
+
 
 		// 根据传入参数获取markdown直链
 		function getArticle(article) {
@@ -48,7 +49,7 @@
 			githubAPI.background = githubAPI.devBackground;
 		}
 		// 解析articles文件目录为数组并返回,忽略assets/和index.html
-		function decorateArticlesAPI() {
+		function articlesDecorator() {
 			let articles = [];
 			if (location.pathname == "/") {
 				$.ajax({
@@ -66,31 +67,28 @@
 				})
 			}
 			// 按日期排序文章
-			
-			let dateMap = JSON.parse(localStorage.getItem(githubAPI.username));
+
+			let dateMap = JSON.parse(localStorage.getItem(githubAPI.username)) || {};
 			// dateMap完整性检查
-			for(let obj of articles){
-				if(dateMap[obj]==null){
-					dateMap ={}
-					break;
+			for (let obj of articles) {
+				if (!(obj in dateMap)) {
+					// dateMap初始化
+					for (let article of articles) {
+						$.ajax(getArticle(article), {
+							async: false,
+							headers: { "Range": "bytes=0-500" },
+							success: function (text) {
+								let date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
+								date = date.replace(/-| |:/g, "")
+								dateMap[article] = date;
+							}
+						})
+					}
+					localStorage.setItem(githubAPI.username, JSON.stringify(dateMap));
+					console.log("首次访问较慢");
 				}
 			}
-			// dateMap初始化检查
-			if (dateMap == null) {
-				for (let article of articles) {
-					$.ajax(getArticle(article), {
-						async: false,
-						headers: { "Range": "bytes=0-500" },
-						success: function (text) {
-							let date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
-							date = date.replace(/-| |:/g, "")
-							dateMap[article] = date;
-						}
-					})
-				}
-				localStorage.setItem(githubAPI.username, JSON.stringify(dateMap))
-				console.log("首次访问较慢");
-			}
+
 			// 通过dateMap排序articles
 			articles.sort((x, y) => {
 				return dateMap[y] - dateMap[x];
