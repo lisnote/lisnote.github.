@@ -15,41 +15,87 @@
 				githubAPI.username = (/.*\/(.*)\.github\.io.*/.exec(location.href)[1])
 			} catch (error) {
 				console.error("Failed to obtain username,have you set the github.username in config.js?");
-				githubAPI.username = githubAPI.devUsername;
-				githubAPI.clientID = githubAPI.devClientID;
-				githubAPI.clientSecret = githubAPI.devClientSecret;
-				githubAPI.articles = githubAPI.devArticles;
-				githubAPI.article = githubAPI.devArticle;
-				githubAPI.background = githubAPI.devBackground;
+				// 使用开发者数据
+				developmentMode();
 			}
 		};
+		// 将占位符号替换为有效数据
 		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
 		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
 		githubAPI.background = githubAPI.background.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
-		// 将articles下的文件名和文件夹名转换为数组保存在gitblog.articles
-		if (location.pathname == "/") {
-			articles = gitblog.articles;
-			$.ajax({
-				url: githubAPI.articles,
-				async: false,
-				headers: {
-					authorization: "Basic " + btoa(githubAPI.clientID + ":" + githubAPI.clientSecret),
-				},
-				success: function (result) {
-					for (let i = 0; i < result.length; i++) {
-						if (result[i].name == "assets" || result[i].name == "index.html") continue;
-						articles[articles.length] = result[i].name;
-					}
-				}
-			})
-		}
+		// 解析articles文件目录为数组并返回,忽略assets/和index.html
+		let = articles = decorateArticlesAPI();
+		// 实现gitblog要求的三个方法
+		gitblog.articles = articles;
+		gitblog.getArticle = getArticle;
+		gitblog.getBackground = getBackground;
+
 		// 根据传入参数获取markdown直链
-		gitblog.getArticle = function (article) {
+		function getArticle(article) {
 			return githubAPI.article.replace(/{article}/g, article);
 		}
 		// 根据传入参数获取背景图直链
-		gitblog.getBackground = function (article) {
+		function getBackground(article) {
 			return githubAPI.background.replace(/{article}/g, article);
+		}
+		// 使用开发者数据
+		function developmentMode() {
+			githubAPI.username = githubAPI.devUsername;
+			githubAPI.clientID = githubAPI.devClientID;
+			githubAPI.clientSecret = githubAPI.devClientSecret;
+			githubAPI.articles = githubAPI.devArticles;
+			githubAPI.article = githubAPI.devArticle;
+			githubAPI.background = githubAPI.devBackground;
+		}
+		// 解析articles文件目录为数组并返回,忽略assets/和index.html
+		function decorateArticlesAPI() {
+			let articles = [];
+			if (location.pathname == "/") {
+				$.ajax({
+					url: githubAPI.articles,
+					async: false,
+					headers: {
+						authorization: "Basic " + btoa(githubAPI.clientID + ":" + githubAPI.clientSecret),
+					},
+					success: function (result) {
+						for (let i = 0; i < result.length; i++) {
+							if (result[i].name == "assets" || result[i].name == "index.html") continue;
+							articles[articles.length] = result[i].name;
+						}
+					}
+				})
+			}
+			// 按日期排序文章
+			
+			let dateMap = JSON.parse(localStorage.getItem(githubAPI.username));
+			// dateMap完整性检查
+			for(let obj of articles){
+				if(dateMap[obj]==null){
+					dateMap ={}
+					break;
+				}
+			}
+			// dateMap初始化检查
+			if (dateMap == null) {
+				for (let article of articles) {
+					$.ajax(getArticle(article), {
+						async: false,
+						headers: { "Range": "bytes=0-500" },
+						success: function (text) {
+							let date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
+							date = date.replace(/-| |:/g, "")
+							dateMap[article] = date;
+						}
+					})
+				}
+				localStorage.setItem(githubAPI.username, JSON.stringify(dateMap))
+				console.log("首次访问较慢");
+			}
+			// 通过dateMap排序articles
+			articles.sort((x, y) => {
+				return dateMap[y] - dateMap[x];
+			})
+			return articles;
 		}
 	}
 }())

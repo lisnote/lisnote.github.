@@ -43,15 +43,3 @@
 > favicon.ico : 网页图标
 >
 > index.html : 网站的主页
-
-# 待办事项
-
-1. 使用range请求头获取文章前部分,并解析yaml语法包含的时间
-
-    以 [{article,time},...] 的格式,用于对文章进行排序,存储至LocalStore
-    
-    第二次访问对比articles是否相同,相同则不再请求,不同则再次请求
-
-    ```javascript
-
-    ```
