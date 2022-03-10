@@ -5,7 +5,7 @@
 	fetch(gitblog.getArticle(article))
 		.then(res => res.text())
 		.then(text => {
-			$("#article").html(marked.parse(gitblog.getArticle(text)));
+			$("#article").html(marked.parse(text));
 			parseChapters()
 		});
 
