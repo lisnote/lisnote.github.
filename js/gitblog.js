@@ -78,14 +78,21 @@
 							async: false,
 							headers: { "Range": "bytes=0-500" },
 							success: function (text) {
-								let date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
-								date = date.replace(/-| |:/g, "")
+								let date;
+								try {
+									date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
+									date = date.replace(/-| |:/g, "")
+								}catch(error){
+									date = 19700101000000;
+									console.log(error);
+								}
 								dateMap[article] = date;
 							}
 						})
 					}
 					localStorage.setItem(githubAPI.username, JSON.stringify(dateMap));
 					console.log("首次访问较慢");
+					break;
 				}
 			}
 
