@@ -23,10 +23,8 @@
 		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
 		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
 		githubAPI.background = githubAPI.background.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
-		// 解析articles文件目录为数组并返回,忽略assets/和index.html
-		let articles = articlesDecorator();
 		// 实现gitblog要求的三个方法
-		gitblog.articles = articles;
+		gitblog.articles = articlesDecorator();
 		gitblog.getArticle = getArticle;
 		gitblog.getBackground = getBackground;
 
@@ -61,46 +59,58 @@
 					success: function (result) {
 						for (let i = 0; i < result.length; i++) {
 							if (result[i].name == "assets" || result[i].name == "index.html") continue;
-							articles[articles.length] = result[i].name;
+							articles.push(result[i].name);
 						}
 					}
 				})
 			}
-			// 按日期排序文章
-
+			// 获取日期数据dateMap
 			let dateMap = JSON.parse(localStorage.getItem(githubAPI.username)) || {};
 			// dateMap完整性检查
-			for (let obj of articles) {
-				if (!(obj in dateMap)) {
-					// dateMap初始化
-					for (let article of articles) {
-						$.ajax(getArticle(article), {
-							async: false,
-							headers: { "Range": "bytes=0-500" },
-							success: function (text) {
-								let date;
-								try {
-									date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
-									date = date.replace(/-| |:/g, "")
-								}catch(error){
-									date = 19700101000000;
-									console.log(error);
-								}
-								dateMap[article] = date;
+			if (dateMapCheck()) {
+				articles.sort((x, y) => {
+					return dateMap[y] - dateMap[x];
+				})
+			} else {
+				initDateMap()
+				return ["初始化,请稍等..."]
+			}
+			return articles;
+
+
+			// dateMap完整性检查
+			function dateMapCheck() {
+				for (let obj of articles) {
+					if (!(obj in dateMap)) {
+						return false;
+					}
+				}
+				return true;
+			}
+			// dateMap初始化
+			async function initDateMap() {
+				for (let article of articles) {
+					fetch(getArticle(article), {
+						headers: { "Range": "bytes=0-500" }
+					})
+						.then(resp => resp.text())
+						.then(text => {
+							let date;
+							try {
+								date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
+								date = date.replace(/-| |:/g, "")
+							} catch (error) {
+								date = 19700101000000;
+								console.log(error);
+							}
+							dateMap[article] = date;
+							if (Object.getOwnPropertyNames(dateMap).length == articles.length) {
+								localStorage.setItem(githubAPI.username, JSON.stringify(dateMap));
+								location.reload()
 							}
 						})
-					}
-					localStorage.setItem(githubAPI.username, JSON.stringify(dateMap));
-					console.log("首次访问较慢");
-					break;
 				}
 			}
-
-			// 通过dateMap排序articles
-			articles.sort((x, y) => {
-				return dateMap[y] - dateMap[x];
-			})
-			return articles;
 		}
 	}
 }())
