@@ -89,6 +89,7 @@
 			}
 			// dateMap初始化
 			async function initDateMap() {
+				dateMap = {};
 				for (let article of articles) {
 					fetch(getArticle(article), {
 						headers: { "Range": "bytes=0-500" }
