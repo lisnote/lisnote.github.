@@ -73,7 +73,7 @@
 				})
 			} else {
 				initDateMap()
-				return ["初始化,请稍等..."]
+				return ["新文章加载中,请稍等。。。"]
 			}
 			return articles;
 
@@ -105,7 +105,7 @@
 								console.log(error);
 							}
 							dateMap[article] = date;
-							if (Object.getOwnPropertyNames(dateMap).length == articles.length) {
+							if (Object.keys(dateMap).length == articles.length) {
 								localStorage.setItem(githubAPI.username, JSON.stringify(dateMap));
 								location.reload()
 							}
