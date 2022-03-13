@@ -6,9 +6,10 @@
 		.then(res => res.text())
 		.then(text => {
 			if (text.indexOf("---") == 0) {
-				text = text.replace(/---(.*\r?\n)*?---/,"")
+				text = text.replace(/---(.*\r?\n)*?---/, "")
 			}
 			$("#article").html(marked.parse(text));
+			hljs.highlightAll();
 			parseChapters()
 		});
 
