@@ -1,5 +1,4 @@
 (function () {
-	let page = parseInt(getSearchParameter("page")) || 1;
 	let search = getSearchParameter("search");
 	let articles;
 	if (search == "") {
@@ -27,6 +26,8 @@
 
 	// 插入文章
 	function insertArticles(articles) {
+		let page = parseInt(getSearchParameter("page")) || 1;
+		let maxPage = Math.ceil(articles.length / 10.0);
 		if (page != 1) {
 			articles = articles.slice((page - 1) * 10, (page - 1) * 10 + 10);
 		} else {
@@ -51,7 +52,6 @@
 			$("#articles").append(vm);
 		}
 		// 翻页处理
-		let maxPage = Math.ceil(articles.length / 10.0);
 		if (page < 2) {
 			$(".pre-page").hide()
 		} else {
