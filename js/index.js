@@ -22,7 +22,6 @@
 		}
 		Promise.all(promises).then(() => {
 			insertArticles(articles);
-			console.log("articles");
 		})
 	};
 
@@ -52,7 +51,7 @@
 			$("#articles").append(vm);
 		}
 		// 翻页处理
-		let maxPage = Math.ceil(articles / 10.0);
+		let maxPage = Math.ceil(articles.length / 10.0);
 		if (page < 2) {
 			$(".pre-page").hide()
 		} else {

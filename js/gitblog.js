@@ -102,7 +102,6 @@
 								date = date.replace(/-| |:/g, "")
 							} catch (error) {
 								date = 19700101000000;
-								console.log(error);
 							}
 							dateMap[article] = date;
 							if (Object.keys(dateMap).length == articles.length) {

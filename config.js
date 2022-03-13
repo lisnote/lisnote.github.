@@ -16,7 +16,7 @@ let github = {
 	devClientSecret:"715c4a9cfe522069f914ff3f839119e6c4ae73a8",
 	devArticles:"https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=articles",
 	devArticle:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/{article}",
-	devBackground:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/assets/{article}/background.jpg",
+	devBackground:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/assets/{article}/background.webp",
 }
 
 // 一般不需要修改,用于自定义服务器
