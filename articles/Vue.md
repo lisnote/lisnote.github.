@@ -1,5 +1,5 @@
 ---
-date: 2022-02-30 00:00:00
+date: 2022-02-28 00:00:00
 ---
 
 留有疑问和暂时忽略的部分搜索:补课
@@ -1580,13 +1580,15 @@ this.$root.$emit("test","test data")
   </script>
   ```
 
-  
+#### Vuex简写
 
 ### Pinia
 
 **补课 : **听闻是个与Vuex相似,且更推荐的工具,与Vuex相同团队的作品
 
 ## 环境构建
+
+### webpack
 
 ### VueCLI
 
@@ -1596,7 +1598,7 @@ this.$root.$emit("test","test data")
 
 构建工具
 
-
+## 路由
 
 
 
