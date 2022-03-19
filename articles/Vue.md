@@ -4,6 +4,8 @@ date: 2022-02-30 00:00:00
 
 留有疑问和暂时忽略的部分搜索:补课
 
+不理解搜索:有异议
+
 # 快速开始
 
 ## 介绍
@@ -40,32 +42,111 @@ date: 2022-02-30 00:00:00
 1. 安装vue(页面CDN方式)
 
 ```html
-<script src="https://unpkg.com/vue@3.2.29/dist/vue.global.js"></script>
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.global.js"></script>
 ```
 
 2. DOM
 
 ```html
 <div id="app">
-  Counter: {{ counter }}
+    {{ name }}
 </div>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            name: "lisnote"
+        }
+    })
+</script>
 ```
 
-3. Script
+* 其中的{{ name }}为vue定义在DOM中的变量,会根据常量Counter的data()返回的counter进行变换
+
+## VueCLI基本使用
+
+1. 安装
+
+   ```bash
+   npm i -g @vue/cli
+   ```
+
+2. 创建脚手架
+
+   ```bash
+   vue create vue-start
+   ```
+
+### 基本的项目结构
+
+**不包含node基本结构**
+
+```markdown
+├── node_modules 
+├── public
+│   ├── favicon.ico: 页签图标
+│   └── index.html: 主页面
+├── src
+│   ├── assets: 存放静态资源
+│   │   └── logo.png
+│   │── component: 存放组件
+│   │   └── HelloWorld.vue
+│   │── App.vue: 汇总所有组件
+│   │── main.js: 入口文件
+├── .gitignore: git版本管制忽略的配置
+├── babel.config.js: babel的配置文件
+├── package.json: 应用包配置文件 
+├── README.md: 应用描述文件
+├── package-lock.json：包版本控制文件
+```
+
+main.js
 
 ```javascript
-const Counter = {
-  data() {
-    return {
-      counter: 0
-    }
-  }
-}
+import Vue from 'vue'
+import App from './App.vue'
 
-Vue.createApp(Counter).mount('#app')
+Vue.config.productionTip = false
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
 ```
 
-* 其中的{{ counter }}为vue定义在DOM中的变量,会根据常量Counter的data()返回的counter进行变换
+### VueCLI配置文件
+
+* 查看配置文件
+
+```bash
+vue inspect > output.js
+```
+
+这是VueCLI的默认配置文件,仅供参考,不建议进行修改
+
+* 覆盖VueCLI默认配置
+
+在项目根目录创建vue.config.js,配置格式如同webpack.config.js,VueCLI会读取配置并覆盖在默认配置之上
+
+[VueCLI配置参考](https://cli.vuejs.org/zh/config/)
+
+使用@vue/cli-service提供的defineConfig助手函数,可以获得更好的类型提示
+
+```javascript
+// vue.config.js
+const { defineConfig } = require('@vue/cli-service')
+
+module.exports = defineConfig({
+  // 选项
+})
+```
+
+* 关闭语法检查
+
+```javascript
+module.exports = {
+    lintOnSave: false,
+}
+```
 
 # API一览
 
@@ -185,7 +266,7 @@ v-for默认行为是修改元素而非移动元素,如需强制重排序,需要�
 
 预期值 : Function | Inline Statement | Object
 
-**补课 : 传入Object是干什么?约定好的内置方法吗?**
+**补课 : 传入Object是干什么?自动运行约定好的内置方法吗?**
 
 修饰符：
 
@@ -585,96 +666,198 @@ vm.$watch("name",{
 
 定义全局指令 : Vue.directive(配置对象)
 
-## 组件
+## 特殊的标签
 
-### Vue2组件
+### template
 
-多文件组件
+模板标签,表示标签包裹的html为模板
 
-```html
-<div id="components-demo">
-    <button-counter></button-counter>
-</div>
-<script>
-    Vue.component('button-counter', {
-        data: function () {
-            return {
-                count: 0
-            }
-        },
-        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
-    })
-    new Vue({ el: '#components-demo' })
-</script>
-```
+### transition
 
-单文件组件格式
+* 为包含的元素在进场离场时添加特定的样式
 
-```
-<template>
+  * 默认进场动画的样式选择器 : 
+
+    .v-enter
+
+    .v-enter-active
+
+    .v-enter-to
+
+  * 默认离场动画的样式选择器 : 
+
+    .v-leave
+
+    .v-leave-active
+
+    .v-leave-to
+
+* 当transition标签存在name属性时
+
+  默认的样式选择器会变为
+
+  .ValueOfName-enter-active
+
+  .ValueOfName-enter-active
+
+   ...
+
+* 为transition添加appear属性,为网页初次加载时也会有动画效果
+
+  ```html
+  <transition appear>
+      ...
+  </transition>
+  ```
+
+#### transition-grop
+
+transition只允许标签内包含一个根元素
+
+transition允许标签内包含多个根元素,且每个根元素都要求有key属性
+
+#### transition特有属性
+
+enter-active-class : 指定入场动画的类名
+
+leave-active-class : 指定离场动画类名
+
+#### animate.css
+
+一个css动画库
+
+在vue中的基本使用方法
+
+1. 安装
+
+   ```bash
+   npm install animate.css
+   ```
+
+2. 导入
+
+   ```javascript
+   import "animate.css";
+   ```
+
+3. 编写html
+
+   ```vue
+   <template>
+     <div>
+       <button @click="isShow = !isShow">切换状态</button>
+       <transition
+         name="animate__animated animate__bounce"
+         enter-active-class="animate__fadeIn"
+         leave-active-class="animate__fadeOut"
+       >
+         <h1 v-show="isShow">test</h1>
+       </transition>
+     </div>
+   </template>
+   
+   <script>
+   import "animate.css";
+   export default {
+     name: "App",
+     data() {
+       return {
+         isShow: true,
+       };
+     },
+   };
+   </script>
+   ```
+
+### slot
+
+插槽,可以让父组件向子组件指定位置插入html结构
+
+* 默认插槽
+
+  父组件
+
+  ```vue
+  <child-component>
+      <div>html结构1</div>
+  </child-component>
+  ```
+
+  子组件
+
+  ```vue
+  <div>
+      <!-- 定义插槽 -->
+      <slot>插槽默认内容...</slot>
+  </div>
+  ```
+
+* 具名插槽 : 根据名称进行内容插入
+
+  父组件
+
+  ```vue
+  <child-component>
+      <template slot="center">
+  		<div>html结构1</div>
+      </template>
+      <template v-slot:footer>
+  		<div>html结构2</div>
+      </template>
+  </child-component>
+  ```
+
+  子组件
+
+  ```vue
+  <div>
+      <!-- 定义插槽 -->
+      <slot name="center">插槽默认内容...</slot>
+      <slot name="footer">插槽默认内容...</slot>
+  </div>
+  ```
+
+* 作用域插槽
+
+  **数据在组件中,但是使用插槽的组件可以在该组件标签内使用此数据**
+
+  父组件
+
+  ```vue
+  <child-component>
+    <div slot-scope="data">
+      <div v-for="username in data.users" :key="username">
+        {{ username }}
+      </div>
+    </div>
+  </child-component>
+  ```
   
-</template>
+子组件
+  
+  ```vue
+  <template>
+    <div>
+      <slot :users="users"> </slot>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: "ChildComponent",
+    data() {
+      return {
+        users: ["lisnote", "didongxiaoli"],
+      };
+    },
+  };
+  </script>
+  ```
+  
 
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
-```
-
-### Vue3组件
-
-```html
-<div id="app">
-    <button-counter></button-counter>
-</div>
-<script>
-    const app = Vue.createApp({})
-    app.component('button-counter', {
-        data() {
-            return {
-                count: 0
-            }
-        },
-        template: `
-            <button v-on:click="count++">
-              You clicked me {{ count }} times.
-            </button>`
-    })
-    app.mount('#app')
-</script>
-```
-
-### 插件
-
-* 一个基本的插件
-
-```javascript
-export default{
-    install(Vue){
-        // 执行的代码
-    }
-}
-```
-
-* 使用插件
-
-```javascript
-import plugin form "PluginName";
-Vue.use(plugin);
-```
-
-# 补充
-
-## 特殊的attribute
+## 特殊的属性
 
 ### key
-
-**理解有误**
 
 key主要用于虚拟DOM算法,key值不同时元素可以作为最小比较单位
 
@@ -709,115 +892,110 @@ ref对一般标签使用,获得DOM
 
 对组件标签使用,获得组件
 
-## Vue2到Vue3的注意点
+## Vue实例持有的信息和方法
 
-* 由于Vue3使用Proxy进行的数据驱动,可以监控到新增对象,所以
+### $attrs
 
-  Vue.set() (仅支持构建版本)
+父组件中传过来的属性,不包含没有通过props定义的,避免了多写props的麻烦
 
-	```javascript
-	//@参数 新增键值的对象,键值,值
-	Vue.set(target,key,val)
-	```
-	
-	Vue.delete (仅支持构建版本)
-	
-	移除过滤器 
-	
-	v-is 指令 vue3.1中被废弃
+### $el
 
+所挂载的DOM元素
 
+### $parent
 
-# VueCLI
+父组件
 
-## 快速开始
+### $refs
 
-1. 安装
+包含所标记的元素与组件
 
-   ```bash
-   npm i -g @vue/cli
-   ```
+### $on
 
-2. 创建脚手架
+添加组件监听事件
 
-   ```bash
-   vue create vue-start
-   ```
+### $once
 
-### 基本的项目结构
+添加组件监听事件(触发一次自动解除事件)
 
-**不包含node基本结构**
+### $emit
 
-```markdown
-├── node_modules 
-├── public
-│   ├── favicon.ico: 页签图标
-│   └── index.html: 主页面
-├── src
-│   ├── assets: 存放静态资源
-│   │   └── logo.png
-│   │── component: 存放组件
-│   │   └── HelloWorld.vue
-│   │── App.vue: 汇总所有组件
-│   │── main.js: 入口文件
-├── .gitignore: git版本管制忽略的配置
-├── babel.config.js: babel的配置文件
-├── package.json: 应用包配置文件 
-├── README.md: 应用描述文件
-├── package-lock.json：包版本控制文件
+触发组件事件
+
+### $off
+
+解除组件监听事件
+
+### $nextTick
+
+在下一次DOM更新后再执行回调函数
+
+解析 : vue中的dom更新一般是在配置对象的方法完成计算之后,因此一些需要先进行渲染在进行的函数就无法生效,例如focus()
+
+## 组件
+
+### 组件基础
+
+多文件组件
+
+```html
+<div id="components-demo">
+    <button-counter></button-counter>
+</div>
+<script>
+    Vue.component('button-counter', {
+        data: function () {
+            return {
+                count: 0
+            }
+        },
+        template: '<button v-on:click="count++">You clicked me {{ count }} times.</button>'
+    })
+    new Vue({ el: '#components-demo' })
+</script>
 ```
 
-main.js
+单文件组件格式
+
+App.js
+
+```vue
+<template>
+  <div>
+    <modulename />
+  </div>
+</template>
+
+<script>
+import MyHeader from "./components/MyHeader.vue";
+export default {
+	// 配置对象
+    components: { MyHeader },
+    name: "App",
+}
+</script>
+
+<style>
+
+</style>
+```
+
+单文件组件没有el需要在入口处挂载App组件
 
 ```javascript
+// main.js
 import Vue from 'vue'
 import App from './App.vue'
 
-Vue.config.productionTip = false
-
 new Vue({
-  render: h => h(App),
-}).$mount('#app')
-```
-
-### VueCLI配置文件
-
-* 查看配置文件
-
-```bash
-vue inspect > output.js
-```
-
-这是VueCLI的默认配置文件,仅供参考,不建议进行修改
-
-* 覆盖VueCLI默认配置
-
-在项目根目录创建vue.config.js,配置格式如同webpack.config.js,VueCLI会读取配置并覆盖在默认配置之上
-
-[VueCLI配置参考](https://cli.vuejs.org/zh/config/)
-
-使用@vue/cli-service提供的defineConfig助手函数,可以获得更好的类型提示
-
-```javascript
-// vue.config.js
-const { defineConfig } = require('@vue/cli-service')
-
-module.exports = defineConfig({
-  // 选项
+	el:'#app',
+	render: h => h(App)
 })
 ```
 
-* 关闭语法检查
+### style
 
-```javascript
-module.exports = {
-    lintOnSave: false,
-}
-```
-
-## style
-
-### scoped
+#### scoped
 
 **需要VueCLI编译**
 
@@ -831,7 +1009,7 @@ module.exports = {
 <style>
 ```
 
-### styleLang
+#### styleLang
 
 在vue文件中,style标签有lang属性,支持书写css预处理语言,例如scss
 
@@ -853,6 +1031,577 @@ npm i -D less-loader
 
 其他css预处理语言类似
 
+### 组件间通信
+
+#### prop方法通信
+
+优点 : 实现简单
+
+* 父给子传递
+
+  parent
+
+  ```vue
+  <template>
+    <div>
+      <child-component :name="name" />
+    </div>
+  </template>
+  
+  <script>
+  import ChildComponent from "./components/ChildComponent.vue";
+  export default {
+    components: { ChildComponent },
+    name: "App",
+    data() {
+      return {
+        name: "lisnote",
+      };
+    },
+  };
+  </script>
+  ```
+
+  child
+
+  ```vue
+  <template>
+    <div>
+      {{ name }}
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: "ChildComponent",
+    mounted() {
+      console.log(this.name);
+    },
+    props: ["name"],
+  };
+  </script>
+  ```
+
+* 子给父传递
+
+  parent
+
+  ```vue
+  <template>
+    <div>
+      <child-component :receive="receive" />
+      {{ name }}
+    </div>
+  </template>
+  
+  <script>
+  import ChildComponent from "./components/ChildComponent.vue";
+  export default {
+    components: { ChildComponent },
+    name: "App",
+    data: function () {
+      return {
+        name: "lisnote",
+      };
+    },
+    methods: {
+      receive(name) {
+        this.name = name;
+      },
+    },
+  };
+  </script>
+  ```
+
+  child
+
+  ```vue
+  <script>
+  export default {
+    name: "ChildComponent",
+    mounted() {
+      this.receive("didongxiaoli");
+    },
+    props: ["receive"],
+  };
+  </script>
+  ```
+
+#### 自定义事件
+
+在组件元素上绑定事件默认会作为组件事件,绑定原生DOM事件需要使用`.native`修饰符
+
+子组件仅触发事件而不需要接收参数或方法
+
+* 父给子传递
+
+  父组件
+
+  ```vue
+  <template>
+    <div>
+      <child-component @callEvent="callMe" />
+    </div>
+  </template>
+  
+  <script>
+  import ChildComponent from "./components/ChildComponent.vue";
+  export default {
+    components: { ChildComponent },
+    name: "ParentComponent",
+    comments: [ChildComponent],
+    data() {
+      return {
+        name: "lisnote",
+      };
+    },
+    methods: {
+      callMe() {
+        console.log("Hi~", this.name);
+      },
+    },
+  };
+  </script>
+  ```
+
+  子组件
+
+  ```vue
+  <script>
+  export default {
+    name: "ChildComponent",
+    mounted(){
+        this.$emit("callEvent")
+    }
+  };
+  </script>
+  ```
+
+* 子给父传递
+
+  父组件
+
+  ```vue
+  <template>
+    <div>
+      <child-component @rename="rename" />
+      {{ name }}
+    </div>
+  </template>
+  
+  <script>
+  import ChildComponent from "./components/ChildComponent.vue";
+  export default {
+    name: "ParentComponent",
+    components: { ChildComponent },
+    data() {
+      return {
+        name: "lisnote",
+      };
+    },
+    methods: {
+      rename(name) {
+        this.name = name;
+      },
+    },
+  };
+  </script>
+  ```
+
+  子组件
+
+  ```vue
+  <script>
+  export default {
+    name: "ChildComponent",
+    mounted() {
+      this.$emit("rename", "didongxiaoli");
+    },
+  };
+  </script>
+  ```
+
+* 与$on相似的还有$once,他的作用是只触发一次
+
+#### ref+自定义事件
+
+灵活性强但是步骤多
+
+parent
+
+```vue
+<template>
+  <div>
+    <child-component ref="child" />
+  </div>
+</template>
+
+<script>
+import ChildComponent from "./components/ChildComponent.vue";
+export default {
+  components: { ChildComponent },
+  name: "ParentComponent",
+  comments: [ChildComponent],
+  data() {
+    return {
+      name: "lisnote",
+    };
+  },
+  methods: {
+    callMe() {
+      console.log("Hi~", this.name);
+    },
+  },
+  mounted() {
+    this.$refs.child.$on("callEvent", this.callMe());
+  },
+};
+</script>
+```
+
+child
+
+```vue
+<script>
+export default {
+  name: "ChildComponent",
+  mounted() {
+    this.$emit("callEvent");
+  },
+};
+</script>
+```
+
+#### 解绑事件
+
+```vue
+// 解绑当个事件
+this.$off("event");
+// 解绑多个事件
+this.$off(["event1", "event2"]);
+// 解绑所有事件
+this.$off();
+```
+
+### 销毁组件
+
+销毁组件会自动销毁组件下的事件组件的子组件等
+
+```vue
+this.$destroy() //销毁当前组件实例
+```
+
+## 插件
+
+* 一个基本的插件定义
+
+```javascript
+export default{
+    install(Vue){
+        // 执行的代码
+    }
+}
+```
+
+* 使用插件
+
+```javascript
+import plugin form "PluginName";
+Vue.use(plugin);
+```
+
+# 应用技术
+
+## 状态管理
+
+### 全局事件总线
+
+利用原型对象所有实例可访问,以及生命周期的控制和并方式,达到全局添加一个共同对象的效果,利用该对象传输数据,可以做到组件间传输信息只经过一个对象而不需要层层传输
+
+1. 安装全局事件总线
+
+   ```javascript
+   new Vue({
+   	......
+   	beforeCreate() {
+   		Vue.prototype.$bus = this;
+   	},
+       ......
+   }) 
+   ```
+
+2. 使用事件总线
+
+   ```vue
+   methods(){
+     demo(data){......}
+   }
+   ......
+   mounted() {
+     this.$bus.$on('xxxx',this.demo)
+   }
+   ```
+
+3. 提供数据
+
+   ```vue
+   this.$bus.$emit('xxxx',数据)
+   ```
+
+4. 当组件销毁时,$off解绑当前组件所用的事件
+
+**有异议** : 为什么要安装全局事件总线呢?明明$root就可以任意组件直接访问
+
+```javascript
+this.$root.$on("test",this.test)
+this.$root.$emit("test","test data")
+```
+
+* **用例**
+
+  main.js
+
+  ```javascript
+  new Vue({
+  	el: '#app',
+  	render: h => h(App),
+  	beforeCreate() {
+  		Vue.prototype.$bus = this;
+  	}
+  })
+  ```
+
+  子组件1发送信息
+
+  ```vue
+  <template>
+    <div>
+      <button @click="send">点我传输信息</button>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: "ChildSend",
+    data() {
+      return {
+        name: "didongxiaoli",
+      };
+    },
+    methods: {
+      send() {
+        this.$bus.$emit("send", this.name);
+      },
+    },
+  };
+  </script>
+  ```
+
+  
+
+  子组件2接收信息
+
+  ```vue
+  <template>
+    <div>
+      {{ name }}
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: "ChildSend",
+    data() {
+      return {
+        name: "lisnote",
+      };
+    },
+    methods: {
+      receive(name) {
+        this.name = name;
+      },
+    },
+    mounted() {
+      this.$bus.$on("send", this.receive);
+    },
+    beforeDestroy() {
+      this.$bus.$off("send");
+    },
+  };
+  </script>
+  ```
+
+  
+
+### 订阅与发布
+
+使用pubsub.js
+
+* 安装
+
+  ```bash
+  npm i pubsub-js
+  ```
+
+* 发布
+
+  ```vue
+  <script>
+  import pubsub from "pubsub-js";
+  export default {
+    name: "ChildSend",
+    mounted() {
+      pubsub.publish("eventName", "参数");
+    },
+  };
+  </script>
+  ```
+
+* 订阅
+
+  ```vue
+  <script>
+  import pubsub from "pubsub-js";
+  export default {
+    name: "ChildSend",
+    mounted() {
+      this.pubId = pubsub.subscribe("eventName", (eventName, param) => {
+        console.log("eventName消息被发布,并带有参数", eventName, param);
+      });
+    },
+    destroyed() {
+      pubsub.unsubscribe(this.pubId);
+    },
+  };
+  </script>
+  ```
+
+### Vuex
+
+集中式状态管理插件
+
+![vuex](assets/Vue.md/vuex.png)
+
+#### Vuex基本设置
+
+* 安装插件
+
+  **Vue2使用vuex@3,Vue3使用Vue@4**
+
+  ```bash
+  npm i vuex
+  ```
+
+* 插件配置文件`./store/index.js`
+
+  ```javascript
+  import Vue from "vue";
+  import Vuex from "vuex";
+  Vue.use(Vuex);
+  // 用于整合数据,输出业务
+  const actions = {};
+  // 用于操作数据
+  const mutations = {};
+  // 用于存储数据
+  const state = {};
+  
+  // 创建store
+  export default new Vuex.Store({
+      actions,
+      mutations,
+      state,
+  })
+  ```
+
+* 入口文件配置
+
+  ```javascript
+  import Vue from 'vue';
+  import App from './App.vue';
+  import store from './store';
+  
+  new Vue({
+  	el: '#app',
+  	store,
+  	render: h => h(App),
+  });
+  // 通过 `Vue实例.$store` 即可使用Vuex
+  ```
+
+#### Vuex基本用例
+
+* 配置文件
+
+  ```javascript
+  import Vue from "vue";
+  import Vuex from "vuex";
+  Vue.use(Vuex);
+  
+  const actions = {
+      increment(context, value) {
+          console.log("increment方法被调用,sum =", context.state.sum)
+          context.commit("INCREMENT", value);
+          console.log("increment方法已结束,sum =", context.state.sum)
+      }
+  };
+  const mutations = {
+      INCREMENT(state, value) {
+          console.log("INCREMENT方法被调用,sum =", state.sum)
+          state.sum += value;
+          console.log("INCREMENT方法已结束,sum =", state.sum)
+      }
+  };
+  const state = {
+      sum: 0,
+  };
+  
+  export default new Vuex.Store({
+      actions,
+      mutations,
+      state,
+  })
+  ```
+
+* 组件
+
+  ```vue
+  <template>
+    <div>{{ $store.state.sum }}</div>
+  </template>
+  
+  <script>
+  export default {
+    name: "App",
+    mounted() {
+      this.$store.dispatch("increment", 1);
+      this.$store.commit("INCREMENT", 2);
+    },
+  };
+  </script>
+  ```
+
+  
+
+### Pinia
+
+**补课 : **听闻是个与Vuex相似,且更推荐的工具,与Vuex相同团队的作品
+
+## 环境构建
+
+### VueCLI
+
+构建工具,基于webpack,默认当作配置完善的webpack环境即可
+
+### Vite
+
+构建工具
+
+
+
+
+
+
+
 
 
 
@@ -869,7 +1618,7 @@ npm i -D less-loader
 
 ## 数据驱动
 
-Vue3使用Proxy,不再是使用Object.defineProperty
+Vue2 : Object.defineProperty
 
 ```javascript
 let data = {}
