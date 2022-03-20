@@ -6,6 +6,8 @@ date: 2022-02-28 00:00:00
 
 不理解搜索:有异议
 
+文章所记默认为vue2
+
 # 快速开始
 
 ## 介绍
@@ -1312,7 +1314,7 @@ Vue.use(plugin);
 
 # 应用技术
 
-## 状态管理
+## 组件通信技术
 
 ### 全局事件总线
 
@@ -1580,11 +1582,94 @@ this.$root.$emit("test","test data")
   </script>
   ```
 
-#### Vuex简写
+#### vuex getter配置项
+
+vuex中的getters于state,相当于vue中computed于data
+
+* vuex配置文件
+
+  ```javascript
+  const state = {
+      sum: 3,
+  };
+  const getters = {
+      binarySum(state) {
+          return state.sum.toString("2");
+      }
+  }
+  export default new Vuex.Store({
+      state,
+      getters,
+  })
+  ```
+
+* 组件中使用
+
+  ```vue
+  <div>
+      {{ $store.getters.binarySum }}
+  </div>
+  ```
+
+#### Vuex中的映射器
+
+Vuex提供了mapState,mapGetters,mapActions,mapMutations几个常用映射器,
+
+当某个组件需要大量使用vuex中的字段和方法时,使用映射器可以减少代码量,提高可读性
+
+以mapperState为例,当组件需要使用vuex.state中的name,age,gender字段时可以这样写
+
+```vue
+<template>
+  <div>
+    {{ name }}
+    {{ age }}
+    {{ gender }}
+  </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+export default {
+  name: "App",
+  computed: {
+    ...mapState(["name", "age", "gender"]),
+  },
+};
+</script>
+```
+
+根据需求的不同,还可以使用对象配置
+
+```vue
+<template>
+  <div>
+    {{ nickname }}
+    {{ year }}
+    {{ sex }}
+  </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+export default {
+  name: "App",
+  computed: {
+    ...mapState({
+      nickname: "name",
+      year: "age",
+      sex: "gender",
+    }),
+  },
+};
+</script>
+```
+
+#### Vuex模块化
 
 ### Pinia
 
-**补课 : **听闻是个与Vuex相似,且更推荐的工具,与Vuex相同团队的作品
+**补课**听闻是个与Vuex相似,且更推荐的工具,与Vuex相同团队的作品
 
 ## 环境构建
 
@@ -1620,7 +1705,7 @@ this.$root.$emit("test","test data")
 
 ## 数据驱动
 
-Vue2 : Object.defineProperty
+Object.defineProperty
 
 ```javascript
 let data = {}
