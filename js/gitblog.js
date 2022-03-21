@@ -23,10 +23,16 @@
 		githubAPI.articles =`https://api.github.com/repos/${githubAPI.username}/${githubAPI.username}.github.io/contents/articles`
 		githubAPI.article =`${location.protocol}//${location.host}/articles/{article}`
 		githubAPI.background =`${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`
+		githubAPI.avatar = `https://avatars.githubusercontent.com/${githubAPI.username}`
 		// 实现gitblog要求的三个方法
 		gitblog.articles = articlesDecorator();
 		gitblog.getArticle = getArticle;
 		gitblog.getBackground = getBackground;
+		// 替换id为avatar的元素的src属性值为githubAPI.avatar
+		$(()=>{
+			console.log($("#avatar"));
+			$("#avatar").attr("src",githubAPI.avatar)
+		})
 
 
 		// 根据传入参数获取markdown直链
