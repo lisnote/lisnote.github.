@@ -1,5 +1,5 @@
 (function () {
-	switch (gitblog.api) {
+	switch (lispress.api) {
 		case "github":
 			github();
 			break;
@@ -8,7 +8,7 @@
 	}
 
 	function github() {
-		let githubAPI = gitblog.config;
+		let githubAPI = lispress.config;
 		// 获取username,若获取失败则使用lisnote作为用户名
 		if (githubAPI.username == "") {
 			try {
@@ -24,10 +24,10 @@
 		githubAPI.article = `${location.protocol}//${location.host}/articles/{article}`
 		githubAPI.background = `${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`
 		githubAPI.avatar = `https://avatars.githubusercontent.com/${githubAPI.username}`
-		// 实现gitblog要求的三个方法
-		gitblog.articles = articlesDecorator();
-		gitblog.getArticle = article => githubAPI.article.replace(/{article}/g, article);
-		gitblog.getBackground = article => githubAPI.background.replace(/{article}/g, article);
+		// 实现lispress要求的三个方法
+		lispress.articles = articlesDecorator();
+		lispress.getArticle = article => githubAPI.article.replace(/{article}/g, article);
+		lispress.getBackground = article => githubAPI.background.replace(/{article}/g, article);
 		// 替换id为avatar的元素的src属性值为githubAPI.avatar
 		$(() => {
 			$("#avatar").attr("src", githubAPI.avatar)

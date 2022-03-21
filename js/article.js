@@ -2,7 +2,7 @@
 	// 插入文章到#article
 	let article = decodeURI(/.*?article=(.*\.md)/.exec(location.href)[1]);
 	$("title").html(article)
-	fetch(gitblog.getArticle(article))
+	fetch(lispress.getArticle(article))
 		.then(res => res.text())
 		.then(text => {
 			if (text.indexOf("---") == 0) {
@@ -35,13 +35,13 @@
 	}
 
 	// Gitlk 模块
-	if (gitblog.api == "github" && gitblog.config.clientID != "") {
+	if (lispress.api == "github" && lispress.config.clientID != "") {
 		var gitalk = new Gitalk({
-			clientID: gitblog.config.clientID,
-			clientSecret: gitblog.config.clientSecret,
-			repo: gitblog.config.username + '.github.io',
-			owner: gitblog.config.username,
-			admin: [gitblog.config.username],
+			clientID: lispress.config.clientID,
+			clientSecret: lispress.config.clientSecret,
+			repo: lispress.config.username + '.github.io',
+			owner: lispress.config.username,
+			admin: [lispress.config.username],
 			id: article.substring(0, 49), // Ensure uniqueness and length less than 50
 			distractionFreeMode: false // Facebook-like distraction free mode
 		})

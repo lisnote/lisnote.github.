@@ -13,7 +13,7 @@ let github = {
 }
 
 // 一般不需要修改,用于自定义服务器
-var gitblog = {
+var lispress = {
 	// 根据此api的名称选择进行处理的方法
 	api: "github",
 	// 传入处理方法所需要的配置信息

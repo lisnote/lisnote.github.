@@ -3,14 +3,14 @@
 	let articles;
 	if (search == "") {
 		// 根据原始articles进行插入
-		articles = gitblog.articles;
+		articles = lispress.articles;
 		insertArticles(articles)
 	} else {
 		// 根据查找到的文章进行插入
 		let promises = [];
 		articles = [];
-		for (let article of gitblog.articles) {
-			let promise = fetch(gitblog.getArticle(article))
+		for (let article of lispress.articles) {
+			let promise = fetch(lispress.getArticle(article))
 				.then(resp => resp.text())
 				.then(text => {
 					if (article.indexOf(search) > -1 || text.indexOf(search) > -1) {
@@ -40,7 +40,7 @@
 			} else {
 				href = article;
 			}
-			background = gitblog.getBackground(article)
+			background = lispress.getBackground(article)
 			let vm =
 				`<a href="articles/${href}">
 				<div class="ratio ratio-16x9 rounded-3 mb-4 img-fluid bg-size-cover" style="background-image: url(${background});background-color: #DDD;">
