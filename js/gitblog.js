@@ -9,20 +9,20 @@
 
 	function github() {
 		let githubAPI = gitblog.config;
-		// 获取username,若获取失败则打开开发模式
+		// 获取username,若获取失败则使用lisnote作为用户名
 		if (githubAPI.username == "") {
 			try {
 				githubAPI.username = (/.*\/(.*)\.github\.io.*/.exec(location.href)[1])
 			} catch (error) {
 				console.error("Failed to obtain username,have you set the github.username in config.js?");
 				// 使用开发者数据
-				developmentMode();
+				githubAPI.username = "lisnote"
 			}
 		};
-		// 将占位符号替换为有效数据
-		githubAPI.articles = githubAPI.articles.replace(/{username}/g, githubAPI.username);
-		githubAPI.article = githubAPI.article.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
-		githubAPI.background = githubAPI.background.replace(/{protocol}|{host}/g, data => data == "{host}" ? location.host : location.protocol);
+		// 准备常用数据
+		githubAPI.articles =`https://api.github.com/repos/${githubAPI.username}/${githubAPI.username}.github.io/contents/articles`
+		githubAPI.article =`${location.protocol}//${location.host}/articles/{article}`
+		githubAPI.background =`${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`
 		// 实现gitblog要求的三个方法
 		gitblog.articles = articlesDecorator();
 		gitblog.getArticle = getArticle;
@@ -37,18 +37,10 @@
 		function getBackground(article) {
 			return githubAPI.background.replace(/{article}/g, article);
 		}
-		// 使用开发者数据
-		function developmentMode() {
-			githubAPI.username = githubAPI.devUsername;
-			githubAPI.clientID = githubAPI.devClientID;
-			githubAPI.clientSecret = githubAPI.devClientSecret;
-			githubAPI.articles = githubAPI.devArticles;
-			githubAPI.article = githubAPI.devArticle;
-			githubAPI.background = githubAPI.devBackground;
-		}
 		// 解析articles文件目录为数组并返回,忽略assets/和index.html
 		function articlesDecorator() {
 			let articles = [];
+			// 获取文章
 			if (location.pathname == "/") {
 				$.ajax({
 					url: githubAPI.articles,
@@ -64,53 +56,30 @@
 					}
 				})
 			}
-			// 获取日期数据dateMap
-			let dateMap = JSON.parse(localStorage.getItem(githubAPI.username)) || {};
-			// dateMap完整性检查
-			if (dateMapCheck()) {
-				articles.sort((x, y) => {
-					return dateMap[y] - dateMap[x];
-				})
-			} else {
-				initDateMap()
-				return ["新文章加载中,请稍等。。。"]
-			}
+			// 获取日期映射dateMap
+			let dateMap = {};
+			$.get({
+				url: `https://api.github.com/search/code?q=date%20in:file%20user:${githubAPI.username}%20path:articles/%20language:markdown`,
+				headers: {
+					"Accept": "application/vnd.github.v3.text-match+json",
+				},
+				async: false,
+				success(result) {
+					result.items.forEach(element => {
+						try {
+							dateMap[element.name] = Number(element.text_matches[0].fragment
+								.match(/\d{4}(-\d{2}){2} \d{2}(:\d{2}){2}/)[0].replace(/-| |:/g, ""))
+						} catch {
+							dateMap[element.name] = 0
+						}
+					});
+				}
+			})
+			// 根据日期排序文章
+			articles.sort((x, y) => {
+				return dateMap[y] - dateMap[x];
+			})
 			return articles;
-
-
-			// dateMap完整性检查
-			function dateMapCheck() {
-				for (let obj of articles) {
-					if (!(obj in dateMap)) {
-						return false;
-					}
-				}
-				return true;
-			}
-			// dateMap初始化
-			async function initDateMap() {
-				dateMap = {};
-				for (let article of articles) {
-					fetch(getArticle(article), {
-						headers: { "Range": "bytes=0-500" }
-					})
-						.then(resp => resp.text())
-						.then(text => {
-							let date;
-							try {
-								date = text.match(/date: (\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})/)[1];
-								date = date.replace(/-| |:/g, "")
-							} catch (error) {
-								date = 19700101000000;
-							}
-							dateMap[article] = date;
-							if (Object.keys(dateMap).length == articles.length) {
-								localStorage.setItem(githubAPI.username, JSON.stringify(dateMap));
-								location.reload()
-							}
-						})
-				}
-			}
 		}
 	}
 }())

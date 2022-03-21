@@ -10,13 +10,6 @@ let github = {
 	article: "{protocol}//{host}/articles/{article}",
 	// 一般不需要修改,用于自定义背景位置,例如jsdelivr加速,第三方随机图片api等
 	background: "{protocol}//{host}/articles/assets/{article}/background.jpg",
-	// 一般不需要修改,开发用数据
-	devUsername: "lisnote",
-	devClientID:"de3105a8fb15edf7ca19",
-	devClientSecret:"715c4a9cfe522069f914ff3f839119e6c4ae73a8",
-	devArticles:"https://api.github.com/repos/{username}/{username}.github.io/contents/articles?ref=articles",
-	devArticle:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/{article}",
-	devBackground:"https://raw.githubusercontent.com/lisnote/lisnote.github.io/articles/articles/assets/{article}/background.webp",
 }
 
 // 一般不需要修改,用于自定义服务器
