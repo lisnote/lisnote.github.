@@ -20,33 +20,32 @@
 			}
 		};
 		// 准备常用数据
-		githubAPI.articles =`https://api.github.com/repos/${githubAPI.username}/${githubAPI.username}.github.io/contents/articles`
-		githubAPI.article =`${location.protocol}//${location.host}/articles/{article}`
-		githubAPI.background =`${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`
+		githubAPI.articles = `https://api.github.com/repos/${githubAPI.username}/${githubAPI.username}.github.io/contents/articles`
+		githubAPI.article = `${location.protocol}//${location.host}/articles/{article}`
+		githubAPI.background = `${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`
 		githubAPI.avatar = `https://avatars.githubusercontent.com/${githubAPI.username}`
 		// 实现gitblog要求的三个方法
 		gitblog.articles = articlesDecorator();
-		gitblog.getArticle = getArticle;
-		gitblog.getBackground = getBackground;
+		gitblog.getArticle = article => githubAPI.article.replace(/{article}/g, article);
+		gitblog.getBackground = article => githubAPI.background.replace(/{article}/g, article);
 		// 替换id为avatar的元素的src属性值为githubAPI.avatar
-		$(()=>{
-			console.log($("#avatar"));
-			$("#avatar").attr("src",githubAPI.avatar)
+		$(() => {
+			$("#avatar").attr("src", githubAPI.avatar)
 		})
 
-
-		// 根据传入参数获取markdown直链
-		function getArticle(article) {
-			return githubAPI.article.replace(/{article}/g, article);
-		}
-		// 根据传入参数获取背景图直链
-		function getBackground(article) {
-			return githubAPI.background.replace(/{article}/g, article);
-		}
 		// 解析articles文件目录为数组并返回,忽略assets/和index.html
 		function articlesDecorator() {
 			let articles = [];
-			// 获取文章
+			if (location.pathname != "/") {
+				return articles;
+			}
+			articles = getArticles();
+			sortArticles(articles);
+			return articles;
+		}
+		// 获取文章
+		function getArticles() {
+			let articles = [];
 			if (location.pathname == "/") {
 				$.ajax({
 					url: githubAPI.articles,
@@ -62,7 +61,10 @@
 					}
 				})
 			}
-			// 获取日期映射dateMap
+			return articles;
+		}
+		// 获取日期映射dateMap
+		function sortArticles(articles) {
 			let dateMap = {};
 			$.get({
 				url: `https://api.github.com/search/code?q=date%20in:file%20user:${githubAPI.username}%20path:articles/%20language:markdown`,
@@ -85,7 +87,6 @@
 			articles.sort((x, y) => {
 				return dateMap[y] - dateMap[x];
 			})
-			return articles;
 		}
 	}
 }())
