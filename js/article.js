@@ -35,13 +35,13 @@
 	}
 
 	// Gitlk 模块
-	if (lispress.api == "github" && lispress.config.clientID != "") {
+	if (githubConfig.username!= "" && githubConfig.clientID != "") {
 		var gitalk = new Gitalk({
-			clientID: lispress.config.clientID,
-			clientSecret: lispress.config.clientSecret,
-			repo: lispress.config.username + '.github.io',
-			owner: lispress.config.username,
-			admin: [lispress.config.username],
+			clientID: githubConfig.clientID,
+			clientSecret: githubConfig.clientSecret,
+			repo: githubConfig.username + '.github.io',
+			owner: githubConfig.username,
+			admin: [githubConfig.username],
 			id: article.substring(0, 49), // Ensure uniqueness and length less than 50
 			distractionFreeMode: false // Facebook-like distraction free mode
 		})
