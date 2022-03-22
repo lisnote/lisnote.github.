@@ -49,7 +49,7 @@
 }
 
 /* .flex-fill的后代pre宽度修正 */
-.mw-0{
+.mw-0 {
 	min-width: 0;
 }
 
@@ -62,7 +62,7 @@
 	background-size: cover;
 }
 
-#sidebar{
+#sidebar {
 	top: 65px;
 	bottom: 0;
 }
