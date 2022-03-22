@@ -1,32 +1,54 @@
+// 实现lispress的方法
+// 将占位id的内容替换为有效值
 function githubImpl() {
-  let githubAPI = githubConfig;
   // 获取username,若获取失败则使用lisnote作为用户名
-  if (githubAPI.username == "") {
+  if (githubConfig.username == "") {
     try {
-      githubAPI.username = /.*\/(.*)\.github\.io.*/.exec(location.href)[1];
+      githubConfig.username = /.*\/(.*)\.github\.io.*/.exec(location.href)[1];
     } catch (error) {
       console.error(
         "Failed to obtain username,have you set the github.username in config.js?"
       );
       // 使用开发者数据
-      githubAPI.username = "lisnote";
+      githubConfig.username = "lisnote";
     }
   }
   // 准备常用数据
-  githubAPI.articles = `https://api.github.com/repos/${githubAPI.username}/${githubAPI.username}.github.io/contents/articles`;
-  githubAPI.article = `${location.protocol}//${location.host}/articles/{article}`;
-  githubAPI.background = `${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`;
-  githubAPI.avatar = `https://avatars.githubusercontent.com/${githubAPI.username}`;
+  githubConfig.articles = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.username}.github.io/contents/articles`;
+  githubConfig.article = `${location.protocol}//${location.host}/articles/{article}`;
+  githubConfig.background = `${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`;
+  githubConfig.avatar = `https://avatars.githubusercontent.com/${githubConfig.username}`;
   // 实现lispress对象的四个方法
   lispress.articles = articlesDecorator();
   lispress.getSearchArticles;
   lispress.getArticle = (article) =>
-    githubAPI.article.replace(/{article}/g, article);
+    githubConfig.article.replace(/{article}/g, article);
   lispress.getBackground = (article) =>
-    githubAPI.background.replace(/{article}/g, article);
-  // 替换id为avatar的元素的src属性值为githubAPI.avatar
+    githubConfig.background.replace(/{article}/g, article);
+  // 将占位id的内容替换为有效值
   $(() => {
-    $("#avatar").attr("src", githubAPI.avatar);
+    $("#avatar").attr("src", githubConfig.avatar);
+    $("#username").text(githubConfig.username);
+    $("#githubUrl").attr("href", `https://github.com/${githubConfig.username}`);
+    // Gitalk
+    let article = getSearchParameter("article");
+    if (
+      article != "" &&
+      githubConfig.username != "" &&
+      githubConfig.clientID != ""
+    ) {
+      $("#comments").attr("id", "gitalk-container");
+      var gitalk = new Gitalk({
+        clientID: githubConfig.clientID,
+        clientSecret: githubConfig.clientSecret,
+        repo: githubConfig.username + ".github.io",
+        owner: githubConfig.username,
+        admin: [githubConfig.username],
+        id: article.substring(0, 49), // Ensure uniqueness and length less than 50
+        distractionFreeMode: false, // Facebook-like distraction free mode
+      });
+      gitalk.render("gitalk-container");
+    }
   });
 
   // 解析articles文件目录为数组并返回,忽略assets/和index.html
@@ -44,11 +66,11 @@ function githubImpl() {
     let articles = [];
     if (location.pathname == "/") {
       $.ajax({
-        url: githubAPI.articles,
+        url: githubConfig.articles,
         async: false,
         headers: {
           authorization:
-            "Basic " + btoa(githubAPI.clientID + ":" + githubAPI.clientSecret),
+            "Basic " + btoa(githubConfig.clientID + ":" + githubConfig.clientSecret),
         },
         success: function (result) {
           for (let i = 0; i < result.length; i++) {
@@ -65,7 +87,7 @@ function githubImpl() {
   function sortArticles(articles) {
     let dateMap = {};
     $.get({
-      url: `https://api.github.com/search/code?q=date%20in:file%20user:${githubAPI.username}%20path:articles/%20language:markdown`,
+      url: `https://api.github.com/search/code?q=date%20in:file%20user:${githubConfig.username}%20path:articles/%20language:markdown`,
       headers: {
         Accept: "application/vnd.github.v3.text-match+json",
       },

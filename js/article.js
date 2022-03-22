@@ -1,6 +1,6 @@
 (function () {
   // 插入文章到#article
-  let article = decodeURI(/.*?article=(.*\.md)/.exec(location.href)[1]);
+  let article = getSearchParameter("article")
   $("title").html(article);
   fetch(lispress.getArticle(article))
     .then((res) => res.text())
@@ -38,19 +38,5 @@
           "<a><br>"
       );
     }
-  }
-
-  // Gitlk 模块
-  if (githubConfig.username != "" && githubConfig.clientID != "") {
-    var gitalk = new Gitalk({
-      clientID: githubConfig.clientID,
-      clientSecret: githubConfig.clientSecret,
-      repo: githubConfig.username + ".github.io",
-      owner: githubConfig.username,
-      admin: [githubConfig.username],
-      id: article.substring(0, 49), // Ensure uniqueness and length less than 50
-      distractionFreeMode: false, // Facebook-like distraction free mode
-    });
-    gitalk.render("gitalk-container");
   }
 })();
