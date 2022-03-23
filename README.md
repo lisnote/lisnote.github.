@@ -28,7 +28,7 @@ I'm try to make blog deployment as simple as possible, such as:
 * Add article cover
   
   For example, the `articles/assets/MarkdownTest.md/background.jpg` will be the cover image for `articles/MarkdownTest.md`
-* use auth
+* Use auth
   
   Authorizing Oauth Apps in config. js to improve accessibility and activate gitalk comments system
 * Custom domain
