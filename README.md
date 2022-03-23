@@ -1,45 +1,39 @@
-[演示](https://lisnote.github.io)
+[简体中文](assets/other/README_CN.md)
 
-一个简单的笔记blog
+[DEMO](https://lisnote.github.io)
 
-# 部署
+Record your learning in lispress.
 
-1. fork本仓库
+# Description
 
-2. 命名仓库名为 你的用户名.github.io
+I'm try to make blog deployment as simple as possible, such as:
 
-3. 部署完成,网站地址为 你的用户名.github.io
+1. Not required to configure action
+2. Not required to manage the server
+3. Not required to write a note also have to go to the website
 
-# 基本用法
+# Deploy
 
-* 写好的markdown放到articles文件夹下就可以自动发布
-* 在articles/assets/下的目录名如果存在对应的文章,该目录下的background.jpg文件将会成为该文章的标题图片
-* 在config.js配置token可提高github api使用次数(每小时5000),还可以开启gitalk留言
-* 如果你只用来写markdown,你的笔记库和你的github page可以分开存放,github api允许跨域访问
-* articles的非markdown文件及文件夹会被直链导航
+1. Fork the repository
 
-# 目录结构
+2. Renamed the repository that your fork as **YourUsername.github.io**
 
-* 不建议改动没有说明的文件
+3. Wait a minute, deploy has started, and then visit **YourUsername.github.io**
 
-> articles/ : 文章资源的放置目录,其中的md和html将会被索引
->
-> > assets/ : 文章资源的放置目录,其中的文件夹名称若对应了某篇文章,该文夹下的background.jpg将会成为文章的封面以及首页图
-> >
-> > index.html : markdown的载体
-> >
-> > *.md : 被解析的文章,可以删除
->
-> assets/ : 一般资源的放置目录,比如背景,头像等
->
-> css/ : 样式文件的放置目录
->
-> js/ : js 文件的放置目录
->
-> 404.html : 网页请求错误的页面
->
-> config.js : 网页的配置内容
->
-> favicon.ico : 网页图标
->
-> index.html : 网站的主页
+# Usage
+
+* Publish article
+  
+  Place your markdown files in the `articles` folder,deploy will autostart
+* Add article cover
+  
+  For example, the `articles/assets/MarkdownTest.md/background.jpg` will be the cover image for `articles/MarkdownTest.md`
+* use auth
+  
+  Authorizing Oauth Apps in config. js to improve accessibility and activate gitalk comments system
+* Custom domain
+  
+  The `githubConfig.username` option in `config.js` must be set before custom domain
+* Independent pages
+  
+  Not only markdown will be indexed, but all files in articles except `assets` and `index.html` will be. The repository itself is an example, you should take a look at `articles` directory

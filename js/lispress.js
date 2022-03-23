@@ -9,14 +9,13 @@ function githubImpl() {
       console.error(
         "Failed to obtain username,have you set the github.username in config.js?"
       );
-      // 使用开发者数据
       githubConfig.username = "lisnote";
     }
   }
   // 准备常用数据
   githubConfig.articles = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.username}.github.io/contents/articles`;
-  githubConfig.article = `${location.protocol}//${location.host}/articles/{article}`;
-  githubConfig.background = `${location.protocol}//${location.host}/articles/assets/{article}/background.jpg`;
+  githubConfig.article = `https://${githubConfig.username}.github.io/articles/{article}`;
+  githubConfig.background = `https://${githubConfig.username}.github.io/articles/assets/{article}/background.jpg`;
   githubConfig.avatar = `https://avatars.githubusercontent.com/${githubConfig.username}`;
   // 实现lispress对象的四个方法
   lispress.articles = articlesDecorator();
