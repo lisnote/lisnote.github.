@@ -14,7 +14,7 @@ function githubImpl() {
   }
   // 准备常用数据
   githubConfig.articles = `https://api.github.com/repos/${githubConfig.username}/${githubConfig.username}.github.io/contents/articles`;
-  githubConfig.article = `https://${githubConfig.username}.github.io/articles/{article}`;
+  githubConfig.article = `https://cdn.jsdelivr.net/gh/${githubConfig.username}/${githubConfig.username}.github.io/articles/{article}`;
   githubConfig.background = `https://${githubConfig.username}.github.io/articles/assets/{article}/background.jpg`;
   githubConfig.avatar = `https://avatars.githubusercontent.com/${githubConfig.username}`;
   // 实现lispress对象的四个方法
