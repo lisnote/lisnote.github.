@@ -1,5 +1,6 @@
 ---
 date: 2022-02-28 00:00:00
+tag: [""]
 ---
 
 留有疑问和暂时忽略的部分搜索:补课
@@ -835,8 +836,9 @@ leave-active-class : 指定离场动画类名
   </child-component>
   ```
   
+
 子组件
-  
+
   ```vue
   <template>
     <div>
@@ -855,7 +857,7 @@ leave-active-class : 指定离场动画类名
   };
   </script>
   ```
-  
+
 
 ## 特殊的属性
 
@@ -1312,9 +1314,9 @@ import plugin form "PluginName";
 Vue.use(plugin);
 ```
 
-# 应用技术
+# 技术体系
 
-## 组件通信技术
+## 组件通信方式
 
 ### 全局事件总线
 
@@ -1667,13 +1669,91 @@ export default {
 
 #### Vuex模块化
 
+配置参考
+
+```javascript
+const totalizer = {
+    namespaced:true,	// 默认为false,改为true后才可以使用vuex映射工具进行简写
+    actions,
+    mutations,
+    state,
+    getters,
+}
+
+export default new Vuex.Store({
+    modules:{totalizer}
+})
+```
+
+使用参考
+
+```vue
+<template>
+  <div>
+    <!-- 一般使用都与state相同,仅getters比较特殊 -->
+    总和 : {{ $store.state.totalizer.sum }}<br />
+    二进制总和 : {{ $store.getters["totalizer/binarySum"] }}<br />
+    总和 : {{ sum }}
+  </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+export default {
+  name: "App",
+  computed: {
+    // 映射工具风格统一,仅以mapState为例
+    ...mapState("totalizer", ["sum"]),
+  },
+};
+</script>
+```
+
 ### Pinia
 
-**补课**听闻是个与Vuex相似,且更推荐的工具,与Vuex相同团队的作品
+**补课:**听闻是个与Vuex相似,且更推荐的工具,与Vuex相同团队的作品
 
-## 环境构建
+## 网络请求工具
+
+第三方通用方法,不再赘述
+
+### axios
+
+一个基于promise的http库,异步通信效果好,同步通信较为麻烦
+
+```javascript
+axios.get("https://api.github.com")
+    .then(resp => console.log(resp.data))
+```
+
+### jquery
+
+同步异步都可以,但是不能链式调用且体积较大,不建议使用除非框架内有其他依赖jquery的模块,例如bootstrap
+
+```javascript
+console.log(
+    $.get({ url: "https://api.github.com", async: false })
+        .responseJSON
+);
+```
+
+### fetch
+
+挺好的异步工具,浏览器原生支持,nodejs16.5添加实验性支持,nodejs使用需要`--experimental-fetch`,缺点是同步麻烦且最低需要二次调用才能获得响应数据
+
+```javascript
+fetch("https://api.github.com")
+    .then(resp => resp.json())
+    .then(json => console.log(json))
+```
+
+
+
+## 环境构建工具
 
 ### webpack
+
+通用工具,不属于vue,[点此查找webpack文章](https://lisnote.com/?search=webpack)
 
 ### VueCLI
 
@@ -1681,9 +1761,477 @@ export default {
 
 ### Vite
 
-构建工具
+构建工具,使用esbuild预购建,rollup打包,测试支持单独模块跟新,多方面效率更高
 
 ## 路由
+
+根据不同的路径,渲染不同的模块
+
+一般指vue-router插件
+
+这里使用的是vue-router@3
+
+### 路由基本使用
+
+* 安装
+
+  ```bash
+  npm i vue-router@3
+  ```
+
+* 编写配置文件,建议配置主文件位于`./src/router/index.js`
+
+  ```javascript
+  import VueRouter from "vue-router";
+  
+  import HomePage from "../pages/HomePage";
+  import ArticlePage from "../pages/ArticlePage";
+  
+  export default new VueRouter({
+    routes: [
+      {
+        path: "/home",
+        component: HomePage,
+      },
+      {
+        path: "/article",
+        component: ArticlePage,
+      },
+    ],
+  });
+  ```
+
+* 引入VueRouter
+
+  ```javascript
+  import Vue from "vue";
+  import App from "./App.vue";
+  import VueRouter from "vue-router";
+  import router from "./router";
+  Vue.use(VueRouter);
+  
+  Vue.config.productionTip = false;
+  
+  new Vue({
+    el: "#app",
+    render: (h) => h(App),
+    router: router,
+  });
+  ```
+
+* vue模板文件变化
+
+  ```vue
+  <template>
+    <div>
+      <!-- 使用router-link进行页面跳转,渲染后为a标签,href变为to属性,当跳转的页面为活动页面时,active-class中的类会被渲染 -->
+      <router-link to="/home" active-class="select">home</router-link><br />
+      <router-link to="/article" active-class="select">article</router-link>
+      <!-- router-view类似插槽,告诉vue-router渲染位置 -->
+      <router-view></router-view>
+    </div>
+  </template>
+  
+  <script>
+  export default {
+    name: "App",
+  };
+  </script>
+  
+  <style scoped>
+  .select {
+    background-color: gray;
+  }
+  </style>
+  ```
+
+**注意点:**
+
+1. 为便于路由管理,路由组件一般放在pages文件夹而非components
+
+2. 通常路由隐藏的组件,默认被销毁
+
+3. 使用router插件后所有组件都会有
+
+   $route : 每个组件各自不同,记录自身路由信息
+
+   $router : 指向同一个对象,包含路由常用方法字段
+
+### 多级路由
+
+* 修改配合为
+
+  ```javascript
+  import VueRouter from "vue-router";
+  
+  import ArticlePage from "../pages/ArticlePage";
+  import ArticleJava from "../pages/ArticleJava";
+  import ArticleLinux from "../pages/ArticleLinux";
+  
+  export default new VueRouter({
+    routes: [
+      {
+        path: "/article",
+        component: ArticlePage,
+        children: [
+          {
+            path: "java",
+            component: ArticleJava,
+          },
+          {
+            path: "linux",
+            component: ArticleLinux,
+          },
+        ],
+      },
+    ],
+  });
+  
+  ```
+
+* 一级路由模板
+
+  ```vue
+  <template>
+    <div>
+      <router-link to="/article/java">java</router-link><br>
+      <router-link to="/article/linux">linux</router-link>
+      <router-view></router-view>
+    </div>
+  </template>
+  ```
+
+### 命名路由
+
+跳转时,不仅能使用字符串,还能用对象写法进行跳转
+
+```vue
+<router-link
+  :to="{
+    path: '/article/java',
+  }"
+  >article</router-link
+>
+```
+
+使用name进行跳转需要
+
+1. 对路由/article/java进行命名
+
+   ```javascript
+   {
+     name: "Java",
+     path: "java",
+     component: ArticleJava,
+   },
+   ```
+
+2. 跳转时
+
+   ```vue
+   <router-link
+     :to="{
+       // path: '/article/java',
+       name: 'Java',
+     }"
+     >linux</router-link
+   >
+   ```
+
+### 路由带参跳转
+
+#### $route.query
+
+* 传入参数时
+
+  ```vue
+  <router-link to="/article?q=java">article</router-link>
+  ```
+
+* 接收参数时
+
+  ```javascript
+  console.log(this.$route.query.q);
+  // output: java
+  ```
+
+* 使用对象方式
+
+  ```vue
+  <router-link
+    :to="{
+      path: 'article',
+      query: { q: article },
+    }"
+    >article</router-link
+  >
+  ```
+
+#### $route.params
+
+1. 配置路由
+
+  ```javascript
+{
+  name: 'Article',
+  path: '/article/:article',
+  component: ArticlePage,
+},
+  ```
+
+2. 传入参数时
+
+  ```vue
+<router-link to="/article/java">article</router-link>
+  ```
+
+3. 接受参数时
+
+  ```javascript
+console.log(this.$route.params.article);
+// output: java
+  ```
+
+*  对象写法
+
+  ```vue
+  <router-link
+    :to="{
+      name: 'Article',
+      params: {
+        article: 'java',
+      },
+    }"
+    >article</router-link
+  >
+  ```
+
+  **注意:**params对象写法跳转时,只能用name进行跳转
+
+#### props路由传参
+
+* 方式1,只传params
+
+1. 配置
+
+   ```javascript
+   {
+     name: 'Article',
+     path: '/article/:article',
+     component: ArticlePage,
+     props: true,
+   },
+   ```
+
+2. 传入
+
+   ```vue
+   <router-link
+     :to="{
+       name: 'Article',
+       params: {
+         article: 'java',
+       },
+     }"
+     >article</router-link
+   >
+   ```
+
+3. 接收
+
+   ```javascript
+   export default {
+     name: 'ArticlePage',
+     props: ['article'],
+     mounted() {
+       console.log(this.article);
+     },
+   };
+   ```
+
+* 方式2 更加灵活
+
+1. 配置
+
+   ```javascript
+   {
+     ...
+     props($router) {
+       return {
+         article: $router.params.article,
+         page: $router.query.page,
+       };
+     },
+   },
+   ```
+
+2. 传入
+
+   ```vue
+   <router-link
+     :to="{
+    name: 'Article',
+       params: { article: 'java' },
+       query: { page: 10 },
+     }"
+     >article</router-link
+   >
+   ```
+   
+3. 接收
+
+   ```javascript
+   export default {
+     name: 'ArticlePage',
+     props: ['article', 'page'],
+     mounted() {
+       console.log(this.article,this.page);
+     },
+   };
+   ```
+
+### 路由跳转模式
+
+路由跳转有两种模式,push和replace,浏览器默认为push,push是追加,replace是替换当前记录
+
+```vue
+<router-link to="/home" replace>HomePage</router-link>
+```
+
+### 编程式路由导航
+
+```javascript
+$router.push({
+  // 与在标签中使用对象写法一致
+});
+$router.replace({
+  // 与在标签中使用对象写法一致
+});
+// 前进
+$router.forward();
+// 后退
+$router.back();
+// 可前进可后退,以后退3步为例
+$router.go(-3);
+```
+
+### 缓存路由组件
+
+当路由组件被隐藏时,默认会销毁组件,为保持路由组件被挂载,可以使用\<keep-alive\>
+
+```vue
+<keep-alive include="ComponentName"> 
+    <router-view></router-view>
+</keep-alive>
+```
+
+### 路由声明周期钩子
+
+路由组件独有的声明周期钩子,用于不过路由的激活状态
+
+activated : 激活时触发
+
+deactivated : 失活时触发
+
+### 路由组件自定义数据
+
+传入的配置对象中还可以包含一个meta对象,用于包含自定义的数据
+
+```javascript
+{
+  path: '/article',
+  component: ArticlePage,
+  meta: {
+    isAuth: true,
+  },
+},
+```
+
+### 路由守卫
+
+#### 全局路由守卫
+
+* 在路由配置中,可以使用beforeEach方法对路由进行鉴权,
+
+```javascript
+let route = new VueRouter({
+  // ...
+})
+route.beforeEach((to,from,next)=>{})
+```
+
+* beforeEach接收的回调函数中有三个参数,分别记录着前往的路径细腻,来自的路径信息,以及授权通过的next函数
+
+* beforeEach被称为前置路由守卫,与之相对的还有后置路由守卫afterEach,但是afterEach的回调函数并没有传入next()函数,也就是并没有内置鉴权功能
+
+```javascript
+route.afterEach((to, from) => {
+  console.log(to, from);
+});
+```
+
+* 一般情况下beforeEach用于鉴权成功后的业务
+
+#### 独享路由守卫
+
+在组件的对应路由配置对象中,存在着beforeEnter项,只在该路由中生效
+
+```javascript
+{
+  path: '/article',
+  component: ArticlePage,
+  beforeEnter(to, from, next) {
+    console.log(to, from);
+    next();
+  },
+},
+```
+
+**并没有独享后置路由守卫**
+
+#### 组件内路由守卫
+
+* 在路由组件配置对象内,存在着
+
+  1. beforeRouteEnter : 组件内入口路由守卫,通过路由规则进入组件时被调用
+  2. beforeRouteLeave : 组件内出口路由守卫,通过路由规则离开组件事被调用
+
+  ```javascript
+  beforeRouteEnter(to, from, next) {
+    console.log(to, from);
+    next();
+  },
+  beforeRouteLeave(to,from, next) {
+    console.log(to,from);
+    next();
+  },
+  ```
+
+  **注意:**beforeRouteLeave和afterEach的逻辑并不相通,beforeRouteLeave是离开前被调用,并有鉴next参数,afterEach是在进入后被调用,且无鉴权功能
+
+#### 路由守卫执行顺序
+
+1. 全局前置路由守卫 beforeEach()
+
+2. 独享路由守卫 beforeEnter()
+
+3. 组件内入口路由守卫 beforeRouteEnter()
+
+4. 全局后置路由守卫 afterEach()
+
+#### history和hash模式
+
+| 模式     | history    | hash    |
+| -------- | ---------- | ------- |
+| 路径     | 无`/#/`    | 有`/#/` |
+| 兼容性   | 略差       | 略好    |
+| 静态页面 | 有实际页面 | 单页面  |
+
+* history模式下的 404问题
+
+  nodejs后端使用connect-history-api-fallback
+
+  nginx后端使用**补课**
 
 
 
