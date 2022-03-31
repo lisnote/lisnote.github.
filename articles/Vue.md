@@ -1,6 +1,6 @@
 ---
 date: 2022-02-28 00:00:00
-tag: [""]
+tag: ["Vue2"]
 ---
 
 留有疑问和暂时忽略的部分搜索:补课
@@ -488,8 +488,6 @@ div不会显示知道编译结束
 
 ## 基本配置对象
 
-### Vue2基本配置对象
-
 ```json
 new Vue({
     // 挂载对象,寻找方式与document.querySelector相同
@@ -566,23 +564,23 @@ new Vue({
 })
 ```
 
-#### el
+### el
 
 挂载对象,接收string类型,解析作为css选择器,如document.querySelector()的传入参数
 
-#### data
+### data
 
 数据对象,存放数据,通过this.dataName可以获取data中的数据
 
-#### methods
+### methods
 
 方法集,供自身使用的方法
 
-#### computed
+### computed
 
 计算属性
 
-#### watch
+### watch
 
 监视属性,也可通过vm.$watch进行设置
 
@@ -600,7 +598,7 @@ vm.$watch("name",{
 // })
 ```
 
-#### Lifecycle
+### Lifecycle
 
 生命周期挺多的,见名知义,先将就着记,用习惯就好
 
@@ -618,13 +616,13 @@ vm.$watch("name",{
 | destroyed     | 实例销毁后调用                                  |
 | errorCaptured | 2.5+新增,在捕获一个来自后代组件的错误时被调用   |
 
-#### props
+### props
 
 组件定义时获取的properties,其中的元素可以作为变量使用,优先级高于data
 
 **props的元素是只读的**
 
-#### mixins
+### mixins
 
 共用配置,提高代码复用率
 
@@ -632,40 +630,9 @@ vm.$watch("name",{
 
 当原对象和混合对象的钩子函数存在重复,两个钩子函数并用
 
-### Vue3基本配置对象
 
-差不太多,参考vue2
 
-```
-{
-    // 自定义指令
-    directives: {
-        // 完整写法
-        focus: {
-            // 自定义指令的所有钩子函数都有两个传入参数:真实对象和绑定对象
-            // 自定义指令的this都是window
-            // 绑定元素的attribute或事件监听器被引用前被调用
-            created() { console.log("组件被创建") },
-            // 指令在第一次绑定到元素且挂载到父组件之前被调用
-            beforeMount() { console.log("组件即将挂载") },
-            // 页面挂载到DOM时被调用
-            mounted() { console.log("组件挂载完成") },
-            // 更新包含组件的VNode之前调用
-            beforeUpdate() { console.log("组件即将更新") },
-            // 更新包含组件的Vnode之后调用
-            updated() { console.log("组件更新完成") },
-            // 卸载绑定组件之前调用
-            beforeUnmount() { console.log("组件即将卸载") },
-            // 卸载绑定组件之后调用
-            unmounted() { console.log("组件卸载完成") },
-        },
-        // 简写,在mounted和updated时触发
-        exNum(element, binding) { element.innerText = binding.value * 10 }
-    }
-}
-```
-
-#### 指令
+### 指令
 
 定义全局指令 : Vue.directive(配置对象)
 
@@ -898,9 +865,34 @@ ref对一般标签使用,获得DOM
 
 ## Vue实例持有的信息和方法
 
+### $set
+
+给对象添加新的属性
+
+```javascript
+data() {
+  return {
+    person: {
+      name: 'lisnote',
+    },
+  };
+},
+mounted() {
+  this.$set(this.person, 'age', 10);
+},
+```
+
+### $delete
+
+移除对象属性
+
+```javascript
+this.$delete(this.person, 'name');
+```
+
 ### $attrs
 
-父组件中传过来的属性,不包含没有通过props定义的,避免了多写props的麻烦
+父组件中传过来的属性,不包含通过props定义的,避免了多写props的麻烦
 
 ### $el
 
@@ -935,6 +927,14 @@ ref对一般标签使用,获得DOM
 在下一次DOM更新后再执行回调函数
 
 解析 : vue中的dom更新一般是在配置对象的方法完成计算之后,因此一些需要先进行渲染在进行的函数就无法生效,例如focus()
+
+### $slot
+
+包含父组件传入的插槽
+
+### $root
+
+根组件
 
 ## 组件
 
@@ -1313,6 +1313,8 @@ export default{
 import plugin form "PluginName";
 Vue.use(plugin);
 ```
+
+
 
 # 技术体系
 
@@ -1751,17 +1753,25 @@ fetch("https://api.github.com")
 
 ## 环境构建工具
 
-### webpack
-
-通用工具,不属于vue,[点此查找webpack文章](https://lisnote.com/?search=webpack)
+构建工具体系庞大,单独成一文档,此处不再赘述
 
 ### VueCLI
 
-构建工具,基于webpack,默认当作配置完善的webpack环境即可
+Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
+
+[用CLI创建Vue3项目](#VueCLI基本使用)
+
+[点此查找webpack笔记](https://lisnote.com/?search=webpack)
+
+### webpack
+
+通用构建工具,不属于vue,[点此查找webpack笔记](https://lisnote.com/?search=webpack)
 
 ### Vite
 
-构建工具,使用esbuild预购建,rollup打包,测试支持单独模块跟新,多方面效率更高
+通用构建工具,使用esbuild预购建,rollup打包,测试支持单独模块跟新,多方面效率更高
+
+通用构建工具,不限于vue,[点此查找vite笔记](https://lisnote.com/?search=vite)
 
 ## 路由
 
@@ -2219,19 +2229,152 @@ route.afterEach((to, from) => {
 
 4. 全局后置路由守卫 afterEach()
 
-#### history和hash模式
+### history和hash模式
 
-| 模式     | history    | hash    |
-| -------- | ---------- | ------- |
-| 路径     | 无`/#/`    | 有`/#/` |
-| 兼容性   | 略差       | 略好    |
-| 静态页面 | 有实际页面 | 单页面  |
+hash模式举例 : ${location.host}/#/path
+
+history模式举例 : ${location.host}/path
+
+默认为hash模式,更改为history模式需要进行配置
+
+```javascript
+new VueRouter({
+  mode: 'history',
+  // ...
+}
+```
+
+区别
+
+| 模式     | history        | hash    |
+| -------- | -------------- | ------- |
+| 路径     | 无`/#/`        | 有`/#/` |
+| 兼容性   | 略差           | 略好    |
+| 静态页面 | 需后端主动支持 | 单页面  |
 
 * history模式下的 404问题
 
-  nodejs后端使用connect-history-api-fallback
+  express后端使用中间件connect-history-api-fallback
 
-  nginx后端使用**补课**
+  nginx后端配置
+  
+  ```nginx
+  location / {
+    add_header Cache-Control 'no-store, no-cache'; // 设置不缓存
+    try_files $uri $uri/ /index.html;
+  }
+  ```
+
+### 路由模块化
+
+方法有很多,其中一个手段是拆分对象,属javascript部分,不再赘述
+
+## UI组件
+
+### Element UI
+
+[官网](https://element.eleme.cn/)
+
+#### Element UI基本使用
+
+* 安装
+
+  ```bash
+  npm i element-ui
+  ```
+
+* 完整引入
+
+  ```javascript
+  import ElementUI from 'element-ui';
+  import 'element-ui/lib/theme-chalk/index.css';
+  Vue.use(ElementUI);
+  ```
+
+* 案例-使用button
+
+  ```vue
+  <el-button type="primary">element button</el-button>
+  ```
+
+
+
+#### Element UI按需引入
+
+1. 安装babel-plugin-component
+
+   ```bash
+   npm install babel-plugin-component -D
+   ```
+
+2. 修改babel配置文件(不同工具不同配置文件)
+
+   ```json
+   module.exports = {
+     presets: [['@babel/preset-env', { modules: false }]],
+     plugins: [
+       [
+         'component',
+         {
+           libraryName: 'element-ui',
+           styleLibraryName: 'theme-chalk',
+         },
+       ],
+     ],
+   };
+   
+   ```
+
+3. 以button为例,引入button组件
+
+   ```javascript
+   import { Button } from 'element-ui';
+   Vue.use(Button);
+   ```
+
+
+
+## 静态化
+
+### VuePress
+
+静态化页面,根据route会生成每一个对应的页面,并默认集成了一些常用工具,在进行路由切换时仍然保持模块化更新的特性,也就是效率依旧
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -2253,7 +2396,7 @@ route.afterEach((to, from) => {
 
 ## 数据驱动
 
-Object.defineProperty
+* Object.defineProperty
 
 ```javascript
 let data = {}
