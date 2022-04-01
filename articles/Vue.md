@@ -712,7 +712,7 @@ leave-active-class : 指定离场动画类名
 
 3. 编写html
 
-   ```vue
+   ```html
    <template>
      <div>
        <button @click="isShow = !isShow">切换状态</button>
@@ -747,7 +747,7 @@ leave-active-class : 指定离场动画类名
 
   父组件
 
-  ```vue
+  ```html
   <child-component>
       <div>html结构1</div>
   </child-component>
@@ -755,7 +755,7 @@ leave-active-class : 指定离场动画类名
 
   子组件
 
-  ```vue
+  ```html
   <div>
       <!-- 定义插槽 -->
       <slot>插槽默认内容...</slot>
@@ -766,7 +766,7 @@ leave-active-class : 指定离场动画类名
 
   父组件
 
-  ```vue
+  ```html
   <child-component>
       <template slot="center">
   		<div>html结构1</div>
@@ -779,7 +779,7 @@ leave-active-class : 指定离场动画类名
 
   子组件
 
-  ```vue
+  ```html
   <div>
       <!-- 定义插槽 -->
       <slot name="center">插槽默认内容...</slot>
@@ -793,7 +793,7 @@ leave-active-class : 指定离场动画类名
 
   父组件
 
-  ```vue
+  ```html
   <child-component>
     <div slot-scope="data">
       <div v-for="username in data.users" :key="username">
@@ -806,7 +806,7 @@ leave-active-class : 指定离场动画类名
 
 子组件
 
-  ```vue
+  ```html
   <template>
     <div>
       <slot :users="users"> </slot>
@@ -963,7 +963,7 @@ this.$delete(this.person, 'name');
 
 App.js
 
-```vue
+```html
 <template>
   <div>
     <modulename />
@@ -1005,7 +1005,7 @@ new Vue({
 
 使样式局部生效,防止冲突
 
-```vue
+```html
 <style scoped>
     .className{
         color: red;
@@ -1017,7 +1017,7 @@ new Vue({
 
 在vue文件中,style标签有lang属性,支持书写css预处理语言,例如scss
 
-```vue
+```html
 <style lang="less">
 *{
   color: red;
@@ -1045,7 +1045,7 @@ npm i -D less-loader
 
   parent
 
-  ```vue
+  ```html
   <template>
     <div>
       <child-component :name="name" />
@@ -1068,7 +1068,7 @@ npm i -D less-loader
 
   child
 
-  ```vue
+  ```html
   <template>
     <div>
       {{ name }}
@@ -1090,7 +1090,7 @@ npm i -D less-loader
 
   parent
 
-  ```vue
+  ```html
   <template>
     <div>
       <child-component :receive="receive" />
@@ -1119,7 +1119,7 @@ npm i -D less-loader
 
   child
 
-  ```vue
+  ```html
   <script>
   export default {
     name: "ChildComponent",
@@ -1141,7 +1141,7 @@ npm i -D less-loader
 
   父组件
 
-  ```vue
+  ```html
   <template>
     <div>
       <child-component @callEvent="callMe" />
@@ -1170,7 +1170,7 @@ npm i -D less-loader
 
   子组件
 
-  ```vue
+  ```html
   <script>
   export default {
     name: "ChildComponent",
@@ -1185,7 +1185,7 @@ npm i -D less-loader
 
   父组件
 
-  ```vue
+  ```html
   <template>
     <div>
       <child-component @rename="rename" />
@@ -1214,7 +1214,7 @@ npm i -D less-loader
 
   子组件
 
-  ```vue
+  ```html
   <script>
   export default {
     name: "ChildComponent",
@@ -1233,7 +1233,7 @@ npm i -D less-loader
 
 parent
 
-```vue
+```html
 <template>
   <div>
     <child-component ref="child" />
@@ -1265,7 +1265,7 @@ export default {
 
 child
 
-```vue
+```html
 <script>
 export default {
   name: "ChildComponent",
@@ -1278,7 +1278,7 @@ export default {
 
 #### 解绑事件
 
-```vue
+```html
 // 解绑当个事件
 this.$off("event");
 // 解绑多个事件
@@ -1291,7 +1291,7 @@ this.$off();
 
 销毁组件会自动销毁组件下的事件组件的子组件等
 
-```vue
+```html
 this.$destroy() //销毁当前组件实例
 ```
 
@@ -1338,7 +1338,7 @@ Vue.use(plugin);
 
 2. 使用事件总线
 
-   ```vue
+   ```html
    methods(){
      demo(data){......}
    }
@@ -1350,7 +1350,7 @@ Vue.use(plugin);
 
 3. 提供数据
 
-   ```vue
+   ```html
    this.$bus.$emit('xxxx',数据)
    ```
 
@@ -1379,7 +1379,7 @@ this.$root.$emit("test","test data")
 
   子组件1发送信息
 
-  ```vue
+  ```html
   <template>
     <div>
       <button @click="send">点我传输信息</button>
@@ -1407,7 +1407,7 @@ this.$root.$emit("test","test data")
 
   子组件2接收信息
 
-  ```vue
+  ```html
   <template>
     <div>
       {{ name }}
@@ -1451,7 +1451,7 @@ this.$root.$emit("test","test data")
 
 * 发布
 
-  ```vue
+  ```html
   <script>
   import pubsub from "pubsub-js";
   export default {
@@ -1465,7 +1465,7 @@ this.$root.$emit("test","test data")
 
 * 订阅
 
-  ```vue
+  ```html
   <script>
   import pubsub from "pubsub-js";
   export default {
@@ -1570,7 +1570,7 @@ this.$root.$emit("test","test data")
 
 * 组件
 
-  ```vue
+  ```html
   <template>
     <div>{{ $store.state.sum }}</div>
   </template>
@@ -1609,7 +1609,7 @@ vuex中的getters于state,相当于vue中computed于data
 
 * 组件中使用
 
-  ```vue
+  ```html
   <div>
       {{ $store.getters.binarySum }}
   </div>
@@ -1623,7 +1623,7 @@ Vuex提供了mapState,mapGetters,mapActions,mapMutations几个常用映射器,
 
 以mapperState为例,当组件需要使用vuex.state中的name,age,gender字段时可以这样写
 
-```vue
+```html
 <template>
   <div>
     {{ name }}
@@ -1645,7 +1645,7 @@ export default {
 
 根据需求的不同,还可以使用对象配置
 
-```vue
+```html
 <template>
   <div>
     {{ nickname }}
@@ -1689,7 +1689,7 @@ export default new Vuex.Store({
 
 使用参考
 
-```vue
+```html
 <template>
   <div>
     <!-- 一般使用都与state相同,仅getters比较特殊 -->
@@ -1831,7 +1831,7 @@ Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
 
 * vue模板文件变化
 
-  ```vue
+  ```html
   <template>
     <div>
       <!-- 使用router-link进行页面跳转,渲染后为a标签,href变为to属性,当跳转的页面为活动页面时,active-class中的类会被渲染 -->
@@ -1901,7 +1901,7 @@ Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
 
 * 一级路由模板
 
-  ```vue
+  ```html
   <template>
     <div>
       <router-link to="/article/java">java</router-link><br>
@@ -1915,7 +1915,7 @@ Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
 
 跳转时,不仅能使用字符串,还能用对象写法进行跳转
 
-```vue
+```html
 <router-link
   :to="{
     path: '/article/java',
@@ -1938,7 +1938,7 @@ Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
 
 2. 跳转时
 
-   ```vue
+   ```html
    <router-link
      :to="{
        // path: '/article/java',
@@ -1954,7 +1954,7 @@ Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
 
 * 传入参数时
 
-  ```vue
+  ```html
   <router-link to="/article?q=java">article</router-link>
   ```
 
@@ -1967,7 +1967,7 @@ Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
 
 * 使用对象方式
 
-  ```vue
+  ```html
   <router-link
     :to="{
       path: 'article',
@@ -1991,7 +1991,7 @@ Vue构建工具,基于webpack,默认当作配置完善的webpack环境即可
 
 2. 传入参数时
 
-  ```vue
+  ```html
 <router-link to="/article/java">article</router-link>
   ```
 
@@ -2004,7 +2004,7 @@ console.log(this.$route.params.article);
 
 *  对象写法
 
-  ```vue
+  ```html
   <router-link
     :to="{
       name: 'Article',
@@ -2035,7 +2035,7 @@ console.log(this.$route.params.article);
 
 2. 传入
 
-   ```vue
+   ```html
    <router-link
      :to="{
        name: 'Article',
@@ -2077,7 +2077,7 @@ console.log(this.$route.params.article);
 
 2. 传入
 
-   ```vue
+   ```html
    <router-link
      :to="{
     name: 'Article',
@@ -2104,7 +2104,7 @@ console.log(this.$route.params.article);
 
 路由跳转有两种模式,push和replace,浏览器默认为push,push是追加,replace是替换当前记录
 
-```vue
+```html
 <router-link to="/home" replace>HomePage</router-link>
 ```
 
@@ -2129,7 +2129,7 @@ $router.go(-3);
 
 当路由组件被隐藏时,默认会销毁组件,为保持路由组件被挂载,可以使用\<keep-alive\>
 
-```vue
+```html
 <keep-alive include="ComponentName"> 
     <router-view></router-view>
 </keep-alive>
@@ -2293,7 +2293,7 @@ new VueRouter({
 
 * 案例-使用button
 
-  ```vue
+  ```html
   <el-button type="primary">element button</el-button>
   ```
 

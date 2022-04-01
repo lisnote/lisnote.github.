@@ -87,7 +87,7 @@ Vue3的一个新配置项,组件中所用到的数据,方法等均要在配置�
 
 * 常规写法
 
-```vue
+```html
 <script>
 export default {
   name: 'App',
@@ -111,7 +111,7 @@ export default {
 
 * 简写写法
 
-```vue
+```html
 <script setup>
 let name = '张三';
 function sayHi() {
@@ -149,7 +149,7 @@ setup可接收两个传入参数
 
 用例
 
-```vue
+```html
 <script setup>
 import { ref } from 'vue';
 let name = ref('lisnote');
@@ -185,7 +185,7 @@ let person = reactive({
 
 ### computed
 
-```vue
+```html
 <script setup>
 import { reactive, computed } from 'vue';
 let person = reactive({
@@ -323,7 +323,7 @@ Vue2中的beforeDestroy和destroyed被更名为beforeUnmount和unmounted
 
 用此方法获得的返回对象被修改时,原响应对象也会被修改并有响应
 
-```vue
+```html
 <script>
 import { reactive, toRef, toRefs } from 'vue';
 
@@ -392,7 +392,7 @@ console.log(person, raw);
 
 markRaw : 将属性标记为非相应对象,比shallow函数更精准的控制非响应属性
 
-```vue
+```html
 <script setup>
 import { reactive, markRaw } from 'vue';
 let person = reactive({
@@ -416,7 +416,7 @@ function addHobby() {
 
 * 案例 : 实现防抖效果
 
-```vue
+```html
 <template>
   <input type="text" v-model="keyword" />
   <h3>{{ keyword }}</h3>
@@ -505,7 +505,7 @@ console.log(
 
 * 使用异步引入组件
 
-```vue
+```html
 <script setup>
 import { defineAsyncComponent } from 'vue';
 const AsyncComponent = defineAsyncComponent(() =>
@@ -540,7 +540,7 @@ const AsyncComponent = defineAsyncComponent(() =>
 
 * 代码
 
-```vue
+```html
 <template>
   <div>
     div内
@@ -563,7 +563,7 @@ div {
 
 使用异步组件时,定义已加载和未加载的显示模板
 
-```vue
+```html
 <script setup>
 import { defineAsyncComponent } from 'vue';
 const AsyncComponent = defineAsyncComponent(() =>
@@ -658,64 +658,4 @@ console.log(toRaw(person));
 ```
 
 看起来或许有点憨憨,翻看源码进行验证,没想到逻辑上还真是如此,但是Vue的对各种情况的处理更加完善
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
