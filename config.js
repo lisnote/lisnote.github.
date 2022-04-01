@@ -10,10 +10,10 @@ let githubConfig = {
 var lispress = {
   // 负责实现lispress的其他字段和方法
   impl: githubImpl,
-  // 所有的文章
-  articles: [],
-  // param 查找的关键字
-  // return string数组,包含符合查找条件的文章
+  // return promise对象,该对象then方法会对回调函数传入文章列表
+  getArticles: null,
+  // param 字符串数组,查找的关键字
+  // return promise对象,该对象then方法会对回调函数传入查找到的文章列表
   getSearchArticles: null,
   // param string类型的文章名
   // return string类型的markdown直链
