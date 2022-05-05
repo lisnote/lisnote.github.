@@ -1,4 +1,4 @@
-[简体中文](assets/other/README_CN.md)
+[简体中文](./README_CN.md)
 
 [DEMO](https://lisnote.github.io)
 
