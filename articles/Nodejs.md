@@ -1,5 +1,5 @@
 ---
-date: 2022-02-02 09:35:00
+date: 2022-01-20 09:35:00
 ---
 # 介绍及初步使用
 
@@ -376,9 +376,23 @@ npm login
 npm publish
 ```
 
-## Yarn
+* 私有域
 
-和npm功能相同,解决了部分npm存在的问题,仅提供常用指令
+  npm包名常常会被占用,
+
+  npm私有域格式为@Username/PackageName
+
+  私有域发布默认是不公开且收费的,公开发布请添加`--access public`参数
+
+  ```bash
+  npm publish --access public
+  ```
+
+## 其他包管理器
+
+### Yarn
+
+和npm功能相同,解决了部分npm存在的问题
 
 ```bash
 # 初始化yarn项目
@@ -402,6 +416,17 @@ yarn upgrade [package]@[tag]
 # 清除不必要的文件和文件夹
 yarn autoclean
 ```
+
+### pnpm
+
+Vue用的包管理器,用法几乎没什么差别,听闻更快
+
+```bash
+#安装
+npm i -g pnpm
+```
+
+
 
 ## 模块加载机制
 
@@ -440,6 +465,25 @@ yarn autoclean
   5. `F:\`node_modules\print
 
 # 好用的小工具
+
+## nanoid
+
+全局唯一id生成工具
+
+* 安装
+
+  ```bash
+  npm i nanoid
+  ```
+
+* 使用
+
+  ```javascript
+  import { nanoid } form "nanoid";
+  console.log(nanoid())
+  ```
+
+  
 
 ## tree-node-cli
 
@@ -516,9 +560,44 @@ uglifyjs input.js -o output.js
 
 结合npm的包发布可以作为图床使用
 
-npm经发布72小时即不可撤销,注意隐私保护且勿滥用包名
+建议使用私有域发布,可以避免很多问题
 
 结合npm的包发布以及视频切片可以作为视频源使用(直流使用需要经过处理),建议配合[Dplayer](https://github.com/DIYgod/DPlayer)使用
 
 jsdelivr最大加速仓库为50M,最大单文件加速为20M(未验证)
+
+## pm2
+
+后台进程工具
+
+```bash
+npm i -g pm2
+```
+
+指令
+
+```javascript
+# 启动后台进程
+pm2 start AppName
+# 关闭进程
+pm2 delete AppName
+# 查看进程
+pm2 list
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

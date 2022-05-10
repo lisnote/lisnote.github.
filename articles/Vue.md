@@ -718,8 +718,8 @@ leave-active-class : 指定离场动画类名
        <button @click="isShow = !isShow">切换状态</button>
        <transition
          name="animate__animated animate__bounce"
-         enter-active-class="animate__fadeIn"
-         leave-active-class="animate__fadeOut"
+         enter-active-class="animate__fadeInUp"
+         leave-active-class="animate__fadeOutUp"
        >
          <h1 v-show="isShow">test</h1>
        </transition>
@@ -2135,13 +2135,15 @@ $router.go(-3);
 </keep-alive>
 ```
 
-### 路由声明周期钩子
+### 路由生命周期钩子
 
 路由组件独有的声明周期钩子,用于不过路由的激活状态
 
 activated : 激活时触发
 
 deactivated : 失活时触发
+
+路由守卫也有生命周期的作用,后期将会有说到
 
 ### 路由组件自定义数据
 
@@ -2254,9 +2256,11 @@ new VueRouter({
 
 * history模式下的 404问题
 
-  express后端使用中间件connect-history-api-fallback
+  * 核心思想 : 将找不到资源的链接隐式路由到index.html
 
-  nginx后端配置
+  1. express后端使用中间件connect-history-api-fallback
+  
+  2. nginx后端配置
   
   ```nginx
   location / {
@@ -2264,6 +2268,12 @@ new VueRouter({
     try_files $uri $uri/ /index.html;
   }
   ```
+  
+  3. github
+  
+     将index.html复制一份
+  
+     重命名副本为404.html
 
 ### 路由模块化
 

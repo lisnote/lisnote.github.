@@ -125,7 +125,64 @@ date: 2022-02-10 00:00:00
 
 # loaders
 
-* css-loader & scss-loader
+## TypeScript
+
+* 增加TypeScript支持
+
+1. 安装typescript和loader
+
+   ```bash
+   npm i -D typescript ts-loader
+   ```
+
+2. 修改配置
+
+   ```javascript
+   const path = require('path');
+   
+   module.exports = {
+     mode: 'production',
+     entry: './src/index.ts',
+     module: {
+       rules: [
+         {
+           test: /\.tsx?$/,
+           use: 'ts-loader',
+           exclude: /node_modules/,
+         },
+       ],
+     },
+     resolve: {
+       extensions: ['.tsx', '.ts', '.js'],
+     },
+     output: {
+       filename: 'bundle.js',
+       path: path.resolve(__dirname, 'dist'),
+     },
+   };
+   ```
+
+3. 添加TypeScript配置文件tsconfig.json
+
+   ```javascript
+   {
+     "compilerOptions": {
+       "outDir": "./dist/",
+       "noImplicitAny": true,
+       "module": "commonjs",
+       "target": "es5",
+       "jsx": "react",
+       "allowJs": true,
+       "moduleResolution": "node",
+     }
+   }
+   ```
+
+   
+
+## css-loader & scss-loader
+
+* 增加CSS预编译语言Scss的支持
 
 1. 安装style-loader,css-loader
 
@@ -152,7 +209,36 @@ date: 2022-02-10 00:00:00
    }
    ```
 
+## Bable
 
+* 将ES6转换为ES5
+
+1. 安装bable
+
+   ```javascript
+   npm install -D babel-loader @babel/core @babel/preset-env
+   ```
+
+2. 配置
+
+   ```
+   module: {
+     rules: [
+       {
+         test: /\.m?js$/,
+         exclude: /(node_modules|bower_components)/,
+         use: {
+           loader: 'babel-loader',
+           options: {
+             presets: ['@babel/preset-env']
+           }
+         }
+       }
+     ]
+   },
+   ```
+
+   
 
 # plugins
 
@@ -197,6 +283,21 @@ module.exports = {
     ]
 }
 ```
+
+# Optimization
+
+* 关闭压缩以及保留注释
+
+  ```JavaScript
+  {
+      // .... other webpack, like output, etc.
+      optimization: {
+          minimize: false
+      },
+  }
+  ```
+
+  
 
 # webpack-dev-server
 
@@ -255,8 +356,57 @@ module.exports = {
 ```
 
 
-# 预定义变量
+# 提供的量和方法
 
-[name]为entry中的索引名
+* [name]为entry中的索引名
 
-[chunkhash]为哈希值,[chunkhash:8]表示8位长度哈希值
+* [chunkhash]为哈希值,[chunkhash:8]表示8位长度哈希值
+
+* require.context()
+
+  遍历require,通常用于批量require某个文件夹的指定文件,接收三个参数
+
+  1. 遍历的文件夹
+  2. 是否遍历子文件夹
+  3. 匹配文件名的正则
+
+  ```javascript
+  require.context('./test', false, /.test.js$/);
+  ```
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

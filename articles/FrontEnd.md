@@ -671,6 +671,86 @@ opacity: 0.5;
 * 过渡
 * CSS预处理语言 : less
 
+## 流行布局
+
+### Flex
+
+常用属性
+
+```css
+*{
+	display: flex
+	flex: 1;
+    flex-direction: column;
+  	justify-content: center;
+  	align-content: center;
+}
+```
+
+### Grid
+
+![image-20220507023419375](assets/FrontEnd.md/image-20220507023419375.png)
+
+#### 容器属性
+
+| 属性名                               | 作用 |
+| ------------------------------------ | ---- |
+| 1. grid-template-columns             | 列数量 |
+| 2. grid-template-rows          | 行数量 |
+| 3. grid-row-gap                | 列间隔 |
+| 4. grid-column-gap           | 行间隔 |
+| 5. grid-gap      | (3和4的简写) |
+| 6. grid-template-areas       | 设定容器区域 |
+| 7. grid-auto-flow             | 设定项目横纵排序 |
+| 8. justify-items               | 项目在自身切片的水平分布模式 |
+| 9. align-items                | 项目在自身切片的垂直分布模式 |
+| 10. place-items  | (8和9的简写) |
+| 11. justify-content            | 容器内容的水平定位模式 |
+| 12. align-content           | 容器内容的垂直定位模式 |
+| 13. place-content | (11和12的简写) |
+| 14. grid-auto-columns          | 超出容器的列的属性 |
+| 15. grid-auto-rows                   | 超出容器的行的属性 |
+
+常用属性
+
+```
+grid-template-columns: repeat(3, 100px)
+// 等价于 grid-template-columns: 100px 100px 100px;
+grid-template-columns: repeat(auto-fill, 100px);
+// 单元格确定大小,容器不确定大小
+grid-template-columns: repeat(4, 1fr);
+// 将宽等分为四段 fr单位,意为片段
+grid-template-columns: 1fr minmax(150px, 1fr);
+// 最大150px,最小一片段
+grid-template-columns: 100px auto 100px;
+// 中间部分由浏览器自定宽度
+```
+
+
+
+#### 项目属性
+
+| 属性名               | 作用           |
+| -------------------- | -------------- |
+| 1. grid-column-start | 项目垂直起点   |
+| 2. grid-column-end   | 项目垂直终点   |
+| 3. grid-row-start    | 项目水平起点   |
+| 4. grid-row-end      | 项目水平终点   |
+| 5. grid-column       | 1,2的简写形式  |
+| 6. grid-row          | 3,4的简写形式  |
+| 7. grid-area         | 1,3,2,4的简写  |
+| 8. justify-self      | 水平内容布局   |
+| 9. align-self        | 垂直内容布局   |
+| 10. place-self       | 8和9的简写形式 |
+
+
+
+
+
+
+
+
+
 # JavaScript
 
 ## 语言基础
@@ -707,6 +787,12 @@ console.log("Hello");
   ```
 
 ### 数据类型
+
+#### 基本类型
+
+既非对象,也没有方法的数据
+
+string,number,bigint,boolean,null,undefined,symbol
 
 #### 数据类型快速浏览
 
@@ -847,6 +933,10 @@ arr.join('-');
 [1,2,3,4,5].sort((x,y)=>y%2-x%2)
 //过滤不符合要求的数据(此处只保留字符串)
 [1,2,3,"asd","1"].filter(data => typeof data == "string")
+//统计符合要求的数据数量
+[1,2,3,"asd","1"].reduce((pre,current) => {
+    return pre
+})
 ```
 
 
@@ -973,6 +1063,8 @@ function print(a, ...args) {
 
 ## 集合操作
 
+**个人见解 : 很多时候使用普通的数组和对象就OK,特别是ES6中新增了不少极其便利的方法后**
+
 ### map:映射表
 
 ```javascript
@@ -1096,6 +1188,26 @@ typeof Math.abs
   ```
 
 JavaScript还有String,Number,Boolean包装类,提供了一系列方法可供部分使用需求
+
+### 进制转换
+
+```javascript
+console.log(
+    // 十进制转其他
+    15..toString(16),
+    // 其他进制转十
+    parseInt("ff", 16),
+    // 二进制0b开头
+    0b11,
+    // 八进制0开头
+    011,
+    // 十六进制0x开头
+    0xff
+);
+// output : f 255 3 9 255
+```
+
+
 
 ## Math对象
 
@@ -1396,21 +1508,437 @@ console.log([
 //     ['an', index: 1, input: 'banana', groups: undefined],
 //     true
 // ]
+
+// 根据匹配内容返回替换对应内容
+"abnbnb".replace(/a|b/g, data => {
+    switch (data) {
+        case "a": return "b";
+        case "b": return "a";
+    }
+})
+// banana
 ```
 
-### 进阶正则使用方法
+## prototype
 
-* 根据匹配内容返回替换对应内容
+把对象变成数组(不推荐,仅供理解)
 
-  ```javascript
-  "abnbnb".replace(/a|b/g, data => {
-      switch (data) {
-          case "a": return "b";
-          case "b": return "a";
-      }
-  })
-  // banana
-  ```
+```javascript
+let obj = {
+    0: 1,
+    1: 2,
+    2: 3,
+    length: 3
+};
+let arr = [1, 2, 3];
+console.log(arr, obj);
+obj.__proto__ = Array.prototype;
+console.log(arr, obj);
+```
+
+## Promise
+
+前端异步新神
+
+### fetch
+
+更好的异步资源获取
+
+## Generator
+
+生成器?迭代工具?还没用过
+
+## Proxy
+
+更好的对象代理
+
+## Reflect
+
+反射
+
+## Object
+
+几乎所有实例都是Object类型实例,Object自身提供了很多实用方法字段
+
+### 静态方法
+
+#### Object.entries()
+
+返回一个对象的[key,value]数组
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+Object.defineProperty(person, 'age', { value: 18 });
+let key = Symbol();
+person[key] = '';
+console.log(Object.entries(person));
+// [ [ 'name', 'lisnote' ] ]
+```
+
+#### Object.getOwnPropertyNames()
+
+返回属性名数组
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+let key = Symbol();
+person[key] = '';
+Object.defineProperty(person, 'age', { value: 18 });
+console.log(Object.getOwnPropertyNames(person));
+// [ 'name', 'age' ]
+```
+
+#### Object.keys
+
+返回对象的可枚举字符串属性
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+let key = Symbol();
+person[key] = '';
+Object.defineProperty(person, 'age', { value: 18 });
+console.log(Object.keys(person));
+// [ 'name' ]
+```
+
+#### Object.values
+
+返回对象的可枚举属性的字符串属性对应的值
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+let key = Symbol();
+person[key] = '';
+Object.defineProperty(person, 'age', { value: 18 });
+console.log(Object.values(person));
+// [ 'lisnote' ]
+```
+
+
+
+#### Object.getOwnPropertySymbols()
+
+返回传入对象的Symbol属性数组
+
+```javascript
+let a = Symbol('');
+let b = Symbol('');
+let obj = {};
+obj[a] = 'a';
+obj[b] = 'b';
+let arr = Object.getOwnPropertySymbols(obj);
+console.log(arr);
+// [ Symbol(), Symbol() ]
+```
+
+
+
+#### Object.assign()
+
+通过复制一个或多个对象来创建一个新的对象
+
+```javascript
+let source = { name: 'lisnote' };
+let target = Object.assign({ age: 10 }, source);
+source.name = 'didongxiaoli';
+console.log(target);
+// { age: 10, name: 'lisnote' }
+```
+
+**更改源对象属性,并不影响返回对象的属性**
+
+#### Object.create()
+
+使用指定的原型对象和属性创建一个新的对象
+
+```javascript
+let proto = {
+  name: 'lisnote',
+  print() {
+    console.log(`${this.name}`);
+  },
+};
+let target = Object.create(proto);
+console.log(target);
+target.print();
+// {}
+// lisnote
+```
+
+**name属性存在于\_\_proto\_\_中,因此并没有输出**
+
+#### Object.defineProperty()
+
+定义属性,并返回定义后的对象
+
+```javascript
+let source = { name: 'lisnote' };
+let target = Object.defineProperty(source, 'age', {
+  value: 10,
+  // 默认值
+  // configurable: false, // 可否移除属性
+  // enumerable: false, // 可否枚举
+  // writable: false, // 可否修改
+  // get: undefined, // getter函数
+  // set: undefined, //setter函数
+});
+console.log(source == target);
+console.log(source.age);
+console.log(source);
+// true
+// 10
+// { name: 'lisnote' }
+```
+
+**Vue2就用这个做数据劫持**
+
+#### Object.defineProperties()
+
+定义多个属性,并返回定义后的对象
+
+```javascript
+const person = {};
+Object.defineProperties(person, {
+  name: {
+    value: 'lisnote',
+    enumerable: true,
+  },
+  age: { value: 10 },
+});
+console.log(person);
+// { name: 'lisnote' }
+```
+
+
+
+#### Object.freeze()
+
+冻结属性
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+Object.freeze(person);
+person.name = 'didongxiaoli';
+delete person.name;
+console.log(person);
+// { name: 'lisnote' }
+```
+
+**不可读不可删**
+
+#### Object.getOwnPropertyDescriptor()
+
+返回对象属性的描述符
+
+```javascript
+let person = {
+  name: 'lisnote',
+  age: 10,
+};
+console.log(Object.getOwnPropertyDescriptor(person, 'name'));
+// {
+//   value: 'lisnote',
+//   writable: true,
+//   enumerable: true,
+//   configurable: true,
+// };
+```
+
+#### Object.getOwnPropertyDescriptors()
+
+返回对象所有属性的描述符
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+Object.defineProperty(person, 'age', { value: 18 });
+let key = Symbol();
+person[key] = '';
+console.log(Object.getOwnPropertyDescriptors(person));
+// {
+//   name: {
+//     value: 'lisnote',
+//     writable: true,
+//     enumerable: true,
+//     configurable: true,
+//   },
+//   age: {
+//     value: 18,
+//     writable: false,
+//     enumerable: false,
+//     configurable: false,
+//   },
+//   [Symbol()]: {
+//     value: '',
+//     writable: true,
+//     enumerable: true,
+//     configurable: true,
+//   },
+// };
+```
+
+
+
+#### Object.getPrototypeOf()
+
+返回传入对象内部的[[Prototype]]属性
+
+当然,所有人都不会拦着你用prototype和\_\_proto\_\_ ,但是不保证这两个属性会一直存在,就像Proxy也没有\_\_target\_\_一样,或许将来[[Prototype]]也没办法用属性访问
+
+#### Object.preventExtensions()
+
+防止对象新增属性
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+Object.preventExtensions(person);
+person.age = 18;
+console.log(person);
+```
+
+#### Object.seal()
+
+阻止对象删除属性
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+Object.seal(person);
+delete person.name;
+console.log(person);
+```
+
+
+
+#### Object.is
+
+比较两值,且所有NaN相等
+
+```javascript
+console.log(NaN == NaN);
+console.log(Object.is(NaN,NaN))
+// false
+// true
+```
+
+
+
+#### Object.isFrozen
+
+判断对象是否被冻结
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+Object.freeze(person);
+console.log(Object.isFrozen(person));
+// true
+```
+
+#### Object.isExtensible()
+
+判断对象是否可以新增属性
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+console.log(Object.isExtensible(person));
+Object.preventExtensions(person);
+console.log(Object.isExtensible(person));
+delete person.name;
+console.log(person);
+// true
+// false
+// {}
+```
+
+#### Object.isSeal()
+
+判断对象是否可以删除属性
+
+```javascript
+let person = {
+  name: 'lisnote',
+};
+console.log(Object.isSealed(person))
+Object.seal(person);
+console.log(Object.isSealed(person))
+// false
+// true
+```
+
+
+
+### 实例方法
+
+
+
+
+
+
+
+## 解构
+
+```
+const info = {
+  person: {
+    name: "lisnote",
+    other: {
+      age: 22,
+    },
+  },
+  song: "rolling",
+};
+
+// 解构person的内容
+const {
+  person: {
+    name,
+    other: { age },
+  },
+  song,
+} = info;
+
+// output: lisnote 22 rolling
+console.log(name, age, song);
+```
+
+## video API
+
+```javascript
+// 获取视频元素：
+var videoElement = document.getElementById("videoPlay");
+
+// 获取设置音量大小：
+videoElement.volume
+
+// 获取设置当前播放的位置：
+videoElement.currentTime
+
+// 播放视频：
+videoElement.play()
+
+// 暂停视频：
+videoElement.pause()
+```
+
+浏览器原生视频api适合插入脚本的时候用,真做视频播放建议diygod的IPlayer
 
 # JQuery
 

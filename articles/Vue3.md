@@ -211,6 +211,8 @@ let sayHello = computed(() => {
 
 ### watch
 
+数据改变时响应
+
 * ref
 
 ```javascript
@@ -580,6 +582,89 @@ const AsyncComponent = defineAsyncComponent(() =>
   </suspense>
 </template>
 ```
+
+# 技术体系
+
+## 组件间通信
+
+### 全局事件总线
+
+旧的事件总线构造方式依旧可行,但是由于Vue3已经不在提供$on和$emit,需要自行构造事件逻辑,并且在组合式API中获取当前组件相对麻烦,因此建议使用以下方式进行组件通信
+
+**以下方式适合组件通信使用较少的情况,开发过程中频繁使用组件通信则更推荐pubsub,vuex,pinia等工具,他们提供了更完善,更丰富,以及更加便利的组件通信方式**
+
+1. Provide和Inject
+
+   在顶级组件中使用Provide,所有子组件都可以用
+
+2. Vue3中比较正经的做法
+
+   ```javascript
+   // store.js
+   import { reactive } from 'vue'
+   
+   export const store = reactive({
+     count: 0
+   })
+   ```
+
+   ```javascript
+   // Component.vue
+   import { store } from './store.js'
+   
+   export default {
+     data() {
+       return {
+         store
+       }
+     }
+   }
+   ```
+
+### Pinia
+
+相较于Vuex4,Pinia
+
+* TypeScript支持
+* 代码块分割
+* 响应式支持
+* 移除Mutation
+
+大体上来说,当Vuex一样用,没什么问题
+
+#### 安装
+
+1. 安装
+
+   ```bash
+   npm i pinia
+   ```
+
+2. 挂载vue插件
+
+   ```javascript
+   import { createPinia } from 'pinia'
+   
+   app.use(createPinia())
+   ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # 原理探索
 

@@ -216,7 +216,7 @@ const foo: Foo = {
 
 当被赋值对象和断言对象存在包含关系(不分大小),断言通过,毫无根据的断言非常危险,但是如果仍希望那么做,可以使用any
 
-# 面向对象
+# 面向对象基础
 
 ## 函数
 
@@ -240,6 +240,17 @@ function fullName(firstName: string, lastName?: string): string {
 console.log(fullName("不知名"));
 ```
 
+* 默认值
+
+```javascript
+function fullName(firstName: string, lastName : string = "名菜"): string {
+    return firstName + lastName;
+}
+console.log(fullName("不知名"));
+```
+
+
+
 * 关于方法重载
 
 **TypeScript的方法重载非常拉跨,与javascript后天逻辑实现方法重载的操作无异**
@@ -262,7 +273,7 @@ TypeScript方法重载的缺点
 
 较推荐的方法重载逻辑实现
 
-```
+```javascript
 function typeOf(o: any): string {
     if (o === null) {
         return "null";
@@ -385,9 +396,52 @@ function fn2 <T extends Lengthwise>(x: T): void {
 }
 ```
 
-# 基础补充
+## 声明文件
 
-## 声明第三方库
+以JQuery为例,在TypeScript中,编译器并不认识jquery是什么类型,使用jquery会报错
+
+```TypeScript
+jQuery('#foo');
+// ERROR: Cannot find name 'jQuery'.
+```
+
+这时使用declare var定义他的类型后即可使用
+
+```TypeScript
+declare var jQuery: (selector: string) => any;
+jQuery('#foo');
+```
+
+declare就是声明关键字
+
+通常我们会吧声明语句放到一个单独文件,作为声明文件,声明文件必须以`.d.ts`为后缀
+
+将声明文件放到项目时,其他任何`.ts`文件就都可以获得该声明的类型定义
+
+### 第三方声明文件
+
+jquery的声明已经由社区为我们定义好,我们可以直接这样使用
+
+```bash
+npm i -D @types/jquery
+```
+
+### 声明文件相关配置项
+
+tscconfig.json
+
+–declaration
+–declarationDir
+–types
+–typeRoots
+
+
+
+
+
+
+
+
 
 * TypeScript使用第三方库时,需要使用声明文件才能获得对应的代码补全,接口提示等功能
 
@@ -437,3 +491,4 @@ javascript中的内置对象已经在TypeScript中定义好了类型
 
 
 
+k

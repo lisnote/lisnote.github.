@@ -164,6 +164,12 @@ git branch -d d
 
 # 远程仓库
 
+添加远程仓库
+
+```bash
+git remote add origin git@github.com:username/projectName.git
+```
+
 查看远程分支
 
 ```
@@ -175,6 +181,23 @@ git branch -r
 ```bash
 git push origin --delete branchName
 ```
+
+远程仓库更名后
+
+```
+git branch -m preName latestName
+git fetch origin
+git branch -u origin/latestName latestName
+git remote set-head origin -a
+```
+
+取消关联
+
+```bash
+git remote remove remoteName
+```
+
+
 
 # 标签管理
 

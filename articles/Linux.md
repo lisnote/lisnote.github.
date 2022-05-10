@@ -48,16 +48,10 @@ nginx -s reload
 
      * 全局块
 
-       ```
-       
-       ```
-  ```
-  
-  ```
-  
+       待补充
+
 * server块
   
-       ```
        server {
        	# 监听端口
        	listen	80;
@@ -65,9 +59,6 @@ nginx -s reload
        	server_name localhost;
        	# 地址配置
        }
-  ```
-     
-  ```
 ### server块详解
 
 ​     
@@ -273,6 +264,12 @@ nginx -s reload
   ```
 
 ## 系统信息
+
+* 查看系统基本信息
+
+  ```bash
+  cat /etc/os-release
+  ```
 
 * 查看时间
 
@@ -548,6 +545,8 @@ source /etc/profile
 
 ```
 
+jdk17 tuna镜像地址 : https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jdk/x64/linux/OpenJDK17U-jdk_x64_linux_hotspot_17.0.3_7.tar.gz
+
 ### SimpleServer
 
 ```
@@ -684,6 +683,8 @@ cd ..
 ```
 
 ### V2Ray(服务端)
+
+记得改密码
 
 ```
 # 安装v2ray
