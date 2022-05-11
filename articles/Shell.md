@@ -1,0 +1,638 @@
+---
+date: 2020-09-10 00:11:56
+---
+
+笔记不含基础linux知识
+
+# Bash
+
+众多shell之中最常见和方便的一种
+
+linux一般自带,win可以用git执行
+
+## 基本知识
+
+bash脚本一般以`.sh`结尾
+
+第一个bash脚本`test.sh`
+
+```bash
+#! /bin/bash
+echo "Hello World!"
+# Hello World!
+```
+
+`#`表示注释,会被解释器忽略
+
+```bash
+echo hhh # 这段文字不会输出
+# hhh
+```
+
+`#!`是一个标记,告诉系统脚本需要用什么解释器执行
+
+在linux中,还需要赋予脚本文件执行权限
+
+```bash
+chmod +x ./test.sh
+./test.sh
+```
+
+
+
+## 变量
+
+### 基本使用
+
+```bash
+# 赋值
+name="lisnote"
+# 输出
+echo $name
+# output : lisnote
+```
+
+```bash
+for file in `ls ./`
+do
+	echo $file
+done
+```
+
+只读变量(修改会报错)
+
+```bash
+name="lisnote"
+readonly name
+name="didongxiaoli"
+# name: readonly variable
+```
+
+删除变量(不能删除只读变量)
+
+```bash
+name="lisnote"
+echo $name
+unset name
+echo $name
+# 占行,无其他输出
+```
+
+### 作用域
+
+shell运行时会同时存在三种变量
+
+局部变量 : 在脚本或是指令中定义, 仅在当前shell实例中有效, 其他shell无法访问当前shell的局部变量
+
+```bash
+name="lisnote"
+echo $name
+```
+
+环境变量 : 所有的程序都可以访问到环境变量
+
+```bash
+echo $PATH
+```
+
+### 变量类型
+
+* 字符串
+
+  ```bash
+  name='lisnote'
+  # 单引号字符串里的任何字符都会鸳鸯输出,单引号字符串中的变量是无效的
+  echo '$name :\"HHH\"'
+  # $name :\"HHH\"
+  
+  # 双引号可以包含变量和转义字符
+  echo "$name :\"HHH\""
+  # lisnote :"HHH"
+  
+  # 拼接字符串
+  # 一般可以直接连写
+  # 但是字符串和字符串连接之间多于一个空格会被压为一个空格
+  echo "hello"   $name
+  # hello lisnote
+  
+  # 获取字符串长度
+  echo ${#"lisnote"}
+  # 7
+  
+  # 提取子串
+  # 坐为下标,右为长度
+  name="lisnote"
+  echo ${name:3:4}
+  # note
+  
+  # 查找子串(查找eton任意一个字符)
+  echo `expr index "$name" eton`
+  # 4
+  ```
+
+* 数组
+
+  ```bash
+  # shell中用括号表示数组,用空格或换行将元素分开
+  arr=("didongxiaolii" "lisnote")
+  echo ${arr[1]}
+  arr=(
+  "lisnote"
+  "didiongxiaoli"
+  )
+  echo ${arr[1]}
+  # lisnote
+  # didiongxiaoli
+  
+  # 单个数值修改
+  arr[1]="lisnote"
+  echo ${arr[1]}
+  # lisnote
+  
+  # 用@可以获取数组所有元素
+  echo ${arr[@]}
+  # lisnote lisnote
+  
+  # 获取数组长度
+  echo ${#arr[@]}
+  # 2
+  ```
+
+* number
+
+  数字类型
+
+* boolean
+
+  `true`和`false`
+
+## 输入输出
+
+### read
+
+```bash
+read input
+echo your input : $input
+# your input : ***
+```
+
+### echo
+
+```bash
+name="lisnote"
+echo ordinary output
+# ordinary output
+
+# 输出变量
+echo $name
+# lisnote
+
+# 换行
+echo -e "第一行\n第二行"
+# 第一行
+# 第二行
+
+# 不换行
+echo -e "第一行\c"
+echo "还是第一行"
+# 第一行还是第一行
+
+# 输出系统指令执行结果
+echo `date`
+# 2022年05月10日 19:20:49
+```
+
+### printf
+
+格式化输出, 和echo相比, printf 不会主动添加换行符,并且可以制定字符宽度及左右对齐等
+
+```bash
+printf "ordinary output\n"
+# ordinary output
+
+# 格式化输出
+# % : 占位
+# -15 位长
+# s代表string, f代表float, 还有%d整数, %c单个字符
+printf "%-15s %-5s %s\n" name age weight
+printf "%-15s %-5s %.2f\n" lisnote 22 140.451
+printf "%-15s %-5s %.2f\n" didongxiaoli 22 120.541
+# name            age   weight
+# lisnote         22    140.45
+# didongxiaoli    22    120.54
+```
+
+常用转义符
+
+| 写法 | 作用                       |
+| ---- | -------------------------- |
+| \n   | 换行                       |
+| \r   | 回车                       |
+| \c   | 不输出结构中的任何换行字符 |
+| \t   | 水平制表符                 |
+| \w   | 垂直制表符                 |
+| \\\\ | 一条反斜杠                 |
+
+### 重定向
+
+| 命令 | 用例                           | 用例说明                     |
+| ---- | ------------------------------ | ---------------------------- |
+| >    | echo "output test">output.txt  | echo输出到output.txt文件     |
+| >>   | echo "output test">>output.txt | echo输出追加到output.txt文件 |
+|      |                                |                              |
+
+**补课 : 重定向**
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 传递参数
+
+在执行脚本的时候 如果脚本后面有值,值会被作为参数传入脚本
+
+```bash
+# 执行指令 ./bash.sh lisnote didongxiaoli
+echo "执行的文件名 $0"
+echo "参数1 $1"
+echo "参数2 $2"
+# 执行的文件名为 ./test.sh
+# 参数1 lisnote
+# 参数2 didongxiaoli
+```
+
+一些特殊变量
+
+| 变量名 | 含义                                      |
+| ------ | ----------------------------------------- |
+| #      | 传递参数个数                              |
+| *      | 一个包含所有传入参数的字符串              |
+| @      | 一个包含所有传入参数的数组                |
+| $      | 脚本进程的ID号                            |
+| !      | 最后一个进程的ID                          |
+| ?      | 最后的退出状态,0表示正常退出              |
+| -      | 显示Shell使用的当前选项,与set命令功能一致 |
+
+
+
+## 运算符
+
+shell支持以下运算符
+
+* 算数运算符
+* 关系运算符
+* 布尔运算符
+* 字符串运算符
+* 文件测试运算符
+
+原生bash不支持数学运算,但是可借助其他命令来实现,例如expr,完整的表达式要被`` ` ``包围
+
+使用expr时要注意用空格隔开运算符
+
+```bash
+echo `expr 1 + 1`
+# 2
+```
+
+### 算术运算符
+
+| 算术运算符 | 用例                | 等于      |
+| ---------- | ------------------- | --------- |
+| =          | name="lisnote"      | "lisnote" |
+| +          | `` `expr 1 + 1` ``  | 2         |
+| -          | `` `expr 1 - 1` ``  | 0         |
+| *          | `` `expr 3 \* 5` `` | 15        |
+| /          | `` `expr 10 / 3` `` | 3         |
+| %          | `` `expr 10 % 3` `` | 1         |
+| ==         | [ 1 == 1 ]          | true      |
+| !=         | [ 1 != 1 ]          | false     |
+
+`*`号之前需要加反斜杠表示才能正常实现乘法运算
+
+`==`和`!=`一般用于条件语句,直接在echo中输出不会返回false/true
+
+MAC中的shell运算语法是`$((表达式))`且`*`不需要转义
+
+```bash
+if [ 1 == 1 ]
+then
+	echo True
+else
+	echo False
+fi
+# True
+```
+
+### 关系运算符
+
+关系运算符只支持数字或值为数字的字符串
+
+| 关系运算符 | 作用                  | 用例        | 结果  |
+| ---------- | --------------------- | ----------- | ----- |
+| -eq        | == , equal            | [ 1 -eq 1 ] | true  |
+| -nq        | != , not equal        | [ 1 -nq 1 ] | false |
+| -gt        | > , greater than      | [ 2 -gt 1 ] | true  |
+| -lt        | < , less than         | [ 2 -lt 1 ] | false |
+| -ge        | >= , greater or equal | [ 2 -ge 2 ] | true  |
+| -le        | <= , less or equal    | [ 2 -le 2 ] | true  |
+
+```bash
+if [ 2 -le 2 ]
+then
+	echo True
+else
+	echo False
+fi
+```
+
+### 字符串运算
+
+| 运算符 | 用例         | 说明            |
+| ------ | ------------ | --------------- |
+| =      | [ $a = $b ]  | 字符串是否相等  |
+| !=     | [ $a != $b ] | 字符串是否不等  |
+| -z     | [ -z $a ]    | 字符串是否为0   |
+| -n     | [ -n "$a" ]  | 字符串是否不为0 |
+| $      | [ $a ]       | 字符串是否为空  |
+
+
+
+### 布尔运算
+
+| 运算符 | 描述   | 用例                     | 值    |
+| ------ | ------ | ------------------------ | ----- |
+| !      | 非     | [ ! false ]              | true  |
+| -o     | 或     | [ false -o true ]        | true  |
+| -a     | 与     | [ false -a true ]        | false |
+| &&     | 短路与 | [[ 1 == 1 && 1 == 2 ]]   | false |
+| \|\|   | 短路或 | [[ 1 == 1 \|\| 1 == 2 ]] | true  |
+
+```bash
+if ! false
+then
+	echo True
+else
+	echo False
+fi
+# True
+
+if [ 1 == 1 -o 1 == 2 ]
+then
+	echo True
+else
+	echo False
+fi
+# True
+
+if [[ 1 == 1 || 1 == 2 ]]
+then
+	echo True
+else
+	echo False
+fi
+# True
+```
+
+### 文件测试运算符
+
+此表并不完整, 仅包含常用文件测试运算符
+
+| 运算符 | 描述                    | 用例             | 结果  |
+| ------ | ----------------------- | ---------------- | ----- |
+| -e     | 检测文件/文件夹是否存在 | [ -e ./test.sh ] | true  |
+| -d     | 检测文件是否为目录      | [ -d ./ ]        | true  |
+| -s     | 检测文件是否为空        | [ -s ./test.sh ] | false |
+| -r     | 检测文件是否可读        | [ -r ./test.sh ] | true  |
+| -w     | 检测文件是否可写        | [ -r ./test.sh ] | true  |
+| -x     | 检测文件是否可执行      | [ -X ./test.sh ] | true  |
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 流程控制
+
+bash中,流程控制的控制体不可为空
+
+### if
+
+可以没有`elif`和`else`
+
+```bash
+if false ;
+then 
+	echo false
+elif true ;
+then
+	echo false true
+else
+	echo false false
+fi
+# false true
+```
+
+### for
+
+```bash
+for var in a b c
+do
+    echo "${var}"
+done
+# a
+# b
+# c
+```
+
+### while
+
+```bash
+i=0
+while(( $i <= 2 ))
+do
+    echo $i
+    let "i++"
+done
+# 0
+# 1
+# 2
+```
+
+### case
+
+```bash
+case 1 in
+	0)	echo test
+	;;
+	1)	echo 1
+	;;
+esac
+# 1
+```
+
+### continue
+
+跳过本次循环
+
+```bash
+i=0
+while((i<3))
+do
+	let "i++"
+	if(( i == 1 ))
+	then
+		continue
+	fi
+	echo $i
+done
+# 2
+# 3
+```
+
+### break
+
+跳出循环
+
+```bash
+i=0
+while((i<3))
+do
+	let "i++"
+	if(( i == 2 ))
+	then
+		break
+	fi
+	echo $i
+done
+# 1
+```
+
+## 函数
+
+```bash
+# 函数定义及调用
+funTest(){
+	echo function success
+}
+funTest
+# function success
+
+# 传入参数
+funTest(){
+	echo $1 $2
+}
+funTest didongxiaoli lisnote
+# didongxiaoli lisnote
+```
+
+函数传入参数可使用变量可参考[传入参数](#传入参数)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
