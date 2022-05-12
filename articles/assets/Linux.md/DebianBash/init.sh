@@ -21,8 +21,13 @@ EOF
 IsSuccess "SSH 防断连"
 }
 
+TimeZoneConfig(){
+timedatectl set-timezone Asia/Shanghai
+}
+
 Init(){
 CreateAppDir 
 BackupFile
 SshConfig
+TimeZoneConfig
 }

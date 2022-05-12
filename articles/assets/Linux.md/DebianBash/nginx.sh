@@ -3,7 +3,7 @@
 AddNginx(){
 # 安装编译支持库
 apt-get update && sudo apt-get upgrade -y
-apt-get install build-essential libpcre3 libpcre3-dev zlib1g-dev git -y
+apt-get install build-essential libpcre3 libpcre3-dev zlib1g-dev git libssl-dev -y
 # 下载构建所需文件
 mkdir nginx_build && cd nginx_build
 wget -c https://nginx.org/download/nginx-1.20.2.tar.gz
@@ -12,7 +12,7 @@ tar zxf nginx-1.20.2.tar.gz && rm nginx-1.20.2.tar.gz
 cd nginx-1.20.2
 ./configure \
 --prefix=/app/nginx \
---with-http_v2_module
+--with-http_v2_module \
 --with-http_ssl_module
 make
 make install
@@ -39,3 +39,42 @@ EOF
 systemctl enable nginx.service
 IsSuccess "nginx自启配置"
 }
+
+# worker_processes  1;
+# events {
+#     worker_connections  1024;
+# }
+# http {
+#     include       mime.types;
+#     default_type  application/octet-stream;
+#     sendfile        on;
+#     keepalive_timeout  65;
+#     server {
+#         listen       80;
+#         server_name  lisnote.com;
+#         location / {
+#             rewrite ^(.*)$ https://${server_name}$1;
+#         }
+#     }
+#     server {
+#         listen       443 ssl;
+#         server_name  lisnote.com;
+# 
+#         ssl_certificate      "../web/lisnote.com/lisnote.com.pem";
+#         ssl_certificate_key  "../web/lisnote.com/lisnote.com.key";
+# 
+#         ssl_session_cache    shared:SSL:1m;
+#         ssl_session_timeout  5m;
+# 
+#         ssl_ciphers  HIGH:!aNULL:!MD5;
+#         ssl_prefer_server_ciphers  on;
+# 
+#         location / {
+#             root   html;
+#             index  index.html index.htm;
+#             add_header Cache-Control 'no-store, no-cache';
+#             try_files $uri $uri/ /index.html;
+#             autoindex_localtime  on;
+#         }
+#     }
+# }
