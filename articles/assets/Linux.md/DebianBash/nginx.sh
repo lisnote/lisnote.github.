@@ -24,7 +24,7 @@ echo -e "\nexport PATH=\$PATH:/app/nginx/sbin\n" >> /etc/profile
 source /etc/profile
 nginx -v
 IsSuccess "nginx编译安装"
-cat << EOF >> /etc/systemd/system/nginx.service
+cat << EOF > /etc/systemd/system/nginx.service
 [Unit]
 After=syslog.target network-online.target remote-fs.target nss-lookup.target
 Wants=network-online.target

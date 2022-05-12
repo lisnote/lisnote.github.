@@ -5,3 +5,9 @@ source init.sh
 source java.sh
 source nodejs.sh
 source nginx.sh
+
+AddAll(){
+    AddJava
+    AddNginx
+    AddNodeJS
+}
