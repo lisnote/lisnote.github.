@@ -837,13 +837,13 @@ npm install -g yarn
 因为经常开新服务器,所以写了一些脚本来配置比较基本的环境
 适合Debian X64
 
-## 使用
+## 写入函数
 
 ```bash
 source <(curl https://raw.githubusercontent.com/lisnote/lisnote.github.io/main/articles/assets/Linux.md/DebianBash/main)
 ```
 
-## 提供的指令
+## 提供的函数
 
 ```bash
 # 初始化函数-----------------------------------
