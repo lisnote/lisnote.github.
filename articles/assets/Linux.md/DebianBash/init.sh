@@ -2,9 +2,9 @@
 
 CreateAppDir(){
 ln -s /usr/local/etc/ /app
-echo -e "\n\n\ncd /app">>/root/.bashrc
+echo -e "\n\n\ncd /app" >> ~/.bashrc
 cd /app
-IsSuccess "建立快捷链接"
+IsSuccess "建立符号链接"
 }
 
 BackupFile(){

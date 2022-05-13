@@ -1,5 +1,38 @@
-#!/bin/bash
-
+IsSuccess(){
+if [ $? == 0 ]
+then
+    echo  $1"成功------------------------------"
+else
+    printf '\033[31m%s失败------------------------------\n\033[39m' $1
+fi
+}
+CreateAppDir(){
+ln -s /usr/local/etc/ /app
+echo -e "\n\n\ncd /app" >> ~/.bashrc
+cd /app
+IsSuccess "建立符号链接"
+}
+BackupFile(){
+cp /etc/profile /etc/profile.backup && \
+cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
+IsSuccess "备份重要文件"
+}
+SshConfig(){
+cat << EOF >> /etc/ssh/sshd_config
+ClientAliveInterval 60
+ClientAliveCountMax 10
+EOF
+IsSuccess "SSH 防断连"
+}
+TimeZoneConfig(){
+timedatectl set-timezone Asia/Shanghai
+}
+Init(){
+CreateAppDir 
+BackupFile
+SshConfig
+TimeZoneConfig
+}
 AddJava(){
 cat << EOF >> /etc/profile
 export JAVA_HOME=/app/jdk
@@ -14,14 +47,12 @@ source /etc/profile
 java -version
 IsSuccess "Java17安装"
 }
-
 AddSimpleServer(){
 cat << EOF >> SimpleServer.java
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-
 public class Main {
     public static void main(String[] args) {
         int port = 80;
@@ -49,11 +80,9 @@ public class Main {
 }
 class SocketThread extends Thread {
     final Socket socket;
-
     public SocketThread(Socket socket) {
         this.socket = socket;
     }
-
     @Override
     public void run() {
         try (InputStream inputStream = socket.getInputStream()) {
@@ -79,4 +108,46 @@ class SocketThread extends Thread {
     }
 }
 EOF
+}
+AddNginx(){
+apt-get update && sudo apt-get upgrade -y
+apt-get install build-essential libpcre3 libpcre3-dev zlib1g-dev git libssl-dev -y
+mkdir nginx_build && cd nginx_build
+wget -c https://nginx.org/download/nginx-1.20.2.tar.gz
+tar zxf nginx-1.20.2.tar.gz && rm nginx-1.20.2.tar.gz
+cd nginx-1.20.2
+./configure \
+--prefix=/app/nginx \
+--with-http_v2_module \
+--with-http_ssl_module
+make
+make install
+cd ../..
+rm -rf nginx_build
+echo -e "\nexport PATH=\$PATH:/app/nginx/sbin\n" >> /etc/profile
+source /etc/profile
+nginx -v
+IsSuccess "nginx编译安装"
+cat << EOF > /etc/systemd/system/nginx.service
+[Unit]
+After=syslog.target network-online.target remote-fs.target nss-lookup.target
+Wants=network-online.target
+[Service]
+Type=forking
+ExecStart=/app/nginx/sbin/nginx
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable nginx.service
+IsSuccess "nginx自启配置"
+}
+AddNodeJS(){
+wget https://nodejs.org/dist/v16.13.0/node-v16.13.0-linux-x64.tar.xz
+tar xf node-v16.13.0-linux-x64.tar.xz
+mv node-v16.13.0-linux-x64 node
+rm -f node-v16.13.0-linux-x64.tar.xz
+echo -e "\nexport PATH=\$PATH:/app/node/bin\n" >> /etc/profile
+source /etc/profile
+node -v
+IsSuccess "NodeJs安装"
 }

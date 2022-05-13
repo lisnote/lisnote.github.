@@ -65,6 +65,14 @@ nginx -s reload
 
 ​     
 
+### nginx预置变量
+
+| 变量 | 描述 | 用例 |
+| ---- | ---- | ---- |
+|      |      |      |
+
+
+
 
 ## VM Ware中的linux
 
@@ -693,83 +701,6 @@ cd ..
 # secret: "Private.825814"
 ```
 
-### V2Ray(服务端)
-
-记得改密码
-
-```
-# 安装v2ray
-mkdir v2ray
-cd v2ray
-# 下载并解压
-wget https://github.com/v2fly/v2ray-core/releases/download/v4.31.0/v2ray-linux-64.zip
-unzip v2ray-linux-64.zip
-# 删除压缩包
-rm -f v2ray-linux-64.zip
-# 修改config.json为以下内容
-# {
-#   "inbounds": [{
-#     "port": 23581,
-#     "protocol": "vmess",
-#     "settings": {
-#       "clients": [
-#         {
-#           "id": "ceb793e6-49cf-25d8-e4de-ae542e62748e",
-#           "level": 1,
-#           "alterId": 64
-#         }
-#       ]
-#     }
-#   }],
-#   "outbounds": [{
-#     "protocol": "freedom",
-#     "settings": {}
-#   },{
-#     "protocol": "blackhole",
-#     "settings": {},
-#     "tag": "blocked"
-#   }],
-#   "routing": {
-#     "rules": [
-#       {
-#         "type": "field",
-#         "ip": ["geoip:private"],
-#         "outboundTag": "blocked"
-#       }
-#     ]
-#   }
-# }
-cp config.json config.json.backup
-echo -e "{\n  \"inbounds\": [{\n    \"port\": 23581,\n    \"protocol\": \"vmess\",\n    \"settings\": {\n      \"clients\": [\n        {\n          \"id\": \"ceb793e6-49cf-25d8-e4de-ae542e62748e\",\n          \"level\": 1,\n          \"alterId\": 64\n        }\n      ]\n    }\n  }],\n  \"outbounds\": [{\n    \"protocol\": \"freedom\",\n    \"settings\": {}\n  },{\n    \"protocol\": \"blackhole\",\n    \"settings\": {},\n    \"tag\": \"blocked\"\n  }],\n  \"routing\": {\n    \"rules\": [\n      {\n        \"type\": \"field\",\n        \"ip\": [\"geoip:private\"],\n        \"outboundTag\": \"blocked\"\n      }\n    ]\n  }\n}">config.json
-# 开放端口
-firewall-cmd --add-port=23581/tcp --permanent
-firewall-cmd --reload
-# 配置自启文件v2ray.service
-# [Unit]
-# Description=V2Ray Service
-# Documentation=https://www.v2fly.org/
-# After=network.target nss-lookup.target
-# 
-# [Service]
-# User=nobody
-# CapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-# AmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE
-# NoNewPrivileges=true
-# ExecStart=/app/v2ray/v2ray -config /app/v2ray/config.json
-# Restart=on-failure
-# RestartPreventExitStatus=23
-# 
-# [Install]
-# WantedBy=multi-user.target
-
-echo -e "[Unit]\nDescription=V2Ray Service\nDocumentation=https://www.v2fly.org/\nAfter=network.target nss-lookup.target\n\n[Service]\nUser=nobody\nCapabilityBoundingSet=CAP_NET_ADMIN CAP_NET_BIND_SERVICE\nAmbientCapabilities=CAP_NET_ADMIN CAP_NET_BIND_SERVICE\nNoNewPrivileges=true\nExecStart=/app/v2ray/v2ray -config /app/v2ray/config.json\nRestart=on-failure\nRestartPreventExitStatus=23\n\n[Install]\nWantedBy=multi-user.target">v2ray.service
-mv v2ray.service /etc/systemd/system/v2ray.service
-systemctl enable v2ray
-systemctl start v2ray
-cd ..
-
-```
-
 ### frp
 
 #### 服务端(Cent OS)
@@ -900,117 +831,47 @@ npm install -g yarn
 
 
 
-# 新服务器指令流
 
-## CentOS
+# 我的脚本
 
-其实已经不推荐了
+因为经常开新服务器,所以写了一些脚本来配置比较基本的环境
+适合Debian X64
 
-```
-# ----------------------------------------------------------------
-# 安装frp
-wget https://github.com/fatedier/frp/releases/download/v0.36.2/frp_0.36.2_linux_amd64.tar.gz
-tar -zxvf frp_0.36.2_linux_amd64.tar.gz
-rm -f frp_0.36.2_linux_amd64.tar.gz
-mv frp_0.36.2_linux_amd64/ frp/
-cd frp
-# 修改服务端配置文件frps.ini
-# [common]
-# bind_port = 3390
-# # 明文秘钥请勿输入常用密码
-# token = WYqn1Prq4A
-cp frps.ini frps.ini.backup
-echo -e "[common]\nbind_port = 3390\ntoken = WYqn1Prq4A">frps.ini
-# 开放端口
-firewall-cmd --add-port=3390/tcp --permanent
-firewall-cmd --add-port=3391/tcp --permanent
-firewall-cmd --reload
-# 配置服务端自启文件frps.service
-# [Unit]
-# Description=Frp Server Service
-# After=network.target
-# 
-# [Service]
-# Type=simple
-# User=nobody
-# Restart=on-failure
-# RestartSec=5s
-# ExecStart=/app/frp/frps -c /app/frp/frps.ini
-# 
-# [Install]
-# WantedBy=multi-user.target
-echo -e "[Unit]\nDescription=Frp Server Service\nAfter=network.target\n\n[Service]\nType=simple\nUser=nobody\nRestart=on-failure\nRestartSec=5s\nExecStart=/app/frp/frps -c /app/frp/frps.ini\n\n[Install]\nWantedBy=multi-user.target">frps.service
-mv frps.service /etc/systemd/system/frps.service
-systemctl enable frps
-systemctl start frps
-cd ..
+## 使用
+
+```bash
+source <(curl https://raw.githubusercontent.com/lisnote/lisnote.github.io/main/articles/assets/Linux.md/DebianBash/main)
 ```
 
+## 提供的指令
 
+```bash
+# 初始化函数-----------------------------------
+# 运行所有初始化函数
+Init
+# 为 /use/local/etc/ 建立符号链接 /app ,
+CreateAppDir
+# 备份重要文件
+BackupFile
+# SSH防断连
+SshConfig
+# 设置时区
+TimeZoneConfig
 
-## Debian
+# 安装环境--------------------------------------
+# 安装Java17
+AddJava
+# 安装Nginx
+AddNginx
+# 安装NodeJS16.13
+AddNodeJS
+```
 
-做了一些脚本, 适合Debian x64
+## 打包
 
-脚本位于[./assets/Linux.md/DebianBash](./assets/Linux.md/DebianBash)
-
-做了这些任务
-
-1. 建立快捷链接 /app 到 /use/local/etc/
-2. 安装java
-3. 安装nginx
-4. 安装nodejs
-
-其实apt-get都有,唯一的好处是这些应用都安装在/app目录下
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+```bash
+cat *.sh | tr -d "\r" | sed "/^$/d;/#.*/d">main
+```
 
 
 
