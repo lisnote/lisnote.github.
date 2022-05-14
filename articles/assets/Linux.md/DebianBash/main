@@ -7,7 +7,7 @@ else
 fi
 }
 CreateAppDir(){
-ln -s /usr/local/etc/ /app
+ln -s /usr/local/lib/ /app
 echo -e "\n\n\ncd /app" >> ~/.bashrc
 cd /app
 IsSuccess "建立符号链接"
@@ -15,7 +15,12 @@ IsSuccess "建立符号链接"
 BackupFile(){
 cp /etc/profile /etc/profile.backup && \
 cp /etc/ssh/sshd_config /etc/ssh/sshd_config.backup
-IsSuccess "备份重要文件"
+IsSuccess "备份文件"
+}
+RecoverFile(){
+cp/etc/profile.backup /etc/profile  && \
+cp /etc/ssh/sshd_config.backup /etc/ssh/sshd_config
+IsSuccess "恢复文件"
 }
 SshConfig(){
 cat << EOF >> /etc/ssh/sshd_config
@@ -62,7 +67,7 @@ make
 make install
 cd ../..
 rm -rf nginx_build
-echo -e "\nexport PATH=\$PATH:/app/nginx/sbin\n" >> /etc/profile
+ln -s /app/nginx/sbin/nginx /usr/local/sbin/nginx
 source /etc/profile
 nginx -v
 IsSuccess "nginx编译安装"
@@ -78,6 +83,44 @@ WantedBy=multi-user.target
 EOF
 systemctl enable --now nginx.service
 IsSuccess "nginx自启配置"
+cat << EOF > /app/nginx/conf/nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+    server {
+        listen       80;
+        location / {
+            rewrite ^(.*)$ https://\$host\$1;
+        }
+    }
+    server {
+        listen       443 ssl;
+        ssl_certificate      "/app/ca/lisnote.com.pem";
+        ssl_certificate_key  "/app/ca/lisnote.com.key";
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+        location / {
+            root   html;
+            index  index.html index.htm;
+            add_header Cache-Control 'no-store, no-cache';
+            try_files \$uri \$uri/ /index.html;
+            autoindex_localtime  on;
+        }
+        location /info {
+            proxy_set_header x-forwarded-for \$proxy_add_x_forwarded_for;
+            proxy_pass http://localhost:10001;
+        }
+    }
+}
+EOF
 }
 AddNodeJS(){
 wget https://nodejs.org/dist/v16.13.0/node-v16.13.0-linux-x64.tar.xz

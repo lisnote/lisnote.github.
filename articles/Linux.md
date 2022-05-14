@@ -443,8 +443,8 @@ http {
     server {
         listen       443 ssl;
 
-        ssl_certificate      "../ca/lisnote.com.pem";
-        ssl_certificate_key  "../ca/lisnote.com.key";
+        ssl_certificate      "/app/ca/lisnote.com.pem";
+        ssl_certificate_key  "/app/ca/lisnote.com.key";
         ssl_session_cache    shared:SSL:1m;
         ssl_session_timeout  5m;
         ssl_ciphers  HIGH:!aNULL:!MD5;
@@ -843,11 +843,12 @@ npm install -g yarn
 
 
 
-
 # 我的脚本
 
 因为经常开新服务器,所以写了一些脚本来配置比较基本的环境
 适合Debian X64
+
+[本地存放位置](./assets/Linux.md/DebianBash)
 
 ## 写入函数
 

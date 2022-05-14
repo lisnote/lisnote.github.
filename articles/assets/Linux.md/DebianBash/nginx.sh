@@ -20,7 +20,7 @@ make install
 cd ../..
 rm -rf nginx_build
 # 配置服务及环境变量
-echo -e "\nexport PATH=\$PATH:/app/nginx/sbin\n" >> /etc/profile
+ln -s /app/nginx/sbin/nginx /usr/local/sbin/nginx
 source /etc/profile
 nginx -v
 IsSuccess "nginx编译安装"
@@ -36,43 +36,51 @@ ExecStart=/app/nginx/sbin/nginx
 [Install]
 WantedBy=multi-user.target
 EOF
+
 systemctl enable --now nginx.service
 IsSuccess "nginx自启配置"
+# 替换配置
+cat << EOF > /app/nginx/conf/nginx.conf
+worker_processes  1;
+events {
+    worker_connections  1024;
 }
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
 
-# worker_processes  1;
-# events {
-#     worker_connections  1024;
-# }
-# http {
-#     include       mime.types;
-#     default_type  application/octet-stream;
-#     sendfile        on;
-#     keepalive_timeout  65;
-#     server {
-#         listen       80;
-#         location / {
-#             rewrite ^(.*)$ https://$host$1;
-#         }
-#     }
-#     server {
-#         listen       443 ssl;
-#         ssl_certificate      "../ca/lisnote.com.pem";
-#         ssl_certificate_key  "../ca/lisnote.com.key";
-#         ssl_session_cache    shared:SSL:1m;
-#         ssl_session_timeout  5m;
-#         ssl_ciphers  HIGH:!aNULL:!MD5;
-#         ssl_prefer_server_ciphers  on;
-#         location / {
-#             root   html;
-#             index  index.html index.htm;
-#             add_header Cache-Control 'no-store, no-cache';
-#             try_files $uri $uri/ /index.html;
-#             autoindex_localtime  on;
-#         }
-#         location /info {
-#             proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;
-#             proxy_pass http://localhost:10001;
-#         }
-#     }
-# }
+    server {
+        listen       80;
+        location / {
+            rewrite ^(.*)$ https://\$host\$1;
+        }
+    }
+
+    server {
+        listen       443 ssl;
+
+        ssl_certificate      "/app/ca/lisnote.com.pem";
+        ssl_certificate_key  "/app/ca/lisnote.com.key";
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+            add_header Cache-Control 'no-store, no-cache';
+            try_files \$uri \$uri/ /index.html;
+            autoindex_localtime  on;
+        }
+
+        location /info {
+            proxy_set_header x-forwarded-for \$proxy_add_x_forwarded_for;
+            proxy_pass http://localhost:10001;
+        }
+    }
+}
+EOF
+}
