@@ -7,6 +7,6 @@ mv node-v16.13.0-linux-x64 node
 rm -f node-v16.13.0-linux-x64.tar.xz
 echo -e "\nexport PATH=\$PATH:/app/node/bin\n" >> /etc/profile
 source /etc/profile
-node -v
-IsSuccess "NodeJs安装"
+node -v && npm -v
+IsSuccess "npm安装"
 }

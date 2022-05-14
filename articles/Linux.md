@@ -3,110 +3,6 @@ date: 2020-08-24 14:18:00
 ---
 做笔记时大多数都是CentOS, 但是现在我也不想用CentOS了
 
-# 基础之基础
-
-## Nginx
-
-官网: https://nginx.org/
-
-### 常用指令
-
-```
-启动
-nginx
-关闭
-nginx -s stop
-重新加载配置文件
-nginx -s reload
-```
-
-### Nginx配置
-
-* nginx 配置文件有三个部分组成
-
-  1. 全局块 : 从配置开始到event{}之间的内容
-
-     ```
-     # 可并发处理数量为1(受硬件限制)
-     worker_processes 1;
-     ```
-
-  2. events 块
-
-     ```
-     events {
-     	# 支持最大连接数1024
-     	worker_connections 1024;
-     }
-     ```
-
-  3. http 块
-
-     ```
-     http {
-     
-     }
-     ```
-
-     * 全局块
-
-       待补充
-
-* server块
-  
-       server {
-       	# 监听端口
-       	listen	80;
-       	# 主机名称
-       	server_name localhost;
-       	# 地址配置
-       }
-### server块详解
-
-​     
-
-### nginx预置变量
-
-| 变量 | 描述 | 用例 |
-| ---- | ---- | ---- |
-|      |      |      |
-
-
-
-
-## VM Ware中的linux
-
-* 想要ping通主机和广域网需要注意以下几点
-
-  ```
-  主机和虚拟机存在相同的子网网段连接(Windows中的虚拟网卡不建议DHCP)
-  Windows修改文件打印的ipv4入站规则(为什么会是文件打印我也不清楚)
-  Windows防火墙规则
-  linux防火墙规则
-  ```
-  
-* 反虚拟机病毒
-
-  通关识别自身位于虚拟机而作出与在实体机器中不同的反应来伪装自身安全性的病毒
-
-  该类病毒的一般识别虚拟机的手段为:
-
-  * 虚拟机特定程序
-  * 虚拟机特定网关
-  * 虚拟机注册表信息
-
-## Nmap
-
-* 常用指令
-
-  ```
-  扫描一个网段所有子网ip  效果同nmap 192.168.0.*
-  nmap 192.168.0.0/24
-  扫描一个连续的ip
-  nmap 192.168.0-50
-  扫描一个ip的1到65535的tcp端口
-  nmap 192.168.0.10 -p1-65535
-  ```
 
 
 # 系统指令
@@ -507,9 +403,125 @@ ssh进入192.168.1.1
 
 
 
+# 常用应用
+
+## Nginx
+
+官网: https://nginx.org/
+
+### 常用指令
+
+```
+启动
+nginx
+关闭
+nginx -s stop
+重新加载配置文件
+nginx -s reload
+```
+
+### 基本配置
+
+```nginx
+worker_processes  1;
+events {
+    worker_connections  1024;
+}
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+    sendfile        on;
+    keepalive_timeout  65;
+
+    server {
+        listen       80;
+        location / {
+            rewrite ^(.*)$ https://$host$1;
+        }
+    }
+
+    server {
+        listen       443 ssl;
+
+        ssl_certificate      "../ca/lisnote.com.pem";
+        ssl_certificate_key  "../ca/lisnote.com.key";
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+            add_header Cache-Control 'no-store, no-cache';
+            try_files $uri $uri/ /index.html;
+            autoindex_localtime  on;
+        }
+
+        location /info {
+            proxy_set_header x-forwarded-for $proxy_add_x_forwarded_for;
+            proxy_pass http://localhost:10001;
+        }
+    }
+}
+```
 
 
-# 应用合辑
+
+### 基本应用
+
+```
+# 添加响应头
+add_header Cache-Control 'no-store, no-cache';
+```
+
+### 常用变量
+
+| 变量名 | 值举例       |
+| ------ | ------------ |
+| host   | lisnote.com/ |
+
+
+
+
+
+## VM Ware中的linux
+
+* 想要ping通主机和广域网需要注意以下几点
+
+  ```
+  主机和虚拟机存在相同的子网网段连接(Windows中的虚拟网卡不建议DHCP)
+  Windows修改文件打印的ipv4入站规则(为什么会是文件打印我也不清楚)
+  Windows防火墙规则
+  linux防火墙规则
+  ```
+
+* 反虚拟机病毒
+
+  通关识别自身位于虚拟机而作出与在实体机器中不同的反应来伪装自身安全性的病毒
+
+  该类病毒的一般识别虚拟机的手段为:
+
+  * 虚拟机特定程序
+  * 虚拟机特定网关
+  * 虚拟机注册表信息
+
+## Nmap
+
+* 常用指令
+
+  ```
+  扫描一个网段所有子网ip  效果同nmap 192.168.0.*
+  nmap 192.168.0.0/24
+  扫描一个连续的ip
+  nmap 192.168.0-50
+  扫描一个ip的1到65535的tcp端口
+  nmap 192.168.0.10 -p1-65535
+  ```
+
+
+
+## 应用合辑
 
 ## 端口建议
 
@@ -543,7 +555,7 @@ ssh进入192.168.1.1
 
 
 
-## amd64
+## 安装
 
 ### java17
 
