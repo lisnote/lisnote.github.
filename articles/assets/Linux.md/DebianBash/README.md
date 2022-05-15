@@ -32,6 +32,8 @@ AddJava
 AddNginx
 # 安装NodeJS16.13
 AddNodeJS
+# 安装Docker社区版
+AddDocker
 ```
 
 ## 打包
