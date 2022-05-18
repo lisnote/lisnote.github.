@@ -1,9 +1,11 @@
 ---
 date: 2020-08-24 14:18:00
 ---
-做笔记时大多数都是CentOS, 但是现在我也不想用CentOS了
+做笔记时大多数都是CentOS, 但是由于Centos即将停止维护或是转向不那么稳定的stream版本
 
+个人建议使用Debian
 
+[查看Debian相关笔记](https://lisnote.github.io/?search=Debian)
 
 # 系统指令
 
@@ -841,19 +843,17 @@ source /etc/profile
 npm install -g yarn
 ```
 
-
-
 # 我的脚本
 
 因为经常开新服务器,所以写了一些脚本来配置比较基本的环境
 适合Debian X64
 
-[本地存放位置](./assets/Linux.md/DebianBash)
+[本地存放位置](./assets/Debian.md/bash)
 
 ## 写入函数
 
 ```bash
-source <(curl https://raw.githubusercontent.com/lisnote/lisnote.github.io/main/articles/assets/Linux.md/DebianBash/main)
+source <(curl https://raw.githubusercontent.com/lisnote/lisnote.github.io/main/articles/assets/Debian.md/bash/main)
 ```
 
 ## 提供的函数
@@ -862,7 +862,7 @@ source <(curl https://raw.githubusercontent.com/lisnote/lisnote.github.io/main/a
 # 初始化函数-----------------------------------
 # 运行所有初始化函数
 Init
-# 为 /use/local/etc/ 建立符号链接 /app ,
+# 为 /use/local/lib/ 建立符号链接 /app ,
 CreateAppDir
 # 备份重要文件
 BackupFile
