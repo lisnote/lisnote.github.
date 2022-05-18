@@ -7,7 +7,7 @@
 ## 使用
 
 ```bash
-source <(curl https://raw.githubusercontent.com/lisnote/lisnote.github.io/main/articles/assets/Linux.md/DebianBash/main)
+source <(curl https://raw.githubusercontent.com/lisnote/lisnote.github.io/main/articles/assets/Debian.md/bash/main)
 ```
 
 ## 提供的指令
