@@ -209,7 +209,16 @@ date: 2020-08-24 14:18:00
   lsb_release
   ```
 
-  
+
+### 设置时区
+
+```bash
+TZ='Asia/Shanghai'; export TZ
+rm -f /etc/localtime
+ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+```
+
+
 
 ## 文件管理
 
@@ -715,7 +724,6 @@ cd ..
 # secret: "Private.825814"
 ```
 
-### frp
 
 #### 服务端(Cent OS)
 

@@ -2,7 +2,7 @@
 
 AddNginx(){
 # 安装编译支持库
-apt-get update && sudo apt-get upgrade -y
+apt-get update && apt-get upgrade -y
 apt-get install build-essential libpcre3 libpcre3-dev zlib1g-dev git libssl-dev -y
 # 下载构建所需文件
 mkdir nginx_build && cd nginx_build
@@ -11,7 +11,7 @@ tar zxf nginx-1.20.2.tar.gz && rm nginx-1.20.2.tar.gz
 # 编译安装
 cd nginx-1.20.2
 ./configure \
---prefix=/app/nginx \
+--prefix=/nginx \
 --with-http_v2_module \
 --with-http_ssl_module
 make
