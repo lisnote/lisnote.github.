@@ -6693,11 +6693,161 @@ public class Main {
 
 ## 发送Email
 
+邮件客户端一般称为MUA : Mail User Agent,负责最终查看邮件
 
+邮件服务端一般称为MTA : Mail Transfer Agent, 负责将邮件转发到MUA
 
+MUA到MTA发送邮件的协议是SMTP(Simple Mail Transport Protocol)
 
+服务端口为25, 或是加密端口465或587
 
+当我们要使用自己的邮件地址`me@example.com`发送右键给服务器`xiaoming@other.com`,我们在发送前,需要知道服务器地址和端口号,通常服务器地址是smtp.example.com,端口号由右键服务商决定是25/465/587
 
+常见的邮件服务商SMTP信息
+
+QQ邮箱 : smtp.qq.com:465/587
+
+163邮箱 : smtp.163.com:465
+
+Gmail邮箱 : smtp.gmail.com:465/587
+
+有了smtp服务器,还需要smtp服务器登录信息
+
+通常是使用自己的右键地址作为用户名, 登录口令是用户口令或独立设置SMTP口令
+
+**java实现**
+
+1. 引入依赖
+
+   ```xml
+   <dependency>
+       <groupId>javax.mail</groupId>
+       <artifactId>javax.mail-api</artifactId>
+       <version>1.6.2</version>
+   </dependency>
+   <dependency>
+       <groupId>com.sun.mail</groupId>
+       <artifactId>javax.mail</artifactId>
+       <version>1.6.2</version>
+   </dependency>
+   ```
+
+2. 发送邮件
+
+   以QQ邮箱为例, 发送邮件需要在这里申请授权码 : [传送门](http://service.mail.qq.com/cgi-bin/help?subtype=1&&id=28&&no=1001256)
+
+   ```java
+   package com.lisnote;
+   
+   import javax.mail.*;
+   import javax.mail.internet.InternetAddress;
+   import javax.mail.internet.MimeMessage;
+   import java.util.Properties;
+   
+   public class Mail {
+       public static void main(String[] args) throws MessagingException {
+           // 服务器地址:
+           String smtp = "smtp.qq.com";
+   // 登录用户名:
+           String username = "##你的QQ号##";
+   // 登录口令:
+           String password = "##邮箱登录口令(需要申请)##";
+   // 连接到SMTP服务器587端口:
+           Properties props = new Properties();
+           props.put("mail.smtp.host", smtp); // SMTP主机名
+           props.put("mail.smtp.port", "587"); // 主机端口号
+           props.put("mail.smtp.auth", "true"); // 是否需要用户认证
+           props.put("mail.smtp.starttls.enable", "true"); // 启用TLS加密
+   // 获取Session实例:
+           Session session = Session.getInstance(props, new Authenticator() {
+               protected PasswordAuthentication getPasswordAuthentication() {
+                   return new PasswordAuthentication(username, password);
+               }
+           });
+           // 设置debug模式便于调试:
+           session.setDebug(true);
+   
+           MimeMessage message = new MimeMessage(session);
+           // 设置发送方地址:
+           message.setFrom(new InternetAddress("##你的QQ号##@qq.com"));
+           // 设置接收方地址:
+           message.setRecipient(Message.RecipientType.TO, new InternetAddress("##对方的邮箱##"));
+           // 设置邮件主题:
+           message.setSubject("Hello", "UTF-8");
+           // 设置邮件正文:
+           message.setText("Hi Xiaoming...", "UTF-8");
+           // 发送:
+           Transport.send(message);
+       }
+   }
+   ```
+
+* 如果需要发送HTML邮件,作以下更改
+
+  ```java
+  // message.setText(body, "UTF-8");
+  message.setText(body, "UTF-8", "html");
+  ```
+
+  然后传入的body类似\<h1\>你好\<h1\>这样的即可
+
+* 发送附件
+
+  发送附件需要构造一个Multipart对象
+
+  一个Multipart对象可以添加多个BodyPart
+
+  BodyPort由setContent()决定添加内容格式
+
+  文本类型 : setContent("...", "text/plain;charset=utf-8")
+
+  HTML类型 : setContent("...", "text/html;charset=utf-8")
+
+  添加附件需要设置文件名,附件名不一定和文件名一致
+
+  传入文件MIME类型, 二进制文件用application/octet-stream ,word文档application/msword
+
+  ```java
+  Multipart multipart = new MimeMultipart();
+  // 添加text:
+  BodyPart textpart = new MimeBodyPart();
+  textpart.setContent(body, "text/html;charset=utf-8");
+  multipart.addBodyPart(textpart);
+  // 添加image:
+  BodyPart imagepart = new MimeBodyPart();
+  imagepart.setFileName(fileName);
+  imagepart.setDataHandler(new DataHandler(new ByteArrayDataSource(input, "application/octet-stream")));
+  multipart.addBodyPart(imagepart);
+  // 设置邮件内容为multipart:
+  message.setContent(multipart);
+  ```
+
+  
+
+* HTML内嵌图片
+
+  HTML直接使用src连接图片会被过滤并提示邮件不安全
+
+  实际上内嵌图片也是附件
+
+  ```java
+  Multipart multipart = new MimeMultipart();
+  // 添加text:
+  BodyPart textpart = new MimeBodyPart();
+  textpart.setContent("<h1>Hello</h1><p><img src=\"cid:img01\"></p>", "text/html;charset=utf-8");
+  multipart.addBodyPart(textpart);
+  // 添加image:
+  BodyPart imagepart = new MimeBodyPart();
+  imagepart.setFileName(fileName);
+  imagepart.setDataHandler(new DataHandler(new ByteArrayDataSource(input, "image/jpeg")));
+  // 与HTML的<img src="cid:img01">关联:
+  imagepart.setHeader("Content-ID", "<img01>");
+  multipart.addBodyPart(imagepart);
+  ```
+
+  
+
+  
 
 
 

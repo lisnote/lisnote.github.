@@ -4,6 +4,8 @@ date: 2022-05-17 21:00:43
 
 由于CentOS重心的转移,Debian在服务端的使用占比正逐渐提高
 
+本文不介绍bash知识,旨在记录常用指令
+
 # 新服务器
 
 新的Debian服务器需要做的事情
@@ -63,4 +65,84 @@ AddDocker
 ```bash
 cat *.sh | tr -d "\r" | sed "/^$/d;/#.*/d">main
 ```
+
+
+
+# 系统管理
+
+## 信息管理
+
+* 常用指令
+
+```bash
+cat # 查看文件
+tee # 将输入同时输出到文件和屏幕
+tail # 监听文件变化并输出
+```
+
+* 查看
+
+```bash
+# 查看linux发行版本
+cat /etc/os-release
+# 输出到文件和屏幕
+echo message | tee output.txt
+# 监听日志
+tail 
+```
+
+
+
+## 用户管理
+
+## 端口管理
+
+
+
+## 服务管理
+
+
+
+# 文件相关
+
+## 基本操作
+
+## 进阶应用
+
+
+
+# 常用应用
+
+## 编译应用
+
+## 依赖库
+
+
+
+# 指令一览
+
+**应用指令**
+
+```bash
+bash
+source
+cp
+mv
+rm
+mkdir
+ufw
+echo
+cat
+tail
+sort
+grep
+sed
+tr
+```
+
+
+
+
+
+
 

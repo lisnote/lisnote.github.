@@ -587,7 +587,31 @@ pm2 delete AppName
 pm2 list
 ```
 
+## @nosferatu500/textract
 
+解析文件为text
+
+支持类型有
+
+- HTML, HTM
+- ATOM, RSS
+- Markdown
+- EPUB
+- XML, XSL
+- PDF
+- DOC, DOCX
+- ODT, OTT (experimental, feedback needed!)
+- RTF
+- XLS, XLSX, XLSB, XLSM, XLTX
+- CSV
+- ODS, OTS
+- PPTX, POTX
+- ODP, OTP
+- ODG, OTG
+- PNG, JPG, GIF
+- DXF
+- `application/javascript`
+- All `text/*` mime-types.
 
 
 
