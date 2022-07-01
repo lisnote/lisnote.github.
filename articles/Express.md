@@ -247,15 +247,13 @@ app.listen(80);
   // 该方法的默认文件为index.html
   app.listen(80);
   ```
-```
-  
-新建子目录`static`并在该目录下创建test.txt
-  
+  新建子目录`static`并在该目录下创建test.txt
+
   ```txt
   test
-```
+  ```
 
-get请求http://127.0.0.1/test.txtf返回
+  get请求http://127.0.0.1/test.txtf返回
 
   ```txt
   test
