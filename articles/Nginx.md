@@ -452,6 +452,46 @@ http {
 
 
 
+# 进阶
+
+## 编译
+
+### configure参数详解
+
+[完整参数列表](http://nginx.org/en/docs/configure.html)
+
+常见参数：
+
+1. `--prefix`  指向安装目录
+2. `--with-http_v2_module` 支持http请求
+3. `--with-http_ssl_module` 支持https请求
+4. `--with-file-aio` 启用异步I / O支持，强烈建议，仅与本地和映射模式相关
+5. `--with-threads`（nginx 1.7.11+） - 使用线程池（也需要`vod_open_file_thread_pool`在nginx.conf中）启用异步文件，仅与本地和映射模式相关
+6. `--with-cc-opt="-O3"`- 启用额外的编译器优化（与nginx默认值相比，mp4解析时间和帧处理时间减少了大约8％`-O`）
+7. `--add-module=` 添加第三方模块
+
+调试设置：
+
+1. `--with-debug`- 启用调试消息（也需要传入nginx.conf `debug`中的`error_log`指令）。
+2. `--with-cc-opt="-O0"` - 禁用编译器优化（用gdb进行调试）
+
+实用第三方模块
+
+1. rtmp模块(直播服务)
+
+   [nginx-rtmp-module](https://github.com/arut/nginx-rtmp-module)
+
+## 配置
+
+### location优先级
+
+第一优先级：等号类型（=）的优先级最高。一旦匹配成功，则不再查找其他匹配项。
+第二优先级：^~类型表达式。一旦匹配成功，则不再查找其他匹配项。
+第三优先级：正则表达式类型（~ ~*）的优先级次之。如果有多个location的正则能匹配的话，则使用正则表达式最长的那个。
+第四优先级：常规字符串匹配类型。按前缀匹配。
+
+
+
 # 功能实践
 
 ## 反代
@@ -495,7 +535,7 @@ location / {
    * 第三种选择,依旧是编译
 
      ```bash
-    ./configure \
+   ./configure \
      --prefix=/app/nginx \
      --with-http_v2_module \
      --with-http_ssl_module \
@@ -514,17 +554,19 @@ location / {
    
    rtmp {
        server {
-           listen 1935;
+       	listen 1935;
    
            application stream {
-                hls on;
-                hls_path /app/nginx/rtmp/tmp/app/;
-                hls_fragment 5s;
-          }
+               live on;
+               hls on;
+               hls_path /app/nginx/rtmp/tmp/app/;
+               hls_fragment 5s;
+       	}
        }
    }
    
    http {
+       include mime.types;
        server {
            listen 80;
    
@@ -537,7 +579,7 @@ location / {
                expires -1;
            }
    
-   	      location ~ /live/* {
+   	    location ~ /live/* {
                add_header Cache-Control 'no-store, no-cache';
                try_files $uri /live/index.html;
            }
@@ -582,18 +624,15 @@ location / {
        <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
      </head>
      <body>
-       <div id="container">
-         <div id="dplayer" class="dplayer-fulled"></div>
-         <div id="comments"></div>
-       </div>
+       <div id="dplayer" class="dplayer-fulled"></div>
        <script>
          let channel = location.pathname.split("/")[2];
-         channel = (channel??"")==""?"lisnote":channel;
+         channel = channel?channel:"lisnote";
          const dp = new DPlayer({
            container: document.getElementById('dplayer'),
            live: true,
            video: {
-             url: `http://lisnote.com/stream/${channel}.m3u8`,
+             url: `/stream/${channel}.m3u8`,
              type: 'customHls',
              customType: {
                customHls: function (video, player) {
@@ -636,7 +675,63 @@ location / {
 
 # 个人配置
 
-## 网页服务
+## 直播
+
+```nginx
+worker_processes  1;
+error_log  logs/error.log debug;
+
+events {
+    worker_connections  1024;
+}
+
+rtmp {
+    server {
+        listen 1935;
+
+        application live {
+            live on;
+            hls on;
+            hls_path rtmp/tmp/app/;
+            hls_fragment 5s;
+        }
+    }
+}
+
+http {
+    include mime.types;
+
+    server {
+        listen 80;
+
+        location ~ /live/.*?\.?(?<!m3u8|ts)$ {
+            root html;
+            index index.html
+            add_header Cache-Control 'no-store, no-cache';
+            try_files $uri $uri/ /live/index.html;
+        }
+
+        location /live/ {
+            types{
+               application/vnd.apple.mpegurl m3u8;
+               video/mp2t ts;
+            }
+            alias rtmp/tmp/app/;
+            expires -1;
+        }
+        
+        location / {
+            root html;
+            index index.html;
+        }
+    }
+}
+
+```
+
+
+
+## 网页
 
 ```nginx
 worker_processes  1;

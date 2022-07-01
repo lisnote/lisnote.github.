@@ -235,23 +235,11 @@ printf "%-15s %-5s %.2f\n" didongxiaoli 22 120.541
 
 ### 重定向
 
-| 命令 | 用例                           | 用例说明                     |
-| ---- | ------------------------------ | ---------------------------- |
-| >    | echo "output test">output.txt  | echo输出到output.txt文件     |
-| >>   | echo "output test">>output.txt | echo输出追加到output.txt文件 |
-|      |                                |                              |
-
-**补课 : 重定向**
-
-
-
-
-
-
-
-
-
-
+| 命令 | 用例                           | 用例说明                           |
+| ---- | ------------------------------ | ---------------------------------- |
+| >    | echo "output test">output.txt  | echo输出重定向到output.txt文件     |
+| >>   | echo "output test">>output.txt | echo输出重定向追加到output.txt文件 |
+| <<   | cat << EOF<br>内容<br>EOF      | 将"内容"输入重定向给cat            |
 
 
 
@@ -542,7 +530,40 @@ funTest didongxiaoli lisnote
 
 函数传入参数可使用变量可参考[传递参数](#传递参数)
 
-# PowerShell
+
+
+# BAT
+
+**win下可安装git以使用bash环境**
+
+没什么大用, 但是因为别人以及nodejs还是得简单了解一下
+
+## 基本知识
+
+### 常用指令
+
+**基本的指令知识**
+
+
+
+## 变量
+
+**变量不分大小写**
+
+格式：set 变量名=变量值
+详细：被设定的变量以%变量名%引用
+
+## 输入输出
+
+## 传递参数
+
+## 运算符
+
+## 流程控制
+
+## 函数
+
+
 
 
 
