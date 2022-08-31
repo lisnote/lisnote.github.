@@ -6,7 +6,7 @@ date: 2022-08-26 00:00:00
 
 效果预览:
 
-<div style="background:gray;display:flex;justify-content:center;padding:10px;"><img src="./assets/[Vue3组件]将JSON解析为HTML.md/image-20220826222420547.png"/></div>
+![效果预览](./assets/[Vue3组件]将JSON解析为HTML.md/image-20220826222420547.png)
 
 案例环境:
 
