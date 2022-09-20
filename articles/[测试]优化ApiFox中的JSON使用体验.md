@@ -34,7 +34,7 @@ date: 2022-09-09 13:40:00
 jsonSort = function (obj) {
   if (Array.isArray(obj)) {
     return obj.map(jsonSort);
-  } else if (Object.prototype.toString.call(obj) !== '[object Object]') {
+  } else if (!(obj instanceof Object)) {
     return obj;
   }
   let sorted = {};
