@@ -938,49 +938,6 @@ str.substring(1);
 str.substring(1,3);
 ```
 
-#### 数组类型详解
-
-* 数组可以包含不同类型的元素
-* 对arr.length属性赋值可以改变数组大小
-
-```javascript
-//数组排序
-arr.sort();
-//通过元素获取下标索引
-arr.indexof(2);
-//截取数组一部分,返回一个新数组
-arr.slice(0,2);
-//数组填充
-arr.fill(1);
-//栈操作 往尾部投入和投出
-arr.push()
-arr.pop()
-//往头部投入和投出元素
-arr.unshift()
-arr.shift()
-//元素反转
-arr.reverse()
-//数组连接,返回新数组
-arr.concat([1,2,3]);
-//打印数组并使用特定的字符串连接
-arr.join('-');
-```
-
-* 拓展
-
-```javascript
-//按条件排序(奇数在前)
-[1,2,3,4,5].sort((x,y)=>y%2-x%2)
-//过滤不符合要求的数据(此处只保留字符串)
-[1,2,3,"asd","1"].filter(data => typeof data == "string")
-//统计符合要求的数据数量
-[1,2,3,"asd","1"].reduce((pre,current) => {
-    return pre
-})
-```
-
-
-
 #### 对象类型详解
 
 ```javascript
@@ -1124,7 +1081,51 @@ set.has(2);
 
 遍历map和set只能用for of循环
 
+### 数组类型详解
 
+* 数组可以包含不同类型的元素
+* 对arr.length属性赋值可以改变数组大小
+
+```javascript
+// join()：用指定的分隔符将数组每一项拼接为字符串
+// push() ：向数组的末尾添加新元素
+// pop()：删除数组的最后一项
+// shift()：删除数组的第一项
+// unshift()：向数组首位添加新元素
+// slice()：按照条件查找出其中的部分元素
+// splice()：对数组进行增删改
+// fill(): 方法能使用特定值填充数组中的一个或多个元素
+// filter():“过滤”功能
+// concat()：用于连接两个或多个数组
+// indexOf()：检测当前值在数组中第一次出现的位置索引
+// lastIndexOf()：检测当前值在数组中最后一次出现的位置索引
+// every()：判断数组中每一项都是否满足条件
+// some()：判断数组中是否存在满足条件的项
+// includes()：判断一个数组是否包含一个指定的值
+// sort()：对数组的元素进行排序
+// reverse()：对数组进行倒序
+// forEach()：ES5 及以下循环遍历数组每一项
+// map()：数组数据映射
+// copyWithin():用于从数组的指定位置拷贝元素到数组的另一个指定位置中
+// find():返回匹配的值
+// findIndex():返回匹配位置的索引
+// toLocaleString()、toString():将数组转换为字符串
+// flat()、flatMap()：扁平化数组
+// entries() 、keys() 、values():遍历数组
+```
+
+* 拓展
+
+```javascript
+//按条件排序(奇数在前)
+[1,2,3,4,5].sort((x,y)=>y%2-x%2)
+//过滤不符合要求的数据(此处只保留字符串)
+[1,2,3,"asd","1"].filter(data => typeof data == "string")
+//统计符合要求的数据数量
+[1,2,3,"asd","1"].reduce((pre,current) => {
+    return pre
+})
+```
 
 ## 变量的作用域,var,let,const
 

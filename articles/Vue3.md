@@ -583,6 +583,25 @@ const AsyncComponent = defineAsyncComponent(() =>
 </template>
 ```
 
+## css拓展
+
+[scoped-styles-changes](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0023-scoped-styles-changes.md)
+
+增强scope选择功能
+
+```scss
+/* 深度选择器 */
+:deep(.foo) {}
+
+/* 针对插槽 */
+:slotted(.foo) {}
+
+/* 全局规则 */
+:global(.foo) {}
+```
+
+
+
 # 技术体系
 
 ## 组件间通信

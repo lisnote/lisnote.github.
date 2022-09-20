@@ -34,13 +34,13 @@ date: 2022-09-09 13:40:00
 jsonSort = function (obj) {
   if (Array.isArray(obj)) {
     return obj.map(jsonSort);
+  } else if (Object.prototype.toString.call(obj) !== '[object Object]') {
+    return obj;
   }
   let sorted = {};
   Object.keys(obj)
     .sort()
-    .forEach(
-      o => (sorted[o] = obj[o] instanceof Object ? jsonSort(obj[o]) : obj[o])
-    );
+    .forEach((o) => (sorted[o] = jsonSort(obj[o])));
   return sorted;
 };
 
