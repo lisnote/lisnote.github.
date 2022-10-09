@@ -4,16 +4,14 @@ date: 2022-10-04 00:00:00
 
 ## 使用场景
 
-最近需要给 ElInput 设定 maxlength, 一个一个设自然时不太现实的, 相当的麻烦
+最近需要给 ElInput 设定 maxlength, 一个一个设自然是不太现实的, 相当的麻烦.
 
-而由于[官方的全局设置](https://element-plus.org/en-US/guide/quickstart.html#global-configuration)限制有点多, 且按需引入的话全局配置还得用 ElConfigProvider 组件包裹一层
+而由于[官方的全局设置](https://element-plus.org/en-US/guide/quickstart.html#global-configuration)限制有点多, 且按需引入的话全局配置还得用 ElConfigProvider 组件包裹一层.
 
-功能不足且容易让自己逻辑混乱, 于是决定这么做
+功能不足还容易让自己逻辑混乱, 为了满足按需引入并能够高度自定义Element组件的需求, 我决定这么做.
 
 1. 使用函数式组件对 ElInput 进行一层封装
 2. 全局注册封装后的组件
-
-以满足按需引入并能够高度自定义Element组件的需求
 
 ## 实现步骤
 
