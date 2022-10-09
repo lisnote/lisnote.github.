@@ -157,7 +157,7 @@ git merge dev
 删除`dev`分支
 
 ```
-git branch -d d
+git branch -d dev
 ```
 
 重命名本地分支
@@ -205,7 +205,17 @@ git remote remove remoteName
 
 # 自定义Git
 
-
+- build : 构建
+- chore : 杂务
+- ci :  持续集成
+- docs : 文档相关
+- feat : 功能
+- fix : 修复/维护
+- perf : 完善
+- refactor : 重构
+- revert : 回溯/恢复
+- style : 代码风格
+- test : 测试
 
 
 
