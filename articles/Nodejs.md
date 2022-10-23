@@ -613,6 +613,12 @@ pm2 list
 - `application/javascript`
 - All `text/*` mime-types.
 
+## nvm
+
+全称nodejs version manager
+
+nodejs版本管理器, 用于快速切换node版本
+
 
 
 

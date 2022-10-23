@@ -3,99 +3,87 @@ date: 2019-10-24 00:00:00
 ---
 # 方向
 
-## 普通路线
+## 目前的学习路线
 
-* 阶段一 网页基础
+1. 服务端渲染
 
-  * HTML
-  * CSS
+   作用 : 优化SEO, 加速首屏加载, 保持SPA优势
 
-* 阶段二 JavaScript
+   技术 : VueSSR
 
-  * JavaScript入门
-  * JQuery入门
-  * AJAX入门
+   缺点 : 配置复杂化, 增加服务器负担, 基于nodejs环境
 
-* 阶段三 开发工具
+2. 静态页面生成
 
-  * Git
-  * WebPack
+   作用 : 优化SEO, 降低首屏加载耗时, 保持SPA优势, 降低服务端负担
 
-* 阶段四 前端框架
+   技术 : VuePress / Nuxt.js
 
-  Vue.js
+   缺点 : 技术多处于试验阶段, 存在很多待解决的 issues
 
-* 阶段五 移动及服务端开发
+3. 与vue相对的技术栈
 
-  移动Web前端开发
+   作用 :
 
-  Node.js快速入门与实战
+     稍微深入的了解, 满足未来项目的需求
 
-## 大前端知识脉络
+     react拥有更加成熟的静态页面生成
 
-### CSS预处理
+     react native有比uni-app更高效率的Android/IOS应用生成
 
-* SASS 基于Ruby 学习成本高,解析效率高
-* LESS 基于NodeJS 学习成本低,解析效率足够
+     angular 更适合超大型的复合项目
 
-### 原生JS : 按照ECMAScript标准开发
+   技术 : react, angular
 
-常用ES6标准,但是会webpack打包为ES5支持
+   缺点 : 每种框架都有各自的长短处, 按需选择
 
-目前已经有ES9标准,增加更多新特性
+4. web转PC
 
-### TypeScript
+   作用 : 满足基本的PC APP开发需求
 
-JavaScript的超集,需要编译成为JS后才能被浏览器正确执行
+   技术 : electron
 
-### JavaScript框架
+   缺点 : 套壳, 框架本身存在功能限制, 需要补足原生PC开发技能
 
-* JQuery : 简化DOM操作,缺点是DOM操作过于频繁,影响前端性能
-* Angular : 将java后台的MVC开发模式搬到了前端,并增加了模块化开发的概念,采用TypeScript语法开发
-* React : 高性能JS前端框架,在内存中模拟DOM操作(虚拟DOM),有效提升前端渲染效率,学习成本较高,需要额外学习JSX语言
-* Vue : 渐进式JavaScript框架,实现模块化开发,路由,状态管理等新特性,综合了Angular(模块化)和React(虚拟DOM)的优点
-* Axios : 前端通信框架 : 因为Vue并不具备通信能力,因此需要额外使用一个通信框架与服务器交互,或是选择JQuery提供的AJAX通信功能
+5. 跨端开发
 
-### UI框架
+   作用 : 满足跨段开发的需求
 
-* Ant-Design : 基于React的UI框架
+   技术 : uni-app
 
-* ElementUI ,iview,ice : 饿了么出品,基于Vue的UI框架
+   缺点 : 坑多的数不过来
 
-* Bootstrap : Twitter出品前端开源工具包
-* AmazeUI : HTML5跨屏前端框架
+6. 安卓原生程序开发
 
-### JavaScript构建工具
+   作用 : 解决跨端开发不能解决的问题(自定义插件, 额外补丁等)
 
-Babel: JS编译工具,主要用于浏览器不支持的ES新特性,比如编译TypeScript
+   技术 : java/kotlin, Android Studio
 
-WebPack : 模块打包器,主要作用是打包,压缩,合并及按序加载
+   缺点 : 非必要不打补丁, 因为还有小程序和 IOS会有适配需求
 
-### 三端统一
+7. PC原生程序开发
 
-Hybrid App : 主要目的是实现一套代码三端统一(PC,Android,IOS)并能够调用设备底层硬件(传感器,GPS,摄像头等)
+   作用 : 深入计算机知识, 同时解决跨端开发不能解决的问题, 并为Web Assemble作准备
 
-打包方式主要为以下两种
+   技术 : QT/Unity, C++/C#
 
-* 云打包 : HBuild ->HBuildX
-* 本地打包  : Cordova
+   缺点 : 和基础前端几乎没什么关联
 
-### 微信小程序
+8. 3D开发
 
-详见微信官网
+   作用 : 模型的展示, 增强数据视图的冲击力
 
-小程序开发框架(可选) : WeUI
+   技术 : threejs + unity 3D/Cocos 3D
 
-### 后端技术
+   缺点 : 复杂, 现阶段看来unity 3D/Cocos 3D学习曲线非常陡峭
 
-前端人员为方便开发也需要掌握一定前端技术,但是Java后端庞大复杂,因此出现了NodeJS
+9. Web Assembly
 
-NodeJS作者声称已经放弃了NodeJS,开始开发全新架构的Deno
+   作用 : 与 HTML, CSS, JS 平级的 Web 的第四语言, 功能极强, 对未来前端的影响尚不可知
 
-* Express : NodeJS
-* Koa : Express简化版
-* NPM : 项目管理工具 ,类似于Maven
-* YARN : NPM替代方案,类似于Maven和Gradle的关系
+   技术 : Web Assembly, 任意编程语言
+
+   缺点 : 未来的趋势尚不明确, 但可用解决于许多当下JavaScript无法满足问题
 
 
 
