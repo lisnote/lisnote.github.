@@ -141,7 +141,7 @@ nodejs v18.9.1
 
    这是一个简易 IDE, 可以用于查看 GraphQL 文档, 测试查询等等
 
-   ![assets\README.md\image-20221022195238440.png](assets\GraphQL.md\image-20221022195238440.png)
+   ![assets/GraphQL.md/image-20221022195238440.png](assets/GraphQL.md/image-20221022195238440.png)
 
 4. 执行查询
 
