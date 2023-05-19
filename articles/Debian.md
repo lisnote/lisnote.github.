@@ -97,11 +97,31 @@ tail
 
 ## 端口管理
 
-
+```bash
+# 开放所有端口
+iptables -P INPUT ACCEPT
+# 保存规则
+netfilter-persistent save
+```
 
 ## 服务管理
 
+## 计划任务
 
+```bash
+# 进入计划任务编辑
+crontab -e
+# 每分钟执行一次指令
+* * * * * command
+# 每小时的第3分钟和第5分钟执行一次指令
+3,5 * * * * command
+# 每小时的第三分钟到第十五分钟执行指令
+3-15 * * * * command
+# 每隔两天的上午8点到11点的第3和第15分钟执行
+3,15 8-11 */2  *  * myCommand
+# 每小时执行一次指令
+0 */1 * * * command
+```
 
 # 文件相关
 

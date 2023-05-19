@@ -76,7 +76,8 @@ export JAVA_HOME=/app/jdk
 export CLASSPATH=\$CLASSPATH:\$JAVA_HOME/lib/
 export PATH=\$PATH:\$JAVA_HOME/bin
 EOF
-wget https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jdk/x64/linux/OpenJDK17U-jdk_x64_linux_hotspot_17.0.3_7.tar.gz -O jdk.tar.gz
+LINK=https://mirrors.tuna.tsinghua.edu.cn/Adoptium/17/jdk/x64/linux/OpenJDK17U-jdk_x64_linux_hotspot_17.0.3_7.tar.gz
+wget $LINK -O jdk.tar.gz
 tar zxvf jdk.tar.gz
 rm jdk.tar.gz
 mv jdk-17.0.3+7/ jdk
@@ -85,14 +86,14 @@ java -version
 IsSuccess "Java17安装"
 }
 AddNginx(){
-apt-get update && sudo apt-get upgrade -y
+apt-get update && apt-get upgrade -y
 apt-get install build-essential libpcre3 libpcre3-dev zlib1g-dev git libssl-dev -y
 mkdir nginx_build && cd nginx_build
 wget -c https://nginx.org/download/nginx-1.20.2.tar.gz
 tar zxf nginx-1.20.2.tar.gz && rm nginx-1.20.2.tar.gz
 cd nginx-1.20.2
 ./configure \
---prefix=/app/nginx \
+--prefix=/nginx \
 --with-http_v2_module \
 --with-http_ssl_module
 make
@@ -155,10 +156,10 @@ http {
 EOF
 }
 AddNodeJS(){
-wget https://nodejs.org/dist/v16.13.0/node-v16.13.0-linux-x64.tar.xz
-tar xf node-v16.13.0-linux-x64.tar.xz
-mv node-v16.13.0-linux-x64 node
-rm -f node-v16.13.0-linux-x64.tar.xz
+wget https://nodejs.org/dist/v18.16.0/node-v18.16.0-linux-x64.tar.xz
+tar xf node-v18.16.0-linux-x64.tar.xz
+mv node-v18.16.0-linux-x64 node
+rm -f node-v18.16.0-linux-x64.tar.xz
 echo -e "\nexport PATH=\$PATH:/app/node/bin\n" >> /etc/profile
 source /etc/profile
 node -v && npm -v

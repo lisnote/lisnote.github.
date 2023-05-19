@@ -12,6 +12,7 @@ date: 2020-08-24 00:00:00
 ```bash
 git config --global user.name "lisnote"
 git config --global user.email "1292580280@qq.com"
+ssh-keygen -t rsa -C "1292580280@qq.com"
 ```
 
 ## 创建版本库
@@ -154,15 +155,30 @@ git branch -a
 git merge dev
 ```
 
+仅合并dev分支的最新commit
+
+```bash
+git merge --squash dev
+```
+
 删除`dev`分支
 
 ```
-git branch -d dev
+git branch -d d
 ```
 
 重命名本地分支
 
 # 远程仓库
+
+远程仓库需要使用 ssh key
+
+```bash
+ssh-keygen -t rsa -C "1292580280@qq.com"
+# 一直回车接受默认选项即可
+```
+
+
 
 添加远程仓库
 
@@ -197,29 +213,35 @@ git remote set-head origin -a
 git remote remove remoteName
 ```
 
+浅克隆远程分支
 
+```bash
+git clone ssh://git@github.com/lisnote/notebook.git
+```
+
+浅克隆后补全克隆
+
+```bash
+git fetch --unshallow
+```
 
 # 标签管理
 
 
 
-# 自定义Git
+# 模块管理
 
-- build : 构建
-- chore : 杂务
-- ci :  持续集成
-- docs : 文档相关
-- feat : 功能
-- fix : 修复/维护
-- perf : 完善
-- refactor : 重构
-- revert : 回溯/恢复
-- style : 代码风格
-- test : 测试
+在指定目录添加子模块
+
+```bash
+git submodule add submoduleRepositoryPath.git submodulePath/submoduleName
+```
 
 
 
+# 规范化
 
+build, chore, ci, docs, feat, fix, perf, refactor, revert, style, test
 
 
 

@@ -388,6 +388,16 @@ npm publish
   npm publish --access public
   ```
 
+### 多版本共存
+
+以echart为例, 假设项目中已经存在一个 echarts@4.2.1 时, 需要在不改变旧代码的同时增加一个新 echarts@5 的版本, 并命名该依赖为 echarts5, 可以这样
+
+```
+npm install echarts5@npm:echarts@5
+```
+
+
+
 ## 其他包管理器
 
 ### Yarn
@@ -613,15 +623,27 @@ pm2 list
 - `application/javascript`
 - All `text/*` mime-types.
 
+
+
 ## nvm
 
-全称nodejs version manager
+node 版本管理工具, 可实现快速 node 版本切换
 
-nodejs版本管理器, 用于快速切换node版本
+1. [win安装包](https://github.com/coreybutler/nvm-windows/releases)
 
+   [linux安装](https://github.com/nvm-sh/nvm#installing-and-updating)
 
+   ```bash
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+   ```
 
+   
 
+## volta
+
+node 版本管理工具, 可实现 node 版本隔离
+
+好是好, 但是还不够成熟, 连镜像下载都没有, 保留期待
 
 
 

@@ -583,25 +583,6 @@ const AsyncComponent = defineAsyncComponent(() =>
 </template>
 ```
 
-## css拓展
-
-[scoped-styles-changes](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0023-scoped-styles-changes.md)
-
-增强scope选择功能
-
-```scss
-/* 深度选择器 */
-:deep(.foo) {}
-
-/* 针对插槽 */
-:slotted(.foo) {}
-
-/* 全局规则 */
-:global(.foo) {}
-```
-
-
-
 # 技术体系
 
 ## 组件间通信
@@ -642,14 +623,14 @@ const AsyncComponent = defineAsyncComponent(() =>
 
 ### Pinia
 
-相较于Vuex4,Pinia
+相较于Vuex4,Pinia不同之处:
 
 * TypeScript支持
 * 代码块分割
 * 响应式支持
 * 移除Mutation
 
-大体上来说,当Vuex一样用,没什么问题
+大体上来说,当Vuex一样用也没什么问题
 
 #### 安装
 
@@ -666,6 +647,10 @@ const AsyncComponent = defineAsyncComponent(() =>
    
    app.use(createPinia())
    ```
+
+
+
+## 服务端渲染
 
 
 

@@ -3,87 +3,99 @@ date: 2019-10-24 00:00:00
 ---
 # 方向
 
-## 目前的学习路线
+## 普通路线
 
-1. 服务端渲染
+* 阶段一 网页基础
 
-   作用 : 优化SEO, 加速首屏加载, 保持SPA优势
+  * HTML
+  * CSS
 
-   技术 : VueSSR
+* 阶段二 JavaScript
 
-   缺点 : 配置复杂化, 增加服务器负担, 基于nodejs环境
+  * JavaScript入门
+  * JQuery入门
+  * AJAX入门
 
-2. 静态页面生成
+* 阶段三 开发工具
 
-   作用 : 优化SEO, 降低首屏加载耗时, 保持SPA优势, 降低服务端负担
+  * Git
+  * WebPack
 
-   技术 : VuePress / Nuxt.js
+* 阶段四 前端框架
 
-   缺点 : 技术多处于试验阶段, 存在很多待解决的 issues
+  Vue.js
 
-3. 与vue相对的技术栈
+* 阶段五 移动及服务端开发
 
-   作用 :
+  移动Web前端开发
 
-     稍微深入的了解, 满足未来项目的需求
+  Node.js快速入门与实战
 
-     react拥有更加成熟的静态页面生成
+## 大前端知识脉络
 
-     react native有比uni-app更高效率的Android/IOS应用生成
+### CSS预处理
 
-     angular 更适合超大型的复合项目
+* SASS 基于Ruby 学习成本高,解析效率高
+* LESS 基于NodeJS 学习成本低,解析效率足够
 
-   技术 : react, angular
+### 原生JS : 按照ECMAScript标准开发
 
-   缺点 : 每种框架都有各自的长短处, 按需选择
+常用ES6标准,但是会webpack打包为ES5支持
 
-4. web转PC
+目前已经有ES9标准,增加更多新特性
 
-   作用 : 满足基本的PC APP开发需求
+### TypeScript
 
-   技术 : electron
+JavaScript的超集,需要编译成为JS后才能被浏览器正确执行
 
-   缺点 : 套壳, 框架本身存在功能限制, 需要补足原生PC开发技能
+### JavaScript框架
 
-5. 跨端开发
+* JQuery : 简化DOM操作,缺点是DOM操作过于频繁,影响前端性能
+* Angular : 将java后台的MVC开发模式搬到了前端,并增加了模块化开发的概念,采用TypeScript语法开发
+* React : 高性能JS前端框架,在内存中模拟DOM操作(虚拟DOM),有效提升前端渲染效率,学习成本较高,需要额外学习JSX语言
+* Vue : 渐进式JavaScript框架,实现模块化开发,路由,状态管理等新特性,综合了Angular(模块化)和React(虚拟DOM)的优点
+* Axios : 前端通信框架 : 因为Vue并不具备通信能力,因此需要额外使用一个通信框架与服务器交互,或是选择JQuery提供的AJAX通信功能
 
-   作用 : 满足跨段开发的需求
+### UI框架
 
-   技术 : uni-app
+* Ant-Design : 基于React的UI框架
 
-   缺点 : 坑多的数不过来
+* ElementUI ,iview,ice : 饿了么出品,基于Vue的UI框架
 
-6. 安卓原生程序开发
+* Bootstrap : Twitter出品前端开源工具包
+* AmazeUI : HTML5跨屏前端框架
 
-   作用 : 解决跨端开发不能解决的问题(自定义插件, 额外补丁等)
+### JavaScript构建工具
 
-   技术 : java/kotlin, Android Studio
+Babel: JS编译工具,主要用于浏览器不支持的ES新特性,比如编译TypeScript
 
-   缺点 : 非必要不打补丁, 因为还有小程序和 IOS会有适配需求
+WebPack : 模块打包器,主要作用是打包,压缩,合并及按序加载
 
-7. PC原生程序开发
+### 三端统一
 
-   作用 : 深入计算机知识, 同时解决跨端开发不能解决的问题, 并为Web Assemble作准备
+Hybrid App : 主要目的是实现一套代码三端统一(PC,Android,IOS)并能够调用设备底层硬件(传感器,GPS,摄像头等)
 
-   技术 : QT/Unity, C++/C#
+打包方式主要为以下两种
 
-   缺点 : 和基础前端几乎没什么关联
+* 云打包 : HBuild ->HBuildX
+* 本地打包  : Cordova
 
-8. 3D开发
+### 微信小程序
 
-   作用 : 模型的展示, 增强数据视图的冲击力
+详见微信官网
 
-   技术 : threejs + unity 3D/Cocos 3D
+小程序开发框架(可选) : WeUI
 
-   缺点 : 复杂, 现阶段看来unity 3D/Cocos 3D学习曲线非常陡峭
+### 后端技术
 
-9. Web Assembly
+前端人员为方便开发也需要掌握一定前端技术,但是Java后端庞大复杂,因此出现了NodeJS
 
-   作用 : 与 HTML, CSS, JS 平级的 Web 的第四语言, 功能极强, 对未来前端的影响尚不可知
+NodeJS作者声称已经放弃了NodeJS,开始开发全新架构的Deno
 
-   技术 : Web Assembly, 任意编程语言
-
-   缺点 : 未来的趋势尚不明确, 但可用解决于许多当下JavaScript无法满足问题
+* Express : NodeJS
+* Koa : Express简化版
+* NPM : 项目管理工具 ,类似于Maven
+* YARN : NPM替代方案,类似于Maven和Gradle的关系
 
 
 
@@ -926,6 +938,49 @@ str.substring(1);
 str.substring(1,3);
 ```
 
+#### 数组类型详解
+
+* 数组可以包含不同类型的元素
+* 对arr.length属性赋值可以改变数组大小
+
+```javascript
+//数组排序
+arr.sort();
+//通过元素获取下标索引
+arr.indexof(2);
+//截取数组一部分,返回一个新数组
+arr.slice(0,2);
+//数组填充
+arr.fill(1);
+//栈操作 往尾部投入和投出
+arr.push()
+arr.pop()
+//往头部投入和投出元素
+arr.unshift()
+arr.shift()
+//元素反转
+arr.reverse()
+//数组连接,返回新数组
+arr.concat([1,2,3]);
+//打印数组并使用特定的字符串连接
+arr.join('-');
+```
+
+* 拓展
+
+```javascript
+//按条件排序(奇数在前)
+[1,2,3,4,5].sort((x,y)=>y%2-x%2)
+//过滤不符合要求的数据(此处只保留字符串)
+[1,2,3,"asd","1"].filter(data => typeof data == "string")
+//统计符合要求的数据数量
+[1,2,3,"asd","1"].reduce((pre,current) => {
+    return pre
+})
+```
+
+
+
 #### 对象类型详解
 
 ```javascript
@@ -1069,51 +1124,7 @@ set.has(2);
 
 遍历map和set只能用for of循环
 
-### 数组类型详解
 
-* 数组可以包含不同类型的元素
-* 对arr.length属性赋值可以改变数组大小
-
-```javascript
-// join()：用指定的分隔符将数组每一项拼接为字符串
-// push() ：向数组的末尾添加新元素
-// pop()：删除数组的最后一项
-// shift()：删除数组的第一项
-// unshift()：向数组首位添加新元素
-// slice()：按照条件查找出其中的部分元素
-// splice()：对数组进行增删改
-// fill(): 方法能使用特定值填充数组中的一个或多个元素
-// filter():“过滤”功能
-// concat()：用于连接两个或多个数组
-// indexOf()：检测当前值在数组中第一次出现的位置索引
-// lastIndexOf()：检测当前值在数组中最后一次出现的位置索引
-// every()：判断数组中每一项都是否满足条件
-// some()：判断数组中是否存在满足条件的项
-// includes()：判断一个数组是否包含一个指定的值
-// sort()：对数组的元素进行排序
-// reverse()：对数组进行倒序
-// forEach()：ES5 及以下循环遍历数组每一项
-// map()：数组数据映射
-// copyWithin():用于从数组的指定位置拷贝元素到数组的另一个指定位置中
-// find():返回匹配的值
-// findIndex():返回匹配位置的索引
-// toLocaleString()、toString():将数组转换为字符串
-// flat()、flatMap()：扁平化数组
-// entries() 、keys() 、values():遍历数组
-```
-
-* 拓展
-
-```javascript
-//按条件排序(奇数在前)
-[1,2,3,4,5].sort((x,y)=>y%2-x%2)
-//过滤不符合要求的数据(此处只保留字符串)
-[1,2,3,"asd","1"].filter(data => typeof data == "string")
-//统计符合要求的数据数量
-[1,2,3,"asd","1"].reduce((pre,current) => {
-    return pre
-})
-```
 
 ## 变量的作用域,var,let,const
 
