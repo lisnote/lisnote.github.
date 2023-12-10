@@ -49,7 +49,7 @@ git add <readme.txt>
 
 添加所有文件到暂存区
 
-```
+```bash
 git add .
 ```
 
@@ -73,8 +73,15 @@ git diff
 
 重命名分支
 
-```
+```bash
 get branch -m <new name>
+```
+
+## 显示中文
+
+```bash
+git config --global core.quotePath false
+git config --global core.precomposeunicode true
 ```
 
 
@@ -103,13 +110,13 @@ git reset --hard HEAD^
 
 回退到指定版本
 
-```
+```bash
 git reset --hard <commit id>
 ```
 
 查看所有提交记录
 
-```
+```bash
 git reflog
 ```
 
@@ -139,7 +146,7 @@ git checkout -b dev
 
 查看本地分支
 
-```
+```bash
 git branch
 ```
 
@@ -151,7 +158,7 @@ git branch -a
 
 合并`dev`分支
 
-```
+```bash
 git merge dev
 ```
 
@@ -163,7 +170,7 @@ git merge --squash dev
 
 删除`dev`分支
 
-```
+```bash
 git branch -d d
 ```
 
@@ -188,7 +195,7 @@ git remote add origin git@github.com:username/projectName.git
 
 查看远程分支
 
-```
+```bash
 git branch -r
 ```
 
@@ -200,7 +207,7 @@ git push origin --delete branchName
 
 远程仓库更名后
 
-```
+```bash
 git branch -m preName latestName
 git fetch origin
 git branch -u origin/latestName latestName
