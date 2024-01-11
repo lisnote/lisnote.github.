@@ -38,8 +38,6 @@ chmod +x ./test.sh
 ./test.sh
 ```
 
-
-
 ## 变量
 
 ### 基本使用
@@ -82,7 +80,9 @@ echo $name
 
 shell运行时会同时存在三种变量
 
-局部变量 : 在脚本或是指令中定义, 仅在当前shell实例中有效, 其他shell无法访问当前shell的局部变量
+局部变量 : 在函数中使用`local` 修饰的变量, 函数外部无法访问
+
+全局变量 : 当前 shell 进程都有效, 默认在shell窗口定义的变量都是全局变量
 
 ```bash
 name="lisnote"
@@ -101,7 +101,7 @@ echo $PATH
 
   ```bash
   name='lisnote'
-  # 单引号字符串里的任何字符都会鸳鸯输出,单引号字符串中的变量是无效的
+  # 单引号字符串里的任何字符都会原样输出,单引号字符串中的变量是无效的
   echo '$name :\"HHH\"'
   # $name :\"HHH\"
   
@@ -134,7 +134,7 @@ echo $PATH
 
   ```bash
   # shell中用括号表示数组,用空格或换行将元素分开
-  arr=("didongxiaolii" "lisnote")
+  arr=("didongxiaoli" "lisnote")
   echo ${arr[1]}
   arr=(
   "lisnote"
@@ -204,7 +204,7 @@ echo `date`
 
 ### printf
 
-格式化输出, 和echo相比, printf 不会主动添加换行符,并且可以制定字符宽度及左右对齐等
+格式化输出, 和echo相比, printf 不会主动添加换行符,并且可以指定字符宽度及左右对齐等
 
 ```bash
 printf "ordinary output\n"
@@ -241,9 +241,19 @@ printf "%-15s %-5s %.2f\n" didongxiaoli 22 120.541
 | >>   | echo "output test">>output.txt | echo输出重定向追加到output.txt文件 |
 | <<   | cat << EOF<br>内容<br>EOF      | 将"内容"输入重定向给cat            |
 
+### 管道
 
+使用`|`连接多个指令, 可以将上一个指令的标准输出流作为下一个指令的标准输入流, bash 中大多数的指令都能处理管道流传入的信息.
+
+```bash
+# 将 echo 指令的输出作为 wc 指令的输入, 求echo输出字符串的长度
+echo lisnote | wc -L
+# 7
+```
 
 ## 传递参数
+
+### 传入参数
 
 在执行脚本的时候 如果脚本后面有值,值会被作为参数传入脚本
 
@@ -269,7 +279,54 @@ echo "参数2 $2"
 | ?      | 最后的退出状态,0表示正常退出              |
 | -      | 显示Shell使用的当前选项,与set命令功能一致 |
 
+### 传出参数
 
+执行脚本之后, 往往还想带点参数出来, 比如处理的结果, 或是处理一部分的数据, 常见读取传出参数的方法有3种
+
+1. 退出的状态码`$?`
+
+   使用`$?`可以读取上一条指令的结束状态
+
+   ```bash
+   true
+   echo $?
+   false
+   echo $?
+   # 0 1
+   ```
+
+   一般而言, 正确执行的脚本会默认的退出状态都是0, 但是我们也可以去主动改变退出状态, 在脚本中使用 `exit` 指令, 终止脚本并返回退出状态
+
+   ```bash
+   # sub.sh
+   exit 123456
+   ```
+
+   ```bash
+   # main.sh
+   bash sub.sh
+   echo $?
+   # 123456
+   ```
+
+2. 捕获输出流
+
+   使用`$()`可以将括号内的输出流捕获
+
+   ```bash
+   fileList=$(ls /)
+   echo $fileList
+   # boot etc home mnt ...
+   ```
+
+3. 管道传递
+
+   作用类似于捕获
+
+   ```bash
+   echo lisnote | wc -L
+   # 7
+   ```
 
 ## 运算符
 
@@ -530,11 +587,77 @@ funTest didongxiaoli lisnote
 
 函数传入参数可使用变量可参考[传递参数](#传递参数)
 
+## 常用Bash函数
+
+### 指定node版本运行指令
+
+```bash
+dir=/d/_Work/nvm/
+locate=$dir$(ls -l $dir | awk "/^d.*? v$1[0-9.]+$/ {print \$NF}")
+export PATH=$locate:$PATH
+args=($*)
+unset args[0]
+echo node version: $(node -v)
+node ${args[@]}
+```
+
+使用方式
+
+```bash
+# 脚本文件 node版本 node参数
+node.sh 18 -v
+```
+
+用于理解的脚本
+
+```bash
+# 设置当前目录
+dir=/d/_Work/nvm/
+cd $dir
+
+# 输出当前目录所有文件和文件夹
+echoAll() {
+    echo $(ls $dir)
+}
+
+# 输出当前目录所有文件
+echoFiles() {
+    echo $(ls -l $dir | awk '/^-/ {print $NF}')
+}
+
+# 输出当前目录所有文件夹
+echoDirs() {
+    echo $(ls -l $dir | awk '/^d/ {print $NF}')
+}
+
+# 输出当前目录下所有匹配/^v[0-9.]+$/的文件夹
+echoVersion() {
+    echo $(ls -l $dir | awk '/^d.*? v[0-9.]+$/ {print $NF}')
+}
+
+# 输出选择node版本文件夹路径
+echoLocate() {
+    echo $dir$(ls -l $dir | awk "/^d.*? v$1[0-9.]+$/ {print \$NF}")
+}
+
+# 修改环境变量
+selectVersion() {
+    export PATH=$1:$PATH
+}
+
+locate=$(echoLocate $1)
+echo 选择版本: $locate
+selectVersion $locate
+args=($*)
+unset args[0]
+node ${args[@]}
+```
+
+
+
 
 
 # BAT
-
-**win下可安装git以使用bash环境**
 
 没什么大用, 但是因为别人以及nodejs还是得简单了解一下
 

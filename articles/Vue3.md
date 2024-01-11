@@ -583,25 +583,6 @@ const AsyncComponent = defineAsyncComponent(() =>
 </template>
 ```
 
-## css拓展
-
-[scoped-styles-changes](https://github.com/vuejs/rfcs/blob/master/active-rfcs/0023-scoped-styles-changes.md)
-
-增强scope选择功能
-
-```scss
-/* 深度选择器 */
-:deep(.foo) {}
-
-/* 针对插槽 */
-:slotted(.foo) {}
-
-/* 全局规则 */
-:global(.foo) {}
-```
-
-
-
 # 技术体系
 
 ## 组件间通信
@@ -642,14 +623,14 @@ const AsyncComponent = defineAsyncComponent(() =>
 
 ### Pinia
 
-相较于Vuex4,Pinia
+相较于Vuex4,Pinia不同之处:
 
 * TypeScript支持
 * 代码块分割
 * 响应式支持
 * 移除Mutation
 
-大体上来说,当Vuex一样用,没什么问题
+大体上来说,当Vuex一样用也没什么问题
 
 #### 安装
 
@@ -666,6 +647,50 @@ const AsyncComponent = defineAsyncComponent(() =>
    
    app.use(createPinia())
    ```
+
+3. 基础Store
+
+   ```javascript
+   export const useCounterStore = defineStore('counter', {
+     state: () => ({
+       count: 0,
+     }),
+     getters: {
+       // automatically infers the return type as a number
+       doubleCount(state) {
+         return state.count * 2
+       },
+       // the return type **must** be explicitly set
+       doublePlusOne(): number {
+         // autocompletion and typings for the whole store ✨
+         return this.doubleCount + 1
+       },
+     	actions: {
+     	  // since we rely on `this`, we cannot use an arrow function
+     	  increment() {
+     	    this.count++
+     	  },
+     	  randomizeCounter() {
+     	    this.count = Math.round(100 * Math.random())
+     	  },
+     	},
+     },
+   })
+   ```
+
+4. 
+
+
+
+
+
+
+
+
+
+
+
+## 服务端渲染
 
 
 
